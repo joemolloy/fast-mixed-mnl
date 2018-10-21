@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "library(fastutility)\n\nconfig <- list(\n  startingkit = 0,\n  rnd.dimensions = 2,\n  Ndraws = 5,\n  number.of.cores = 4, # if cores == 1, then it will be run on a single machine\n  modelname=paste0(\"mixl_train\"),\n  seed=31415926\n)\n\n# ------------------------------------------------------------------------------------------------------------#\n#\n# ------- DEFINE MODELPARAMETERS -------\n#\n# ------------------------------------------------------------------------------------------------------------#\n\nparnames =c('ASC_A',\n            'ASC_U',\n\n            'B_NAH_VERK_A',\n            'B_NAH_VERK_U',\n\n            'B_FERN_VERK_A',\n            'B_FERN_VERK_U',\n\n            'B_BAU_VERK_A',\n            'B_BAU_VERK_U',\n\n            'S11',\n            'S22'\n\n)\nstartvalues=c(rep(0,length(parnames)))\n\nnames(startvalues)<-parnames\n\n# set fixed parameters\nfixedparams=c()\n\n\n# consistency check\nif (length(names(startvalues))-length(startvalues) != 0) {\n  print(\"Error: Number of start values must match number of parameters\")\n  stop()\n}\n\nfastutility::execute(config, startvalues, c(), data, N, draws, Ndraws)\n\n",
+    "created" : 1506415780419.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "211454618",
+    "id" : "48CB6494",
+    "lastKnownWriteTime" : 1506613438,
+    "last_content_update" : 1506613438701,
+    "path" : "P:/_TEMP/Molloy/2_MIXL_TRAIN/run_mixl/mixl_train_split_data_test.R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

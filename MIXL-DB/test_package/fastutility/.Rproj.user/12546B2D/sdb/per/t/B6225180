@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1506603705437.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "B6225180",
+    "lastKnownWriteTime" : 8606223179761149039,
+    "last_content_update" : 1506603705437,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "context" : "package:foreach:::foreach"
+    },
+    "relative_order" : 8,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_code_browser"
+}

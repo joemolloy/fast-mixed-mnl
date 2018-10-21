@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1537607958602.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4242062",
+    "id" : "2C66E17A",
+    "lastKnownWriteTime" : 1537539052,
+    "last_content_update" : 1537539052,
+    "path" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/meta.h",
+    "project_path" : "src/CppNumericalSolvers/include/cppoptlib/meta.h",
+    "properties" : {
+        "cursorPosition" : "8,0",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 10,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "h"
+}

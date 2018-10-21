@@ -1,0 +1,2105 @@
+[
+    {
+        "definitions" : [
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/boundedproblem.h",
+                "kind" : 2,
+                "line" : 22,
+                "name" : "BoundedProblem<Scalar_, CompileDim_>",
+                "parent_name" : "",
+                "usr" : "c:@N@cppoptlib@CT>2#T#NI@BoundedProblem"
+            },
+            {
+                "column" : 20,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/boundedproblem.h",
+                "kind" : 7,
+                "line" : 46,
+                "name" : "lowerBound",
+                "parent_name" : "BoundedProblem<Scalar_, CompileDim_>",
+                "usr" : "c:@N@cppoptlib@CT>2#T#NI@BoundedProblem@F@lowerBound#1"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/boundedproblem.h",
+                "kind" : 7,
+                "line" : 47,
+                "name" : "setLowerBound(const TVector &)",
+                "parent_name" : "BoundedProblem<Scalar_, CompileDim_>",
+                "usr" : "c:@N@cppoptlib@CT>2#T#NI@BoundedProblem@F@setLowerBound#&1 #"
+            },
+            {
+                "column" : 20,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/boundedproblem.h",
+                "kind" : 7,
+                "line" : 48,
+                "name" : "upperBound",
+                "parent_name" : "BoundedProblem<Scalar_, CompileDim_>",
+                "usr" : "c:@N@cppoptlib@CT>2#T#NI@BoundedProblem@F@upperBound#1"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/boundedproblem.h",
+                "kind" : 7,
+                "line" : 49,
+                "name" : "setUpperBound(const TVector &)",
+                "parent_name" : "BoundedProblem<Scalar_, CompileDim_>",
+                "usr" : "c:@N@cppoptlib@CT>2#T#NI@BoundedProblem@F@setUpperBound#&1 #"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/boundedproblem.h",
+                "kind" : 7,
+                "line" : 51,
+                "name" : "setBoxConstraint(TVector, TVector)",
+                "parent_name" : "BoundedProblem<Scalar_, CompileDim_>",
+                "usr" : "c:@N@cppoptlib@CT>2#T#NI@BoundedProblem@F@setBoxConstraint# #S0_#"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/boundedproblem.h",
+                "kind" : 7,
+                "line" : 56,
+                "name" : "isValid(const TVector &)",
+                "parent_name" : "BoundedProblem<Scalar_, CompileDim_>",
+                "usr" : "c:@N@cppoptlib@CT>2#T#NI@BoundedProblem@F@isValid#&1 #"
+            }
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/boundedproblem.h",
+        "file_last_write" : 1537539052
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/linesearch/armijo.h",
+                "kind" : 2,
+                "line" : 10,
+                "name" : "Armijo<ProblemType, Ord>",
+                "parent_name" : "",
+                "usr" : "c:@N@cppoptlib@CT>2#T#NI@Armijo"
+            },
+            {
+                "column" : 19,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/linesearch/armijo.h",
+                "kind" : 7,
+                "line" : 23,
+                "name" : "linesearch(const TVector &, const TVector &, ProblemType &, const Scalar)",
+                "parent_name" : "Armijo<ProblemType, Ord>",
+                "usr" : "c:@N@cppoptlib@CT>2#T#NI@Armijo@F@linesearch#&1 #S0_#&t0.0#1 #S"
+            }
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/linesearch/armijo.h",
+        "file_last_write" : 1537539052
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/linesearch/morethuente.h",
+                "kind" : 2,
+                "line" : 11,
+                "name" : "MoreThuente<ProblemType, Ord>",
+                "parent_name" : "",
+                "usr" : "c:@N@cppoptlib@CT>2#T#NI@MoreThuente"
+            },
+            {
+                "column" : 17,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/linesearch/morethuente.h",
+                "kind" : 7,
+                "line" : 27,
+                "name" : "linesearch(const TVector &, const TVector &, ProblemType &, const Scalar)",
+                "parent_name" : "MoreThuente<ProblemType, Ord>",
+                "usr" : "c:@N@cppoptlib@CT>2#T#NI@MoreThuente@F@linesearch#&1 #S0_#&t0.0#1 #S"
+            },
+            {
+                "column" : 14,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/linesearch/morethuente.h",
+                "kind" : 7,
+                "line" : 43,
+                "name" : "cvsrch(ProblemType &, TVector &, Scalar, TVector &, Scalar &, TVector &)",
+                "parent_name" : "MoreThuente<ProblemType, Ord>",
+                "usr" : "c:@N@cppoptlib@CT>2#T#NI@MoreThuente@F@cvsrch#&t0.0#& # #S2_#&S4_#S2_#S"
+            },
+            {
+                "column" : 14,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/linesearch/morethuente.h",
+                "kind" : 7,
+                "line" : 169,
+                "name" : "cstep(Scalar &, Scalar &, Scalar &, Scalar &, Scalar &, Scalar &, Scalar &, Scalar &, Scalar &, bool &, Scalar &, Scalar &, int &)",
+                "parent_name" : "MoreThuente<ProblemType, Ord>",
+                "usr" : "c:@N@cppoptlib@CT>2#T#NI@MoreThuente@F@cstep#& #S0_#S0_#S0_#S0_#S0_#S0_#S0_#S0_#&b#S0_#S0_#&I#S"
+            }
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/linesearch/morethuente.h",
+        "file_last_write" : 1537539052
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/linesearch/wolfeheuristic.h",
+                "kind" : 2,
+                "line" : 18,
+                "name" : "WolfeHeuristic<T, P, Ord>",
+                "parent_name" : "",
+                "usr" : "c:@N@cppoptlib@CT>3#T#T#NI@WolfeHeuristic"
+            },
+            {
+                "column" : 12,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/linesearch/wolfeheuristic.h",
+                "kind" : 7,
+                "line" : 22,
+                "name" : "linesearch(const int)",
+                "parent_name" : "WolfeHeuristic<T, P, Ord>",
+                "usr" : "c:@N@cppoptlib@CT>3#T#T#NI@WolfeHeuristic@F@linesearch#1I#S"
+            }
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/linesearch/wolfeheuristic.h",
+        "file_last_write" : 1537539052
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 12,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/meta.h",
+                "kind" : 4,
+                "line" : 18,
+                "name" : "DebugLevel",
+                "parent_name" : "",
+                "usr" : "c:@N@cppoptlib@E@DebugLevel"
+            },
+            {
+                "column" : 12,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/meta.h",
+                "kind" : 4,
+                "line" : 19,
+                "name" : "Status",
+                "parent_name" : "",
+                "usr" : "c:@N@cppoptlib@E@Status"
+            },
+            {
+                "column" : 12,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/meta.h",
+                "kind" : 4,
+                "line" : 30,
+                "name" : "SimplexOp",
+                "parent_name" : "",
+                "usr" : "c:@N@cppoptlib@E@SimplexOp"
+            },
+            {
+                "column" : 22,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/meta.h",
+                "kind" : 6,
+                "line" : 39,
+                "name" : "operator<<(std::ostream &, const cppoptlib::SimplexOp &)",
+                "parent_name" : "",
+                "usr" : "c:@N@cppoptlib@F@operator<<#&$@N@std@C@basic_ostream>#C#$@N@std@S@char_traits>#C#&1$@N@cppoptlib@E@SimplexOp#"
+            },
+            {
+                "column" : 20,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/meta.h",
+                "kind" : 6,
+                "line" : 51,
+                "name" : "op_to_string(cppoptlib::SimplexOp)",
+                "parent_name" : "",
+                "usr" : "c:@N@cppoptlib@F@op_to_string#$@N@cppoptlib@E@SimplexOp#"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/meta.h",
+                "kind" : 2,
+                "line" : 70,
+                "name" : "Criteria<T>",
+                "parent_name" : "",
+                "usr" : "c:@N@cppoptlib@CT>1#T@Criteria"
+            },
+            {
+                "column" : 21,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/meta.h",
+                "kind" : 7,
+                "line" : 82,
+                "name" : "defaults",
+                "parent_name" : "Criteria<T>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@Criteria@F@defaults#S"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/meta.h",
+                "kind" : 7,
+                "line" : 92,
+                "name" : "reset",
+                "parent_name" : "Criteria<T>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@Criteria@F@reset#"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/meta.h",
+                "kind" : 7,
+                "line" : 100,
+                "name" : "print(std::ostream &)",
+                "parent_name" : "Criteria<T>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@Criteria@F@print#&$@N@std@C@basic_ostream>#C#$@N@std@S@char_traits>#C#1"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/meta.h",
+                "kind" : 6,
+                "line" : 110,
+                "name" : "checkConvergence(const Criteria<T> &, const Criteria<T> &)",
+                "parent_name" : "",
+                "usr" : "c:@N@cppoptlib@FT@>1#TcheckConvergence#&1>@N@cppoptlib@CT>1#T@Criteria1t0.0#S0_#"
+            },
+            {
+                "column" : 22,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/meta.h",
+                "kind" : 6,
+                "line" : 130,
+                "name" : "operator<<(std::ostream &, const cppoptlib::Status &)",
+                "parent_name" : "",
+                "usr" : "c:@N@cppoptlib@F@operator<<#&$@N@std@C@basic_ostream>#C#$@N@std@S@char_traits>#C#&1$@N@cppoptlib@E@Status#"
+            },
+            {
+                "column" : 15,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/meta.h",
+                "kind" : 6,
+                "line" : 145,
+                "name" : "operator<<(std::ostream &, const Criteria<T> &)",
+                "parent_name" : "",
+                "usr" : "c:@N@cppoptlib@FT@>1#Toperator<<#&$@N@std@C@basic_ostream>#C#$@N@std@S@char_traits>#C#&1>@N@cppoptlib@CT>1#T@Criteria1t0.0#"
+            }
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/meta.h",
+        "file_last_write" : 1537539052
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/problem.h",
+                "kind" : 2,
+                "line" : 13,
+                "name" : "Problem<Scalar_, Dim_>",
+                "parent_name" : "",
+                "usr" : "c:@N@cppoptlib@CT>2#T#NI@Problem"
+            },
+            {
+                "column" : 19,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/problem.h",
+                "kind" : 8,
+                "line" : 16,
+                "name" : "Scalar",
+                "parent_name" : "",
+                "usr" : "c:problem.h@249@N@cppoptlib@CT>2#T#NI@Problem@T@Scalar"
+            },
+            {
+                "column" : 16,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/problem.h",
+                "kind" : 7,
+                "line" : 29,
+                "name" : "callback(const Criteria<Scalar> &, const int &)",
+                "parent_name" : "Problem<Scalar_, Dim_>",
+                "usr" : "c:@N@cppoptlib@CT>2#T#NI@Problem@F@callback#&1>@N@cppoptlib@CT>1#T@Criteria1t0.0#&1I#"
+            },
+            {
+                "column" : 16,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/problem.h",
+                "kind" : 7,
+                "line" : 33,
+                "name" : "detailed_callback(const Criteria<Scalar> &, cppoptlib::SimplexOp, int, const int &, std::vector<Scalar>)",
+                "parent_name" : "Problem<Scalar_, Dim_>",
+                "usr" : "c:@N@cppoptlib@CT>2#T#NI@Problem@F@detailed_callback#&1>@N@cppoptlib@CT>1#T@Criteria1t0.0#$@N@cppoptlib@E@SimplexOp#I#&1I#>@N@std@CT>2#T#T@vector2S2_>@N@std@CT>1#T@allocator1S2_#"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/problem.h",
+                "kind" : 7,
+                "line" : 53,
+                "name" : "operator(const int &)",
+                "parent_name" : "Problem<Scalar_, Dim_>",
+                "usr" : "c:@N@cppoptlib@CT>2#T#NI@Problem@F@operator()#&1I#"
+            },
+            {
+                "column" : 16,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/problem.h",
+                "kind" : 7,
+                "line" : 62,
+                "name" : "gradient(const int &, int &)",
+                "parent_name" : "Problem<Scalar_, Dim_>",
+                "usr" : "c:@N@cppoptlib@CT>2#T#NI@Problem@F@gradient#&1I#&I#"
+            },
+            {
+                "column" : 16,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/problem.h",
+                "kind" : 7,
+                "line" : 70,
+                "name" : "hessian(const int &, int &)",
+                "parent_name" : "Problem<Scalar_, Dim_>",
+                "usr" : "c:@N@cppoptlib@CT>2#T#NI@Problem@F@hessian#&1I#&I#"
+            },
+            {
+                "column" : 16,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/problem.h",
+                "kind" : 7,
+                "line" : 74,
+                "name" : "checkGradient(const int &, int)",
+                "parent_name" : "Problem<Scalar_, Dim_>",
+                "usr" : "c:@N@cppoptlib@CT>2#T#NI@Problem@F@checkGradient#&1I#I#"
+            },
+            {
+                "column" : 16,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/problem.h",
+                "kind" : 7,
+                "line" : 91,
+                "name" : "checkHessian(const int &, int)",
+                "parent_name" : "Problem<Scalar_, Dim_>",
+                "usr" : "c:@N@cppoptlib@CT>2#T#NI@Problem@F@checkHessian#&1I#I#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/problem.h",
+                "kind" : 7,
+                "line" : 110,
+                "name" : "finiteGradient(const int &, int &, int)",
+                "parent_name" : "Problem<Scalar_, Dim_>",
+                "usr" : "c:@N@cppoptlib@CT>2#T#NI@Problem@F@finiteGradient#&1I#&I#I#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/problem.h",
+                "kind" : 7,
+                "line" : 138,
+                "name" : "finiteHessian(const int &, int &, int)",
+                "parent_name" : "Problem<Scalar_, Dim_>",
+                "usr" : "c:@N@cppoptlib@CT>2#T#NI@Problem@F@finiteHessian#&1I#&I#I#"
+            }
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/problem.h",
+        "file_last_write" : 1537539052
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/bfgssolver.h",
+                "kind" : 2,
+                "line" : 13,
+                "name" : "BfgsSolver<ProblemType>",
+                "parent_name" : "",
+                "usr" : "c:@N@cppoptlib@CT>1#T@BfgsSolver"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/bfgssolver.h",
+                "kind" : 7,
+                "line" : 20,
+                "name" : "minimize(ProblemType &, TVector &)",
+                "parent_name" : "BfgsSolver<ProblemType>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@BfgsSolver@F@minimize#&t0.0#& #"
+            }
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/bfgssolver.h",
+        "file_last_write" : 1537539052
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/cmaesbsolver.h",
+                "kind" : 2,
+                "line" : 15,
+                "name" : "CMAesBSolver<TProblem>",
+                "parent_name" : "",
+                "usr" : "c:@N@cppoptlib@CT>1#T@CMAesBSolver"
+            },
+            {
+                "column" : 13,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/cmaesbsolver.h",
+                "kind" : 7,
+                "line" : 33,
+                "name" : "normDist(const int)",
+                "parent_name" : "CMAesBSolver<TProblem>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@CMAesBSolver@F@normDist#1I#"
+            },
+            {
+                "column" : 25,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/cmaesbsolver.h",
+                "kind" : 7,
+                "line" : 42,
+                "name" : "index_partial_sort(const int &, int)",
+                "parent_name" : "CMAesBSolver<TProblem>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@CMAesBSolver@F@index_partial_sort#&1I#I#"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/cmaesbsolver.h",
+                "kind" : 7,
+                "line" : 77,
+                "name" : "minimize(TProblem &, TVector &)",
+                "parent_name" : "CMAesBSolver<TProblem>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@CMAesBSolver@F@minimize#&t0.0#& #"
+            }
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/cmaesbsolver.h",
+        "file_last_write" : 1537539052
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/cmaessolver.h",
+                "kind" : 2,
+                "line" : 15,
+                "name" : "CMAesSolver<TProblem>",
+                "parent_name" : "",
+                "usr" : "c:@N@cppoptlib@CT>1#T@CMAesSolver"
+            },
+            {
+                "column" : 13,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/cmaessolver.h",
+                "kind" : 7,
+                "line" : 32,
+                "name" : "normDist(const int)",
+                "parent_name" : "CMAesSolver<TProblem>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@CMAesSolver@F@normDist#1I#"
+            },
+            {
+                "column" : 25,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/cmaessolver.h",
+                "kind" : 7,
+                "line" : 41,
+                "name" : "index_partial_sort(const int &, int)",
+                "parent_name" : "CMAesSolver<TProblem>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@CMAesSolver@F@index_partial_sort#&1I#I#"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/cmaessolver.h",
+                "kind" : 7,
+                "line" : 69,
+                "name" : "minimize(TProblem &, TVector &)",
+                "parent_name" : "CMAesSolver<TProblem>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@CMAesSolver@F@minimize#&t0.0#& #"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/cmaessolver.h",
+                "kind" : 7,
+                "line" : 80,
+                "name" : "minimize(TProblem &, TVector &, const TVector &)",
+                "parent_name" : "CMAesSolver<TProblem>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@CMAesSolver@F@minimize#&t0.0#& #&1S3_#"
+            }
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/cmaessolver.h",
+        "file_last_write" : 1537539052
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/conjugatedgradientdescentsolver.h",
+                "kind" : 2,
+                "line" : 12,
+                "name" : "ConjugatedGradientDescentSolver<ProblemType>",
+                "parent_name" : "",
+                "usr" : "c:@N@cppoptlib@CT>1#T@ConjugatedGradientDescentSolver"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/conjugatedgradientdescentsolver.h",
+                "kind" : 7,
+                "line" : 25,
+                "name" : "minimize(ProblemType &, TVector &)",
+                "parent_name" : "ConjugatedGradientDescentSolver<ProblemType>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@ConjugatedGradientDescentSolver@F@minimize#&t0.0#& #"
+            }
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/conjugatedgradientdescentsolver.h",
+        "file_last_write" : 1537539052
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/gradientdescentsolver.h",
+                "kind" : 2,
+                "line" : 12,
+                "name" : "GradientDescentSolver<ProblemType>",
+                "parent_name" : "",
+                "usr" : "c:@N@cppoptlib@CT>1#T@GradientDescentSolver"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/gradientdescentsolver.h",
+                "kind" : 7,
+                "line" : 25,
+                "name" : "minimize(ProblemType &, TVector &)",
+                "parent_name" : "GradientDescentSolver<ProblemType>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@GradientDescentSolver@F@minimize#&t0.0#& #"
+            }
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/gradientdescentsolver.h",
+        "file_last_write" : 1537539052
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/isolver.h",
+                "kind" : 2,
+                "line" : 13,
+                "name" : "ISolver<ProblemType, Ord>",
+                "parent_name" : "",
+                "usr" : "c:@N@cppoptlib@CT>2#T#NI@ISolver"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/isolver.h",
+                "kind" : 7,
+                "line" : 37,
+                "name" : "setStopCriteria(const TCriteria &)",
+                "parent_name" : "ISolver<ProblemType, Ord>",
+                "usr" : "c:@N@cppoptlib@CT>2#T#NI@ISolver@F@setStopCriteria#&1 #"
+            },
+            {
+                "column" : 22,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/isolver.h",
+                "kind" : 7,
+                "line" : 38,
+                "name" : "criteria",
+                "parent_name" : "ISolver<ProblemType, Ord>",
+                "usr" : "c:@N@cppoptlib@CT>2#T#NI@ISolver@F@criteria#"
+            },
+            {
+                "column" : 19,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/isolver.h",
+                "kind" : 7,
+                "line" : 39,
+                "name" : "status",
+                "parent_name" : "ISolver<ProblemType, Ord>",
+                "usr" : "c:@N@cppoptlib@CT>2#T#NI@ISolver@F@status#"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/isolver.h",
+                "kind" : 7,
+                "line" : 40,
+                "name" : "setDebug(const cppoptlib::DebugLevel &)",
+                "parent_name" : "ISolver<ProblemType, Ord>",
+                "usr" : "c:@N@cppoptlib@CT>2#T#NI@ISolver@F@setDebug#&1$@N@cppoptlib@E@DebugLevel#"
+            }
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/isolver.h",
+        "file_last_write" : 1537539052
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/lbfgsbsolver.h",
+                "kind" : 2,
+                "line" : 15,
+                "name" : "LbfgsbSolver<TProblem>",
+                "parent_name" : "",
+                "usr" : "c:@N@cppoptlib@CT>1#T@LbfgsbSolver"
+            },
+            {
+                "column" : 20,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/lbfgsbsolver.h",
+                "kind" : 7,
+                "line" : 36,
+                "name" : "sort_indexes(const std::vector<std::pair<int, Scalar> > &)",
+                "parent_name" : "LbfgsbSolver<TProblem>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@LbfgsbSolver@F@sort_indexes#&1>@N@std@CT>2#T#T@vector2>@N@std@ST>2#T#T@pair2I >@N@std@CT>1#T@allocator1S2_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/lbfgsbsolver.h",
+                "kind" : 7,
+                "line" : 51,
+                "name" : "getGeneralizedCauchyPoint(const TProblem &, const TVector &, const TVector &, TVector &, int &)",
+                "parent_name" : "LbfgsbSolver<TProblem>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@LbfgsbSolver@F@getGeneralizedCauchyPoint#&1t0.0#&1 #S2_#&S3_#&I#"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/lbfgsbsolver.h",
+                "kind" : 7,
+                "line" : 149,
+                "name" : "findAlpha(const TProblem &, TVector &, int &, std::vector<int> &)",
+                "parent_name" : "LbfgsbSolver<TProblem>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@LbfgsbSolver@F@findAlpha#&1t0.0#& #&I#&$@N@std@C@vector>#I#$@N@std@C@allocator>#I#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/lbfgsbsolver.h",
+                "kind" : 7,
+                "line" : 168,
+                "name" : "SubspaceMinimization(const TProblem &, TVector &, TVector &, int &, TVector &, TVector &)",
+                "parent_name" : "LbfgsbSolver<TProblem>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@LbfgsbSolver@F@SubspaceMinimization#&1t0.0#& #S2_#&I#S2_#S2_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/lbfgsbsolver.h",
+                "kind" : 7,
+                "line" : 209,
+                "name" : "setHistorySize(const int)",
+                "parent_name" : "LbfgsbSolver<TProblem>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@LbfgsbSolver@F@setHistorySize#1I#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/lbfgsbsolver.h",
+                "kind" : 7,
+                "line" : 211,
+                "name" : "minimize(TProblem &, TVector &)",
+                "parent_name" : "LbfgsbSolver<TProblem>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@LbfgsbSolver@F@minimize#&t0.0#& #"
+            }
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/lbfgsbsolver.h",
+        "file_last_write" : 1537539052
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/lbfgssolver.h",
+                "kind" : 2,
+                "line" : 16,
+                "name" : "LbfgsSolver<ProblemType>",
+                "parent_name" : "",
+                "usr" : "c:@N@cppoptlib@CT>1#T@LbfgsSolver"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/lbfgssolver.h",
+                "kind" : 7,
+                "line" : 24,
+                "name" : "minimize(ProblemType &, TVector &)",
+                "parent_name" : "LbfgsSolver<ProblemType>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@LbfgsSolver@F@minimize#&t0.0#& #"
+            }
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/lbfgssolver.h",
+        "file_last_write" : 1537539052
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/neldermeadsolver.h",
+                "kind" : 2,
+                "line" : 12,
+                "name" : "NelderMeadSolver<ProblemType>",
+                "parent_name" : "",
+                "usr" : "c:@N@cppoptlib@CT>1#T@NelderMeadSolver"
+            },
+            {
+                "column" : 14,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/neldermeadsolver.h",
+                "kind" : 7,
+                "line" : 23,
+                "name" : "makeInitialSimplex(TVector &)",
+                "parent_name" : "NelderMeadSolver<ProblemType>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@NelderMeadSolver@F@makeInitialSimplex#& #"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/neldermeadsolver.h",
+                "kind" : 7,
+                "line" : 49,
+                "name" : "minimize(ProblemType &, TVector &)",
+                "parent_name" : "NelderMeadSolver<ProblemType>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@NelderMeadSolver@F@minimize#&t0.0#& #"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/neldermeadsolver.h",
+                "kind" : 7,
+                "line" : 196,
+                "name" : "shrink(int &, std::vector<int> &, std::vector<Scalar> &, ProblemType &)",
+                "parent_name" : "NelderMeadSolver<ProblemType>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@NelderMeadSolver@F@shrink#&I#&$@N@std@C@vector>#I#$@N@std@C@allocator>#I#&>@N@std@CT>2#T#T@vector2 >@N@std@CT>1#T@allocator1S6_#&t0.0#"
+            }
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/neldermeadsolver.h",
+        "file_last_write" : 1537539052
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/newtondescentsolver.h",
+                "kind" : 2,
+                "line" : 13,
+                "name" : "NewtonDescentSolver<ProblemType>",
+                "parent_name" : "",
+                "usr" : "c:@N@cppoptlib@CT>1#T@NewtonDescentSolver"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/newtondescentsolver.h",
+                "kind" : 7,
+                "line" : 20,
+                "name" : "minimize(ProblemType &, TVector &)",
+                "parent_name" : "NewtonDescentSolver<ProblemType>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@NewtonDescentSolver@F@minimize#&t0.0#& #"
+            }
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/solver/newtondescentsolver.h",
+        "file_last_write" : 1537539052
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/timer.h",
+                "kind" : 2,
+                "line" : 10,
+                "name" : "timer<C>",
+                "parent_name" : "",
+                "usr" : "c:@N@cppoptlib@CT>1#T@timer"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/timer.h",
+                "kind" : 7,
+                "line" : 29,
+                "name" : "start",
+                "parent_name" : "timer<C>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@timer@F@start#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/timer.h",
+                "kind" : 7,
+                "line" : 39,
+                "name" : "pause",
+                "parent_name" : "timer<C>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@timer@F@pause#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/timer.h",
+                "kind" : 7,
+                "line" : 44,
+                "name" : "resume",
+                "parent_name" : "timer<C>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@timer@F@resume#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/timer.h",
+                "kind" : 7,
+                "line" : 52,
+                "name" : "stop",
+                "parent_name" : "timer<C>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@timer@F@stop#"
+            }
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/include/cppoptlib/timer.h",
+        "file_last_write" : 1537539052
+    },
+    {
+        "definitions" : [
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/matlab/example.m",
+        "file_last_write" : 1537539052
+    },
+    {
+        "definitions" : [
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/matlab/local.m",
+        "file_last_write" : 1537539052
+    },
+    {
+        "definitions" : [
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/matlab/make.m",
+        "file_last_write" : 1537539052
+    },
+    {
+        "definitions" : [
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/matlab/rosenbrock.m",
+        "file_last_write" : 1537539052
+    },
+    {
+        "definitions" : [
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/matlab/rosenbrock_grad.m",
+        "file_last_write" : 1537539052
+    },
+    {
+        "definitions" : [
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/matlab/rosenbrock_hessian.m",
+        "file_last_write" : 1537539052
+    },
+    {
+        "definitions" : [
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/matlab/rosenbrockstruc.m",
+        "file_last_write" : 1537539052
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/linearregression.cpp",
+                "kind" : 2,
+                "line" : 9,
+                "name" : "LinearRegression",
+                "parent_name" : "",
+                "usr" : "c:@CT>1#T@LinearRegression"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/linearregression.cpp",
+                "kind" : 7,
+                "line" : 22,
+                "name" : "value(const int &)",
+                "parent_name" : "LinearRegression<T>",
+                "usr" : "c:@CT>1#T@LinearRegression@F@value#&1I#"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/linearregression.cpp",
+                "kind" : 7,
+                "line" : 26,
+                "name" : "gradient(const int &, int &)",
+                "parent_name" : "LinearRegression<T>",
+                "usr" : "c:@CT>1#T@LinearRegression@F@gradient#&1I#&I#"
+            },
+            {
+                "column" : 5,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/linearregression.cpp",
+                "kind" : 6,
+                "line" : 31,
+                "name" : "main(int, const char **)",
+                "parent_name" : "",
+                "usr" : "c:@F@main#I#**1C#"
+            }
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/linearregression.cpp",
+        "file_last_write" : 1537539052
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/logisticregression.cpp",
+                "kind" : 2,
+                "line" : 12,
+                "name" : "LogisticRegression<T>",
+                "parent_name" : "",
+                "usr" : "c:@N@cppoptlib@CT>1#T@LogisticRegression"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/logisticregression.cpp",
+                "kind" : 7,
+                "line" : 22,
+                "name" : "value(const int &)",
+                "parent_name" : "LogisticRegression<T>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@LogisticRegression@F@value#&1I#"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/logisticregression.cpp",
+                "kind" : 7,
+                "line" : 26,
+                "name" : "gradient(const int &, int &)",
+                "parent_name" : "LogisticRegression<T>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@LogisticRegression@F@gradient#&1I#&I#"
+            },
+            {
+                "column" : 5,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/logisticregression.cpp",
+                "kind" : 6,
+                "line" : 33,
+                "name" : "main(int, const char **)",
+                "parent_name" : "",
+                "usr" : "c:@F@main#I#**1C#"
+            }
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/logisticregression.cpp",
+        "file_last_write" : 1537539052
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 30,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/neldermead-customized.cpp",
+                "kind" : 2,
+                "line" : 17,
+                "name" : "Rosenbrock<T>",
+                "parent_name" : "",
+                "usr" : "c:@N@cppoptlib@CT>1#T@Rosenbrock"
+            },
+            {
+                "column" : 9,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/neldermead-customized.cpp",
+                "kind" : 7,
+                "line" : 24,
+                "name" : "value(const TVector &)",
+                "parent_name" : "Rosenbrock<T>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@Rosenbrock@F@value#&1 #"
+            },
+            {
+                "column" : 12,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/neldermead-customized.cpp",
+                "kind" : 7,
+                "line" : 39,
+                "name" : "detailed_callback(const cppoptlib::Criteria<T> &, cppoptlib::SimplexOp, int, const int &, std::vector<Scalar>)",
+                "parent_name" : "Rosenbrock<T>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@Rosenbrock@F@detailed_callback#&1>@N@cppoptlib@CT>1#T@Criteria1t0.0#$@N@cppoptlib@E@SimplexOp#I#&1I#>@N@std@CT>2#T#T@vector2 >@N@std@CT>1#T@allocator1S6_#"
+            },
+            {
+                "column" : 41,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/neldermead-customized.cpp",
+                "kind" : 2,
+                "line" : 69,
+                "name" : "ModifiedNelderMeadSolver<ProblemType>",
+                "parent_name" : "",
+                "usr" : "c:@N@cppoptlib@CT>1#T@ModifiedNelderMeadSolver"
+            },
+            {
+                "column" : 18,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/neldermead-customized.cpp",
+                "kind" : 7,
+                "line" : 76,
+                "name" : "makeInitialSimplex(TVector &)",
+                "parent_name" : "ModifiedNelderMeadSolver<ProblemType>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@ModifiedNelderMeadSolver@F@makeInitialSimplex#& #"
+            },
+            {
+                "column" : 5,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/neldermead-customized.cpp",
+                "kind" : 6,
+                "line" : 96,
+                "name" : "main(int, char **)",
+                "parent_name" : "",
+                "usr" : "c:@F@main#I#**C#"
+            }
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/neldermead-customized.cpp",
+        "file_last_write" : 1537539052
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 30,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/neldermead.cpp",
+                "kind" : 2,
+                "line" : 13,
+                "name" : "Rosenbrock<T>",
+                "parent_name" : "",
+                "usr" : "c:@N@cppoptlib@CT>1#T@Rosenbrock"
+            },
+            {
+                "column" : 9,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/neldermead.cpp",
+                "kind" : 7,
+                "line" : 18,
+                "name" : "value(const TVector &)",
+                "parent_name" : "Rosenbrock<T>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@Rosenbrock@F@value#&1 #"
+            },
+            {
+                "column" : 12,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/neldermead.cpp",
+                "kind" : 7,
+                "line" : 24,
+                "name" : "callback(const cppoptlib::Criteria<T> &, const TVector &)",
+                "parent_name" : "Rosenbrock<T>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@Rosenbrock@F@callback#&1>@N@cppoptlib@CT>1#T@Criteria1t0.0#&1 #"
+            },
+            {
+                "column" : 5,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/neldermead.cpp",
+                "kind" : 6,
+                "line" : 38,
+                "name" : "main(int, char **)",
+                "parent_name" : "",
+                "usr" : "c:@F@main#I#**C#"
+            }
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/neldermead.cpp",
+        "file_last_write" : 1537539052
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/nonnegls.cpp",
+                "kind" : 2,
+                "line" : 11,
+                "name" : "NonNegativeLeastSquares<T>",
+                "parent_name" : "",
+                "usr" : "c:@N@cppoptlib@CT>1#T@NonNegativeLeastSquares"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/nonnegls.cpp",
+                "kind" : 7,
+                "line" : 25,
+                "name" : "value(const int &)",
+                "parent_name" : "NonNegativeLeastSquares<T>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@NonNegativeLeastSquares@F@value#&1I#"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/nonnegls.cpp",
+                "kind" : 7,
+                "line" : 29,
+                "name" : "gradient(const int &, int &)",
+                "parent_name" : "NonNegativeLeastSquares<T>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@NonNegativeLeastSquares@F@gradient#&1I#&I#"
+            },
+            {
+                "column" : 5,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/nonnegls.cpp",
+                "kind" : 6,
+                "line" : 35,
+                "name" : "main(int, const char **)",
+                "parent_name" : "",
+                "usr" : "c:@F@main#I#**1C#"
+            }
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/nonnegls.cpp",
+        "file_last_write" : 1537539052
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/rosenbrock.cpp",
+                "kind" : 2,
+                "line" : 9,
+                "name" : "Rosenbrock",
+                "parent_name" : "",
+                "usr" : "c:@CT>1#T@Rosenbrock"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/rosenbrock.cpp",
+                "kind" : 7,
+                "line" : 15,
+                "name" : "value(const int &)",
+                "parent_name" : "Rosenbrock<T>",
+                "usr" : "c:@CT>1#T@Rosenbrock@F@value#&1I#"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/rosenbrock.cpp",
+                "kind" : 7,
+                "line" : 24,
+                "name" : "gradient(const int &, int &)",
+                "parent_name" : "Rosenbrock<T>",
+                "usr" : "c:@CT>1#T@Rosenbrock@F@gradient#&1I#&I#"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/rosenbrock.cpp",
+                "kind" : 7,
+                "line" : 32,
+                "name" : "hessian(const int &, int &)",
+                "parent_name" : "Rosenbrock<T>",
+                "usr" : "c:@CT>1#T@Rosenbrock@F@hessian#&1I#&I#"
+            },
+            {
+                "column" : 5,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/rosenbrock.cpp",
+                "kind" : 6,
+                "line" : 41,
+                "name" : "main(int, const char **)",
+                "parent_name" : "",
+                "usr" : "c:@F@main#I#**1C#"
+            }
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/rosenbrock.cpp",
+        "file_last_write" : 1537539052
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/rosenbrock_float.cpp",
+                "kind" : 2,
+                "line" : 17,
+                "name" : "Rosenbrock<T>",
+                "parent_name" : "",
+                "usr" : "c:@N@cppoptlib@CT>1#T@Rosenbrock"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/rosenbrock_float.cpp",
+                "kind" : 7,
+                "line" : 23,
+                "name" : "value(const TVector &)",
+                "parent_name" : "Rosenbrock<T>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@Rosenbrock@F@value#&1 #"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/rosenbrock_float.cpp",
+                "kind" : 7,
+                "line" : 32,
+                "name" : "gradient(const TVector &, TVector &)",
+                "parent_name" : "Rosenbrock<T>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@Rosenbrock@F@gradient#&1 #&S1_#"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/rosenbrock_float.cpp",
+                "kind" : 7,
+                "line" : 40,
+                "name" : "hessian(const TVector &, THessian &)",
+                "parent_name" : "Rosenbrock<T>",
+                "usr" : "c:@N@cppoptlib@CT>1#T@Rosenbrock@F@hessian#&1 #& #"
+            },
+            {
+                "column" : 5,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/rosenbrock_float.cpp",
+                "kind" : 6,
+                "line" : 50,
+                "name" : "main(int, const char **)",
+                "parent_name" : "",
+                "usr" : "c:@F@main#I#**1C#"
+            }
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/rosenbrock_float.cpp",
+        "file_last_write" : 1537539052
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/simple.cpp",
+                "kind" : 2,
+                "line" : 12,
+                "name" : "Simple",
+                "parent_name" : "",
+                "usr" : "c:@CT>1#T@Simple"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/simple.cpp",
+                "kind" : 7,
+                "line" : 17,
+                "name" : "value(const int &)",
+                "parent_name" : "Simple<T>",
+                "usr" : "c:@CT>1#T@Simple@F@value#&1I#"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/simple.cpp",
+                "kind" : 7,
+                "line" : 24,
+                "name" : "gradient(const int &, int &)",
+                "parent_name" : "Simple<T>",
+                "usr" : "c:@CT>1#T@Simple@F@gradient#&1I#&I#"
+            },
+            {
+                "column" : 5,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/simple.cpp",
+                "kind" : 6,
+                "line" : 29,
+                "name" : "main(int, const char **)",
+                "parent_name" : "",
+                "usr" : "c:@F@main#I#**1C#"
+            }
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/simple.cpp",
+        "file_last_write" : 1537539052
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/simple_withoptions.cpp",
+                "kind" : 2,
+                "line" : 10,
+                "name" : "Simple<T>",
+                "parent_name" : "",
+                "usr" : "c:@CT>1#T@Simple"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/simple_withoptions.cpp",
+                "kind" : 7,
+                "line" : 15,
+                "name" : "value(const TVector &)",
+                "parent_name" : "Simple<T>",
+                "usr" : "c:@CT>1#T@Simple@F@value#&1 #"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/simple_withoptions.cpp",
+                "kind" : 7,
+                "line" : 22,
+                "name" : "gradient(const TVector &, TVector &)",
+                "parent_name" : "Simple<T>",
+                "usr" : "c:@CT>1#T@Simple@F@gradient#&1 #&S1_#"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/simple_withoptions.cpp",
+                "kind" : 7,
+                "line" : 27,
+                "name" : "callback(const cppoptlib::Criteria<T> &, const TVector &)",
+                "parent_name" : "Simple<T>",
+                "usr" : "c:@CT>1#T@Simple@F@callback#&1>@N@cppoptlib@CT>1#T@Criteria1t0.0#&1 #"
+            },
+            {
+                "column" : 5,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/simple_withoptions.cpp",
+                "kind" : 6,
+                "line" : 37,
+                "name" : "main(int, const char **)",
+                "parent_name" : "",
+                "usr" : "c:@F@main#I#**1C#"
+            }
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/examples/simple_withoptions.cpp",
+        "file_last_write" : 1537539052
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/benchmark.cpp",
+                "kind" : 2,
+                "line" : 23,
+                "name" : "Rosenbrock<T>",
+                "parent_name" : "",
+                "usr" : "c:@CT>1#T@Rosenbrock"
+            },
+            {
+                "column" : 5,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/benchmark.cpp",
+                "kind" : 7,
+                "line" : 27,
+                "name" : "value(const TVector &)",
+                "parent_name" : "Rosenbrock<T>",
+                "usr" : "c:@CT>1#T@Rosenbrock@F@value#&1 #"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/benchmark.cpp",
+                "kind" : 2,
+                "line" : 42,
+                "name" : "Beale<T>",
+                "parent_name" : "",
+                "usr" : "c:@CT>1#T@Beale"
+            },
+            {
+                "column" : 5,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/benchmark.cpp",
+                "kind" : 7,
+                "line" : 46,
+                "name" : "value(const TVector &)",
+                "parent_name" : "Beale<T>",
+                "usr" : "c:@CT>1#T@Beale@F@value#&1 #"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/benchmark.cpp",
+                "kind" : 7,
+                "line" : 55,
+                "name" : "gradient(const TVector &, TVector &)",
+                "parent_name" : "Beale<T>",
+                "usr" : "c:@CT>1#T@Beale@F@gradient#&1 #&S1_#"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/benchmark.cpp",
+                "kind" : 2,
+                "line" : 65,
+                "name" : "GoldsteinPrice<T>",
+                "parent_name" : "",
+                "usr" : "c:@CT>1#T@GoldsteinPrice"
+            },
+            {
+                "column" : 5,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/benchmark.cpp",
+                "kind" : 7,
+                "line" : 69,
+                "name" : "value(const TVector &)",
+                "parent_name" : "GoldsteinPrice<T>",
+                "usr" : "c:@CT>1#T@GoldsteinPrice@F@value#&1 #"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/benchmark.cpp",
+                "kind" : 2,
+                "line" : 83,
+                "name" : "Booth<T>",
+                "parent_name" : "",
+                "usr" : "c:@CT>1#T@Booth"
+            },
+            {
+                "column" : 5,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/benchmark.cpp",
+                "kind" : 7,
+                "line" : 87,
+                "name" : "value(const TVector &)",
+                "parent_name" : "Booth<T>",
+                "usr" : "c:@CT>1#T@Booth@F@value#&1 #"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/benchmark.cpp",
+                "kind" : 7,
+                "line" : 97,
+                "name" : "gradient(const TVector &, TVector &)",
+                "parent_name" : "Booth<T>",
+                "usr" : "c:@CT>1#T@Booth@F@gradient#&1 #&S1_#"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/benchmark.cpp",
+                "kind" : 2,
+                "line" : 108,
+                "name" : "Matyas<T>",
+                "parent_name" : "",
+                "usr" : "c:@CT>1#T@Matyas"
+            },
+            {
+                "column" : 5,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/benchmark.cpp",
+                "kind" : 7,
+                "line" : 112,
+                "name" : "value(const TVector &)",
+                "parent_name" : "Matyas<T>",
+                "usr" : "c:@CT>1#T@Matyas@F@value#&1 #"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/benchmark.cpp",
+                "kind" : 7,
+                "line" : 118,
+                "name" : "gradient(const TVector &, TVector &)",
+                "parent_name" : "Matyas<T>",
+                "usr" : "c:@CT>1#T@Matyas@F@gradient#&1 #&S1_#"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/benchmark.cpp",
+                "kind" : 2,
+                "line" : 130,
+                "name" : "Levi<T>",
+                "parent_name" : "",
+                "usr" : "c:@CT>1#T@Levi"
+            },
+            {
+                "column" : 5,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/benchmark.cpp",
+                "kind" : 7,
+                "line" : 133,
+                "name" : "value(const TVector &)",
+                "parent_name" : "Levi<T>",
+                "usr" : "c:@CT>1#T@Levi@F@value#&1 #"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/benchmark.cpp",
+                "kind" : 7,
+                "line" : 140,
+                "name" : "gradient(const TVector &, TVector &)",
+                "parent_name" : "Levi<T>",
+                "usr" : "c:@CT>1#T@Levi@F@gradient#&1 #&S1_#"
+            },
+            {
+                "column" : 5,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/benchmark.cpp",
+                "kind" : 6,
+                "line" : 201,
+                "name" : "main(int, char **)",
+                "parent_name" : "",
+                "usr" : "c:@F@main#I#**C#"
+            }
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/benchmark.cpp",
+        "file_last_write" : 1537539052
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 2,
+                "line" : 27,
+                "name" : "RosenbrockValue",
+                "parent_name" : "",
+                "usr" : "c:@CT>1#T@RosenbrockValue"
+            },
+            {
+                "column" : 12,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 7,
+                "line" : 33,
+                "name" : "value(const int &)",
+                "parent_name" : "RosenbrockValue<Scalar>",
+                "usr" : "c:@CT>1#T@RosenbrockValue@F@value#&1I#"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 2,
+                "line" : 43,
+                "name" : "RosenbrockGradient<Scalar>",
+                "parent_name" : "",
+                "usr" : "c:@CT>1#T@RosenbrockGradient"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 7,
+                "line" : 49,
+                "name" : "gradient(const TVector &, TVector &)",
+                "parent_name" : "RosenbrockGradient<Scalar>",
+                "usr" : "c:@CT>1#T@RosenbrockGradient@F@gradient#&1 #&S1_#"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 2,
+                "line" : 58,
+                "name" : "RosenbrockFull<Scalar>",
+                "parent_name" : "",
+                "usr" : "c:@CT>1#T@RosenbrockFull"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 7,
+                "line" : 65,
+                "name" : "hessian(const TVector &, typename Super::THessian &)",
+                "parent_name" : "RosenbrockFull<Scalar>",
+                "usr" : "c:@CT>1#T@RosenbrockFull@F@hessian#&1 #& #"
+            },
+            {
+                "column" : 26,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 2,
+                "line" : 73,
+                "name" : "GradientDescentTest<T>",
+                "parent_name" : "",
+                "usr" : "c:@CT>1#T@GradientDescentTest"
+            },
+            {
+                "column" : 26,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 2,
+                "line" : 74,
+                "name" : "ConjugatedGradientDescentTest<T>",
+                "parent_name" : "",
+                "usr" : "c:@CT>1#T@ConjugatedGradientDescentTest"
+            },
+            {
+                "column" : 26,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 2,
+                "line" : 75,
+                "name" : "NewtonDescentTest<T>",
+                "parent_name" : "",
+                "usr" : "c:@CT>1#T@NewtonDescentTest"
+            },
+            {
+                "column" : 26,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 2,
+                "line" : 76,
+                "name" : "BfgsTest<T>",
+                "parent_name" : "",
+                "usr" : "c:@CT>1#T@BfgsTest"
+            },
+            {
+                "column" : 26,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 2,
+                "line" : 77,
+                "name" : "LbfgsTest<T>",
+                "parent_name" : "",
+                "usr" : "c:@CT>1#T@LbfgsTest"
+            },
+            {
+                "column" : 26,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 2,
+                "line" : 78,
+                "name" : "LbfgsbTest<T>",
+                "parent_name" : "",
+                "usr" : "c:@CT>1#T@LbfgsbTest"
+            },
+            {
+                "column" : 26,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 2,
+                "line" : 79,
+                "name" : "CMAesTest<T>",
+                "parent_name" : "",
+                "usr" : "c:@CT>1#T@CMAesTest"
+            },
+            {
+                "column" : 26,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 2,
+                "line" : 80,
+                "name" : "CMAesBTest<T>",
+                "parent_name" : "",
+                "usr" : "c:@CT>1#T@CMAesBTest"
+            },
+            {
+                "column" : 26,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 2,
+                "line" : 81,
+                "name" : "NelderMeadTest<T>",
+                "parent_name" : "",
+                "usr" : "c:@CT>1#T@NelderMeadTest"
+            },
+            {
+                "column" : 26,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 2,
+                "line" : 82,
+                "name" : "CentralDifference<T>",
+                "parent_name" : "",
+                "usr" : "c:@CT>1#T@CentralDifference"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 125,
+                "name" : "TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 126,
+                "name" : "TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 127,
+                "name" : "TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 128,
+                "name" : "TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 129,
+                "name" : "TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 130,
+                "name" : "TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 131,
+                "name" : "TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 132,
+                "name" : "TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 133,
+                "name" : "TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 134,
+                "name" : "TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 135,
+                "name" : "TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 136,
+                "name" : "TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 137,
+                "name" : "TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 138,
+                "name" : "TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 140,
+                "name" : "TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 142,
+                "name" : "TYPED_TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TYPED_TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 143,
+                "name" : "TYPED_TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TYPED_TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 144,
+                "name" : "TYPED_TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TYPED_TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 145,
+                "name" : "TYPED_TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TYPED_TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 148,
+                "name" : "TYPED_TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TYPED_TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 149,
+                "name" : "TYPED_TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TYPED_TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 150,
+                "name" : "TYPED_TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TYPED_TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 151,
+                "name" : "TYPED_TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TYPED_TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 152,
+                "name" : "TYPED_TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TYPED_TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 153,
+                "name" : "TYPED_TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TYPED_TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 154,
+                "name" : "TYPED_TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TYPED_TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 155,
+                "name" : "TYPED_TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TYPED_TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 156,
+                "name" : "TYPED_TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TYPED_TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 157,
+                "name" : "TYPED_TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TYPED_TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 158,
+                "name" : "TYPED_TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TYPED_TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 159,
+                "name" : "TYPED_TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TYPED_TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 160,
+                "name" : "TYPED_TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TYPED_TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 161,
+                "name" : "TYPED_TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TYPED_TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 162,
+                "name" : "TYPED_TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TYPED_TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 163,
+                "name" : "TYPED_TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TYPED_TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 165,
+                "name" : "TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 168,
+                "name" : "TYPED_TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TYPED_TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 174,
+                "name" : "TYPED_TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TYPED_TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 176,
+                "name" : "TYPED_TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TYPED_TEST#I#I#"
+            },
+            {
+                "column" : 1,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 200,
+                "name" : "TYPED_TEST(int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@TYPED_TEST#I#I#"
+            },
+            {
+                "column" : 5,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+                "kind" : 6,
+                "line" : 231,
+                "name" : "main(int, char **)",
+                "parent_name" : "",
+                "usr" : "c:@F@main#I#**C#"
+            }
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/src/test/verify.cpp",
+        "file_last_write" : 1537539052
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 20,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/tensorflow/solve.cpp",
+                "kind" : 6,
+                "line" : 33,
+                "name" : "LoadModel(int *, std::string, std::string)",
+                "parent_name" : "",
+                "usr" : "c:@F@LoadModel#*I#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#S1_#"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/tensorflow/solve.cpp",
+                "kind" : 2,
+                "line" : 66,
+                "name" : "Simple",
+                "parent_name" : "",
+                "usr" : "c:@CT>1#T@Simple"
+            },
+            {
+                "column" : 5,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/tensorflow/solve.cpp",
+                "kind" : 7,
+                "line" : 87,
+                "name" : "value(const int &)",
+                "parent_name" : "Simple<T>",
+                "usr" : "c:@CT>1#T@Simple@F@value#&1I#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/tensorflow/solve.cpp",
+                "kind" : 7,
+                "line" : 103,
+                "name" : "gradient(const int &, int &)",
+                "parent_name" : "Simple<T>",
+                "usr" : "c:@CT>1#T@Simple@F@gradient#&1I#&I#"
+            },
+            {
+                "column" : 5,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/tensorflow/solve.cpp",
+                "kind" : 6,
+                "line" : 119,
+                "name" : "main(int, const char **)",
+                "parent_name" : "",
+                "usr" : "c:@F@main#I#**1C#"
+            }
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/CppNumericalSolvers/tensorflow/solve.cpp",
+        "file_last_write" : 1537539052
+    },
+    {
+        "definitions" : [
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/UtilityFunction.h",
+        "file_last_write" : 1537608863
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 5,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/cpp_utility.cpp",
+                "kind" : 6,
+                "line" : 17,
+                "name" : "utilityFunction(const NumericVector, const DataFrame, const IntegerMatrix, NumericMatrix, int, NumericMatrix)",
+                "parent_name" : "",
+                "usr" : "c:@F@utilityFunction#1$@N@Rcpp@C@Vector>#VI14#@N@Rcpp@CT>1#T@PreserveStorage#1$@N@Rcpp@C@DataFrame_Impl>#@N@Rcpp@CT>1#T@PreserveStorage#1$@N@Rcpp@C@Matrix>#VI13#@N@Rcpp@CT>1#T@PreserveStorage#$@N@Rcpp@C@Matrix>#VI14#@N@Rcpp@CT>1#T@PreserveStorage#I#S3_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/cpp_utility.cpp",
+                "kind" : 6,
+                "line" : 217,
+                "name" : "loglikelihood(NumericVector, DataFrame, int, IntegerMatrix, NumericMatrix, int, NumericMatrix)",
+                "parent_name" : "",
+                "usr" : "c:@F@loglikelihood#$@N@Rcpp@C@Vector>#VI14#@N@Rcpp@CT>1#T@PreserveStorage#$@N@Rcpp@C@DataFrame_Impl>#@N@Rcpp@CT>1#T@PreserveStorage#I#$@N@Rcpp@C@Matrix>#VI13#@N@Rcpp@CT>1#T@PreserveStorage#$@N@Rcpp@C@Matrix>#VI14#@N@Rcpp@CT>1#T@PreserveStorage#I#S3_#"
+            },
+            {
+                "column" : 15,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/cpp_utility.cpp",
+                "kind" : 6,
+                "line" : 246,
+                "name" : "individualLoglikelihood(NumericVector, DataFrame, int, IntegerMatrix, NumericMatrix, int, NumericMatrix)",
+                "parent_name" : "",
+                "usr" : "c:@F@individualLoglikelihood#$@N@Rcpp@C@Vector>#VI14#@N@Rcpp@CT>1#T@PreserveStorage#$@N@Rcpp@C@DataFrame_Impl>#@N@Rcpp@CT>1#T@PreserveStorage#I#$@N@Rcpp@C@Matrix>#VI13#@N@Rcpp@CT>1#T@PreserveStorage#$@N@Rcpp@C@Matrix>#VI14#@N@Rcpp@CT>1#T@PreserveStorage#I#S3_#"
+            }
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/cpp_utility.cpp",
+        "file_last_write" : 1539947026
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/maxLogLikelihood.cpp",
+                "kind" : 2,
+                "line" : 55,
+                "name" : "TestUtilityFunction<T>",
+                "parent_name" : "",
+                "usr" : "c:@CT>1#T@TestUtilityFunction"
+            },
+            {
+                "column" : 12,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/maxLogLikelihood.cpp",
+                "kind" : 7,
+                "line" : 57,
+                "name" : "calculate(const T &)",
+                "parent_name" : "TestUtilityFunction<T>",
+                "usr" : "c:@CT>1#T@TestUtilityFunction@F@calculate#&1t0.0#"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/maxLogLikelihood.cpp",
+                "kind" : 2,
+                "line" : 66,
+                "name" : "MixedLogit",
+                "parent_name" : "",
+                "usr" : "c:@C@MixedLogit"
+            },
+            {
+                "column" : 12,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/maxLogLikelihood.cpp",
+                "kind" : 7,
+                "line" : 72,
+                "name" : "value(const TVector &)",
+                "parent_name" : "MixedLogit",
+                "usr" : "c:@C@MixedLogit@F@value#&1$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#"
+            },
+            {
+                "column" : 5,
+                "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/maxLogLikelihood.cpp",
+                "kind" : 6,
+                "line" : 96,
+                "name" : "fastmaxlik(NumericVector, DataFrame, int, IntegerMatrix, NumericMatrix, int, NumericMatrix)",
+                "parent_name" : "",
+                "usr" : "c:@F@fastmaxlik#$@N@Rcpp@C@Vector>#VI14#@N@Rcpp@CT>1#T@PreserveStorage#$@N@Rcpp@C@DataFrame_Impl>#@N@Rcpp@CT>1#T@PreserveStorage#I#$@N@Rcpp@C@Matrix>#VI13#@N@Rcpp@CT>1#T@PreserveStorage#$@N@Rcpp@C@Matrix>#VI14#@N@Rcpp@CT>1#T@PreserveStorage#I#S3_#"
+            }
+        ],
+        "file" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/maxLogLikelihood.cpp",
+        "file_last_write" : 1539955533
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 15,
+                "file" : "C:/Projects/MSL/test_package/fastutility/src/cpp_utility.cpp",
+                "kind" : 6,
+                "line" : 6,
+                "name" : "exfun(NumericMatrix, NumericVector, IntegerVector, IntegerVector, double, double, double, double, NumericMatrix, NumericMatrix, int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@exfun#$@N@Rcpp@C@Matrix>#VI14#@N@Rcpp@CT>1#T@PreserveStorage#$@N@Rcpp@C@Vector>#VI14#@N@Rcpp@CT>1#T@PreserveStorage#$@N@Rcpp@C@Vector>#VI13#@N@Rcpp@CT>1#T@PreserveStorage#S2_#d#d#d#d#S0_#S0_#I#I#"
+            }
+        ],
+        "file" : "C:/Projects/MSL/test_package/fastutility/src/cpp_utility.cpp",
+        "file_last_write" : 1506008841
+    }
+]

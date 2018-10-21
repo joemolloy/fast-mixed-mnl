@@ -1,0 +1,35 @@
+[
+    {
+        "definitions" : [
+            {
+                "column" : 15,
+                "file" : "P:/_TEMP/Molloy/2_MIXL_TRAIN/test_package/fastutility/src/cpp_utility.cpp",
+                "kind" : 6,
+                "line" : 5,
+                "name" : "utilityFunction(DataFrame, int, NumericVector, NumericMatrix, int, NumericMatrix)",
+                "parent_name" : "",
+                "usr" : "c:@F@utilityFunction#$@N@Rcpp@C@DataFrame_Impl>#@N@Rcpp@CT>1#T@PreserveStorage#I#$@N@Rcpp@C@Vector>#VI14#@N@Rcpp@CT>1#T@PreserveStorage#$@N@Rcpp@C@Matrix>#VI14#@N@Rcpp@CT>1#T@PreserveStorage#I#S2_#"
+            },
+            {
+                "column" : 8,
+                "file" : "P:/_TEMP/Molloy/2_MIXL_TRAIN/test_package/fastutility/src/cpp_utility.cpp",
+                "kind" : 6,
+                "line" : 105,
+                "name" : "loglikelihood(DataFrame, int, NumericVector, NumericMatrix, int, NumericMatrix)",
+                "parent_name" : "",
+                "usr" : "c:@F@loglikelihood#$@N@Rcpp@C@DataFrame_Impl>#@N@Rcpp@CT>1#T@PreserveStorage#I#$@N@Rcpp@C@Vector>#VI14#@N@Rcpp@CT>1#T@PreserveStorage#$@N@Rcpp@C@Matrix>#VI14#@N@Rcpp@CT>1#T@PreserveStorage#I#S2_#"
+            },
+            {
+                "column" : 15,
+                "file" : "P:/_TEMP/Molloy/2_MIXL_TRAIN/test_package/fastutility/src/cpp_utility.cpp",
+                "kind" : 6,
+                "line" : 131,
+                "name" : "individualLoglikelihood(DataFrame, int, NumericVector, NumericMatrix, int, NumericMatrix)",
+                "parent_name" : "",
+                "usr" : "c:@F@individualLoglikelihood#$@N@Rcpp@C@DataFrame_Impl>#@N@Rcpp@CT>1#T@PreserveStorage#I#$@N@Rcpp@C@Vector>#VI14#@N@Rcpp@CT>1#T@PreserveStorage#$@N@Rcpp@C@Matrix>#VI14#@N@Rcpp@CT>1#T@PreserveStorage#I#S2_#"
+            }
+        ],
+        "file" : "P:/_TEMP/Molloy/2_MIXL_TRAIN/test_package/fastutility/src/cpp_utility.cpp",
+        "file_last_write" : 1507037560
+    }
+]

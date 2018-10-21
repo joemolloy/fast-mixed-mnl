@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1537600342750.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "585434256",
+    "id" : "44D12F42",
+    "lastKnownWriteTime" : 1539955533,
+    "last_content_update" : 1539955533649,
+    "path" : "C:/Projects/MSL/MIXL-DB/test_package/fastutility/src/maxLogLikelihood.cpp",
+    "project_path" : "src/maxLogLikelihood.cpp",
+    "properties" : {
+        "cursorPosition" : "102,0",
+        "scrollLine" : "92",
+        "tempName" : "Untitled3"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "cpp"
+}

@@ -1,0 +1,9 @@
+
+export(detachAllData)
+export(execute)
+export(individualLoglikelihood)
+#export(fastmaxlik)
+export(loglikelihood)
+import(RcppEigen)
+importFrom(Rcpp, evalCpp)
+useDynLib(fastutility, .registration = TRUE)
