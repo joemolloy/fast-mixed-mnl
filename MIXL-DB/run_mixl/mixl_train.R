@@ -12,8 +12,7 @@ rm(list = ls())
 
 # source code
 
-setwd("C:/Projects/MSL/MIXL-DB")
-load("C:/Projects/MSL/MIXL-DB/checkpoint.RData")
+load("../checkpoint.RData")
 
 #source("source_code.R") # estimation/postestimation
 #source("texout.R")      # creates formatted latex output
