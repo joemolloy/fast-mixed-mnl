@@ -57,11 +57,22 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// c_hello
+SEXP c_hello();
+RcppExport SEXP _fastutility_c_hello() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(c_hello());
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_fastutility_loglikelihood", (DL_FUNC) &_fastutility_loglikelihood, 7},
     {"_fastutility_individualLoglikelihood", (DL_FUNC) &_fastutility_individualLoglikelihood, 7},
     {"_fastutility_fastmaxlik", (DL_FUNC) &_fastutility_fastmaxlik, 7},
+    {"_fastutility_c_hello", (DL_FUNC) &_fastutility_c_hello, 0},
     {NULL, NULL, 0}
 };
 

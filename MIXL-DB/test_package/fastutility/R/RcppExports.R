@@ -19,3 +19,7 @@ fastmaxlik <- function(beta, data, Nindividuals, availabilities, draws, Ndraws, 
     .Call(`_fastutility_fastmaxlik`, beta, data, Nindividuals, availabilities, draws, Ndraws, P)
 }
 
+c_hello <- function() {
+    .Call(`_fastutility_c_hello`)
+}
+
