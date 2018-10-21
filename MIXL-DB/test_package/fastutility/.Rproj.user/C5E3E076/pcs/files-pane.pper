@@ -1,9 +1,0 @@
-{
-    "path" : "~/test_package/fastutility",
-    "sortOrder" : [
-        {
-            "ascending" : true,
-            "columnIndex" : 2
-        }
-    ]
-}
