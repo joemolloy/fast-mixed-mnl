@@ -12,14 +12,3 @@ individualLoglikelihood <- function(beta, data, Nindividuals, availabilities, dr
     .Call(`_fastutility_individualLoglikelihood`, beta, data, Nindividuals, availabilities, draws, Ndraws, P)
 }
 
-#' @export fastmaxlik
-NULL
-
-fastmaxlik <- function(beta, data, Nindividuals, availabilities, draws, Ndraws, P) {
-    .Call(`_fastutility_fastmaxlik`, beta, data, Nindividuals, availabilities, draws, Ndraws, P)
-}
-
-c_hello <- function() {
-    .Call(`_fastutility_c_hello`)
-}
-

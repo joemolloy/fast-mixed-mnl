@@ -40,39 +40,10 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// fastmaxlik
-int fastmaxlik(NumericVector beta, DataFrame data, int Nindividuals, IntegerMatrix availabilities, NumericMatrix draws, int Ndraws, NumericMatrix P);
-RcppExport SEXP _fastutility_fastmaxlik(SEXP betaSEXP, SEXP dataSEXP, SEXP NindividualsSEXP, SEXP availabilitiesSEXP, SEXP drawsSEXP, SEXP NdrawsSEXP, SEXP PSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type beta(betaSEXP);
-    Rcpp::traits::input_parameter< DataFrame >::type data(dataSEXP);
-    Rcpp::traits::input_parameter< int >::type Nindividuals(NindividualsSEXP);
-    Rcpp::traits::input_parameter< IntegerMatrix >::type availabilities(availabilitiesSEXP);
-    Rcpp::traits::input_parameter< NumericMatrix >::type draws(drawsSEXP);
-    Rcpp::traits::input_parameter< int >::type Ndraws(NdrawsSEXP);
-    Rcpp::traits::input_parameter< NumericMatrix >::type P(PSEXP);
-    rcpp_result_gen = Rcpp::wrap(fastmaxlik(beta, data, Nindividuals, availabilities, draws, Ndraws, P));
-    return rcpp_result_gen;
-END_RCPP
-}
-// c_hello
-SEXP c_hello();
-RcppExport SEXP _fastutility_c_hello() {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(c_hello());
-    return rcpp_result_gen;
-END_RCPP
-}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_fastutility_loglikelihood", (DL_FUNC) &_fastutility_loglikelihood, 7},
     {"_fastutility_individualLoglikelihood", (DL_FUNC) &_fastutility_individualLoglikelihood, 7},
-    {"_fastutility_fastmaxlik", (DL_FUNC) &_fastutility_fastmaxlik, 7},
-    {"_fastutility_c_hello", (DL_FUNC) &_fastutility_c_hello, 0},
     {NULL, NULL, 0}
 };
 

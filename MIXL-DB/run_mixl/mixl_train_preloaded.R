@@ -36,30 +36,18 @@ print (paste0("print number draws...............", Ndraws))
 
 availabilities = as.matrix(data1[,(4+1):(4+15)])
 
-seq_r <- individualLoglikelihood(beta, data1, N, availabilities, draws, Ndraws, p)
+#seq_r <- individualLoglikelihood(beta, data1, N, availabilities, draws, Ndraws, p)
 
-print (seq_r)
+#print (seq_r)
 
 #print (sum(seq_r))
 
-print (fastmaxlik(c(1,2,3,4)))
+#print (fastmaxlik(c(1,2,3,4)))
 
-print (vecdSum(c(1,2,3)))
+#print (vecdSum(c(1,2,3)))
 
 
 library(Rcpp)
-cppFunction('
-    int fastmaxlik(NumericVector beta ) {
-
-  using Eigen::Map;
-  using Eigen::VectorXd;
-  using Rcpp::as;
-
-
-  const Map<VectorXd> eigenbeta(as<Map<VectorXd> >(beta));
-  Eigen::VectorXd eigen22 = eigenbeta;
-
-  Rcpp::Rcout << eigenbeta << std::endl;
-
-  return 0;
-}', depends = "RcppEigen")
+library(fastutility)
+sourceCpp(file = "TestUtilityFunction.cpp")
+runUtilityFunction(beta, data1, N, availabilities, draws, Ndraws, p)

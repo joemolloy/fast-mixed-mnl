@@ -1,3 +1,5 @@
+// [[Rcpp::depends(RcppEigen)]]
+
 #include <RcppEigen.h>
 
 /*
@@ -37,7 +39,7 @@
 using namespace cppoptlib;
 using namespace Rcpp;
 
-namespace variables {
+namespace v {
   NumericVector beta;
   DataFrame data;
   int Nindividuals;
@@ -50,30 +52,19 @@ namespace variables {
 
 } ;
 
-
-template <typename T>
-class TestUtilityFunction {
-  public:
-    double calculate(const T &betas) {
-      return 1;
-    }
-};
-
-
 // we define a new problem for optimizing the Simple function
 // we use a templated-class rather than "auto"-lambda function for a clean architecture
-//template<typename UF>
+template<typename UF>
 class MixedLogit : public Problem<double> {
   public:
     using typename Problem<double>::TVector;
 
     // this is just the objective (NOT optional)
-
     double value(const TVector &betas) override {
-      TestUtilityFunction<TVector> utilityFunction; //create a function object with all variables specified already
-      utilityFunction.calculate(betas);
+      UF utilityFunction; //create a function object with all variables specified already
+
       //double loglikSum = loglikeSum();
-      return 0; //LL - but do we need to return all LL values? - separate gradient function that uses all LL values
+      return utilityFunction.calculate(betas); //LL - but do we need to return all LL values? - separate gradient function that uses all LL values
       //return 5*x[0]*x[0] + 100*x[1]*x[1]+5;
     }
 
@@ -87,53 +78,50 @@ class MixedLogit : public Problem<double> {
 
 };
 
-// [[Rcpp::depends(RcppEigen)]]
+template <class MyUtilityFunction>
+int fastmaxlik(MixedLogit<MyUtilityFunction> f) {
 
-//template <typename UF>
-//' @export fastmaxlik
-
-// [[Rcpp::export]]
-int fastmaxlik(NumericVector beta, //TODO const things!
-               DataFrame data,
-               int Nindividuals,
-               IntegerMatrix availabilities,
-               NumericMatrix draws,
-               int Ndraws,
-               NumericMatrix P
-
-) {
-
-  /*  variables::data = data;
-  variables::Nindividuals = Nindividuals;
-  variables::availabilities = availabilities;
-  variables::draws = draws;
-  variables::Ndraws = Ndraws;
-  variables::P = P;
-  variables::LL = NumericVector(Nindividuals);
-
-  */
-  MixedLogit f;
-
-  BfgsSolver<MixedLogit> solver;
+  BfgsSolver<MixedLogit<MyUtilityFunction>> solver;
 
   using Eigen::Map;
   using Eigen::VectorXd;
   using Rcpp::as;
 
 
-  const Map<VectorXd> eigenbeta(as<Map<VectorXd> >(beta));
+  const Map<VectorXd> eigenbeta(as<Map<VectorXd> >(v::beta));
   Eigen::VectorXd eigen22 = eigenbeta;
 
-  Eigen::VectorXd eigen2(10); eigen2 << -1, 2;
-
-
-  solver.minimize(f, eigen2);
-  Rcpp::Rcout << "f in argmin " << f.value(eigen2) << std::endl;
+  solver.minimize(f, eigen22);
+  Rcpp::Rcout << "f in argmin " << f.value(eigen22) << std::endl;
   Rcpp::Rcout << "Solver status: " << solver.status() << std::endl;
   Rcpp::Rcout << "Final criteria values: " << std::endl << solver.criteria() << std::endl;
   return 0;
 }
 
+template<typename T> class UtilityFunction;
 
+// [[Rcpp::export]]
+int runUtilityFunction(NumericVector beta, //TODO const things!
+                       DataFrame data,
+                       int Nindividuals,
+                       IntegerMatrix availabilities,
+                       NumericMatrix draws,
+                       int Ndraws,
+                       NumericMatrix P
+
+) {
+  v::beta = beta;
+  v::data = data;
+  v::Nindividuals = Nindividuals;
+  v::availabilities = availabilities;
+  v::draws = draws;
+  v::Ndraws = Ndraws;
+  v::P = P;
+  v::LL = NumericVector(Nindividuals);
+
+  MixedLogit<UtilityFunction<Problem<double>::TVector>> f;
+
+  return fastmaxlik(f);
+}
 
 
