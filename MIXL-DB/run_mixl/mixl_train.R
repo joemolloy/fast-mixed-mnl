@@ -12,7 +12,8 @@ rm(list = ls())
 
 # source code
 
-load("../checkpoint.RData")
+setwd("C:/Projects/MSL/MIXL-DB")
+load("C:/Projects/MSL/MIXL-DB/checkpoint.RData")
 
 #source("source_code.R") # estimation/postestimation
 #source("texout.R")      # creates formatted latex output
@@ -208,10 +209,13 @@ if (mixing==1) {
 dimensions=12
 
 # use MLHS draws (proposed by Hess et al., 2006)
-
+Ndraws = 100
+N = 10000
 #draws=as.matrix(qnorm(mlhs(Ndraws,dimensions,N)))
 draws=as.matrix(qnorm(halton(Ndraws*N,dimensions)))
 #draws=matrix(runif(N*Ndraws*dimensions),nrow=N*Ndraws,byrow=T)
+
+randtoolbox::halton(10000*100, dim=12)
 
 } # %mixing%
 
