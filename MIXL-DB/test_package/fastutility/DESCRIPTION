@@ -12,23 +12,10 @@ LazyData: true
 SystemRequirements: C++11
 RoxygenNote: 6.0.1
 Imports:  Rcpp,
-          miscTools,
-          zoo,
           maxLik,
-          data.table,
-          plyr,
-          numDeriv,
-          foreach,
-          doParallel,
-          parallel,
-          sandwich,
-          randtoolbox,
-          dplyr,
-          purrr,
-          xtable,
-          texreg,
-          Rcpp (>= 0.12.19), RcppEigen (>= 0.3.3.4.0)
+          Rcpp (>= 0.12.19), 
+          RcppEigen (>= 0.3.3.4.0)
 LinkingTo: Rcpp, RcppEigen
-Depends: data.table, foreach, maxLik, sandwich, RcppEigen
+Depends: maxLik, RcppEigen
 
 

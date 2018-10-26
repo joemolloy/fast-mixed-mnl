@@ -50,4 +50,36 @@ availabilities = as.matrix(data1[,(4+1):(4+15)])
 library(Rcpp)
 library(fastutility)
 sourceCpp(file = "TestUtilityFunction.cpp")
-runUtilityFunction(beta, data1, N, availabilities, draws, Ndraws, p)
+individualLL(beta, data1, N, availabilities, draws, Ndraws, p)
+
+
+####################
+
+compileUtilityFunction <- function( file ) {
+  processed_script <- preprocess_file(file, save_location)
+  sourceCpp(fnName, code = processed_script)
+
+  return (fnName) #TODO: need to make sure the function is returned
+
+}
+
+
+
+
+runMaxLik (data, availabilities, N, beta, draws, Ndraws, p) {
+
+  individualLL <- compileUtilityFunction() # - gives the parallel c++ utility function - maybe can precompile this? or does caching handle this already
+
+  loglike <- function (beta) {
+      LL <- individualLL (beta, data, N, availabilities, draws, Ndraws, p)
+      return (LL)
+  }
+
+  model <- maxLik::maxLik (loglike,start=beta,fixed=fixedparams,method="BFGS",print.level=3,iterlim=10000)
+
+  return (model)
+
+}
+
+
+

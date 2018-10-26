@@ -1,11 +1,12 @@
-#include <Rcpp.h>
-#include <typeinfo>
-#include <ctime>
-#include <array>
-
-#include <RcppEigen.h>
-#include <omp.h>
+// [[Rcpp::plugins(cpp11)]]
 // [[Rcpp::plugins(openmp)]]
+// [[Rcpp::depends(RcppEigen)]]
+// [[Rcpp::depends(fastutility)]]
+
+#include <omp.h>
+#include <Rcpp.h>
+
+#include "../test_package/fastutility/inst/include/maxLogLikelihood.h"
 
 using namespace Rcpp;
 
@@ -14,17 +15,34 @@ using namespace Rcpp;
 //need to distinquish between betas, random-coeefs and parameters
 
 
+// [[Rcpp::export]]
+NumericVector individualLL(NumericVector beta, //TODO const things!
+                           DataFrame data,
+                           int Nindividuals,
+                           IntegerMatrix availabilities,
+                           NumericMatrix draws,
+                           int Ndraws,
+                           NumericMatrix P) {
+  v::beta1 = beta;
+  v::data = data;
+  v::Nindividuals = Nindividuals;
+  v::availabilities = availabilities;
+  v::draws = draws;
+  v::Ndraws = Ndraws;
+  v::P = P;
+  v::LL = NumericVector(Nindividuals);
 
-int utilityFunction(const NumericVector beta,
-                    const DataFrame data,
-                    const IntegerMatrix availabilities, //Nind x numchoices
-                    const NumericMatrix draws,
-                    const int Ndraws,
-                    NumericMatrix P  )
+  NumericVector LL = runUtilityFunction();
+
+  return LL;
+}
+
+void utilityFunction()
 {
+  using namespace v;
 
   //  Rcpp::Rcout << "running utility function"<<  std::endl;
-  //  clock_t begin = std::clock();
+  clock_t begin = std::clock();
 
   std::fill(P.begin(), P.end(), 0);
 
@@ -34,41 +52,41 @@ int utilityFunction(const NumericVector beta,
   const NumericVector choice = data["CHOICE"];
 
 
-  //declare the coefficients from beta, it is faster this way???? todo: really
-  //TODO: collects betas
-  double ASC_W = beta["ASC_W"];
-  double ASC_B = beta["ASC_B"];
-  double ASC_C = beta["ASC_C"];
-  double ASC_CP = beta["ASC_CP"];
-  double ASC_CS = beta["ASC_CS"];
+  //declare the coefficients from beta1, it is faster this way???? todo: really
+  //TODO: collects beta1s
+  double ASC_W = v::beta1["ASC_W"];
+  double ASC_B = beta1["ASC_B"];
+  double ASC_C = beta1["ASC_C"];
+  double ASC_CP = beta1["ASC_CP"];
+  double ASC_CS = beta1["ASC_CS"];
 
-  double B_COST = beta["B_COST"];
+  double B_COST = beta1["B_COST"];
 
-  double B_TT_W = beta["B_TT_W"];
-  double B_TT_B = beta["B_TT_B"];
-  double B_TT_C = beta["B_TT_C"];
-  double B_TT_PT = beta["B_TT_PT"];
-  double B_TT_CS = beta["B_TT_CS"];
-  double B_TT_CP = beta["B_TT_CP"];
+  double B_TT_W = beta1["B_TT_W"];
+  double B_TT_B = beta1["B_TT_B"];
+  double B_TT_C = beta1["B_TT_C"];
+  double B_TT_PT = beta1["B_TT_PT"];
+  double B_TT_CS = beta1["B_TT_CS"];
+  double B_TT_CP = beta1["B_TT_CP"];
 
-  double S_MC = beta["S_MC"];
-  double S_RCC = beta["S_RCC"];
-  double S_RCPT = beta["S_RCPT"];
+  double S_MC = beta1["S_MC"];
+  double S_RCC = beta1["S_RCC"];
+  double S_RCPT = beta1["S_RCPT"];
 
-  double SIGMA_W = beta["SIGMA_W"];
-  double SIGMA_B = beta["SIGMA_B"];
-  double SIGMA_C = beta["SIGMA_C"];
-  double SIGMA_CP = beta["SIGMA_CP"];
-  double SIGMA_CS = beta["SIGMA_CS"];
+  double SIGMA_W = beta1["SIGMA_W"];
+  double SIGMA_B = beta1["SIGMA_B"];
+  double SIGMA_C = beta1["SIGMA_C"];
+  double SIGMA_CP = beta1["SIGMA_CP"];
+  double SIGMA_CS = beta1["SIGMA_CS"];
 
-  double SIGMA_SCALE = beta["SIGMA_SCALE"];
+  double SIGMA_SCALE = beta1["SIGMA_SCALE"];
 
-  double SIGMA_TT_W = beta["SIGMA_TT_W"];
-  double SIGMA_TT_B = beta["SIGMA_TT_B"];
-  double SIGMA_TT_C = beta["SIGMA_TT_C"];
-  double SIGMA_TT_CP = beta["SIGMA_TT_CP"];
-  double SIGMA_TT_CS = beta["SIGMA_TT_CS"];
-  double SIGMA_TT_PT = beta["SIGMA_TT_PT"];
+  double SIGMA_TT_W = beta1["SIGMA_TT_W"];
+  double SIGMA_TT_B = beta1["SIGMA_TT_B"];
+  double SIGMA_TT_C = beta1["SIGMA_TT_C"];
+  double SIGMA_TT_CP = beta1["SIGMA_TT_CP"];
+  double SIGMA_TT_CS = beta1["SIGMA_TT_CS"];
+  double SIGMA_TT_PT = beta1["SIGMA_TT_PT"];
 
 
   const NumericVector tt_w_rp = data["tt_w_rp"];
@@ -100,8 +118,10 @@ int utilityFunction(const NumericVector beta,
 
   //for parallel, decide on private, shared varaibles
   int nthreads = omp_get_num_threads();
-  printf("Number of threads = %d\n", nthreads);
-#pragma omp parallel
+  //printf("Number of threads = %d\n", nthreads);
+
+
+  #pragma omp parallel
 {
   std::array<double, 15> utilities = { {0} };  //specify here the number of alternatives
 
@@ -115,7 +135,7 @@ int utilityFunction(const NumericVector beta,
       for (int draw=0; draw<Ndraws; draw++) {
 
         int draw_index = individual_index * Ndraws + draw; //drawsrep give the index of the draw, based on id, which we dont want to carry in here.
-        NumericMatrix::ConstRow dr = draws(draw_index, _);
+        NumericMatrix::Row dr = draws(draw_index, _);
 
 
         int draw_num = 0;
@@ -177,11 +197,13 @@ int utilityFunction(const NumericVector beta,
           utilities[k] = exp(utilities[k]); //take the exponential of each utility
         }
 
-        IntegerMatrix::ConstRow  choices_avail = availabilities( i , _ );
+        IntegerMatrix::Row  choices_avail = availabilities( i , _ );
 
         double chosen_utility = utilities[choice[i]-1]; //this -1 is needed if the choices start at 1 (as they should)
         double sum_utilities = std::inner_product(utilities.begin(), utilities.end(), choices_avail.begin(), 0.0);
         double p_choice = chosen_utility / sum_utilities;
+
+        //TODO: have a flag here to store utilities in namespace v
 
   //      printf("%f, %f\n", chosen_utility, sum_utilities);
 
@@ -197,90 +219,14 @@ int utilityFunction(const NumericVector beta,
 
 }
 
-  //  end = std::clock();
-  //  elapsed_secs = 1000.0 * double(end - begin) / CLOCKS_PER_SEC;
-  //  Rcpp::Rcout << std::setprecision(2) << "time ms: " << elapsed_secs << std::endl;
+    clock_t end = std::clock();
+    double elapsed_secs = 1000.0 * double(end - begin) / CLOCKS_PER_SEC;
+  Rcpp::Rcout << std::setprecision(3) << "time ms: " << elapsed_secs << std::endl;
 
 
 
-  return 0;
 
 }
-
-//' @export loglikelihood
-//' '@useDynLib fastutility, .registration = TRUE'
-// [[Rcpp::export]]
-double loglikelihood(NumericVector beta,
-                     DataFrame data,
-                     int Nindividuals,
-                     IntegerMatrix availabilities, //Nind x numchoices
-                     NumericMatrix draws,
-                     int Ndraws,
-                     NumericMatrix P) {
-
-  utilityFunction(beta, data, availabilities, draws, Ndraws, P);
-
-  double LL = 0;
-
-  for (int i=0; i<Nindividuals; ++i) {
-    double s = 0;
-    for (int draw=0; draw<Ndraws; ++draw) {
-      s += exp(P(i,draw));
-    }
-
-    LL  += log(s);
-
-  }
-
-  double LL2 = LL - Nindividuals*log(Ndraws);
-  return LL2;
-
-}
-
-//' @export individualLoglikelihood
-// [[Rcpp::export]]
-NumericVector individualLoglikelihood(NumericVector beta,
-                                      DataFrame data,
-                                      int Nindividuals,
-                                      IntegerMatrix availabilities, //Nind x numchoices
-                                      NumericMatrix draws,
-                                      int Ndraws,
-                                      NumericMatrix P) {
-
-
-  utilityFunction(beta, data, availabilities, draws, Ndraws, P);
-
-  NumericVector LL(Nindividuals);
-  double logNdraws = log(Ndraws);
-
-  for (int i=0; i<Nindividuals; ++i) {
-    double s = 0;
-    for (int draw=0; draw<Ndraws; ++draw) {
-      s += exp(P(i,draw));
-    }
-
-    LL[i] = log(s)-logNdraws;
-
-  }
-
-  return LL;
-
-}
-
-
-
-
-
-
-// You can include R code blocks in C++ files processed with sourceCpp
-// (useful for testing and development). The R code will be automatically
-// run after the compilation.
-//
-
-
-
-
-
 
 
 
