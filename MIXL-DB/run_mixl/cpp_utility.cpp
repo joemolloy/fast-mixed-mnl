@@ -54,7 +54,7 @@ void utilityFunction()
 
   //declare the coefficients from beta1, it is faster this way???? todo: really
   //TODO: collects beta1s
-  double ASC_W = v::beta1["ASC_W"];
+  double ASC_W = beta1["ASC_W"];
   double ASC_B = beta1["ASC_B"];
   double ASC_C = beta1["ASC_C"];
   double ASC_CP = beta1["ASC_CP"];
@@ -138,57 +138,58 @@ void utilityFunction()
         NumericMatrix::Row dr = draws(draw_index, _);
 
 
-        int draw_num = 0;
-        double B_COST_RND = -exp( B_COST + dr[draw_num++] * SIGMA_SCALE ) ;
+        double B_COST_RND = -exp( B_COST + dr[0] * SIGMA_SCALE ) ;
 
-        double B_TT_W_RND  = ( B_TT_W + dr[draw_num++] * SIGMA_TT_W )  ;
-        double B_TT_B_RND  = ( B_TT_B + dr[draw_num++] * SIGMA_TT_B ) ;
-        double B_TT_C_RND  = ( B_TT_C + dr[draw_num++] * SIGMA_TT_C ) ;
-        double B_TT_PT_RND = ( B_TT_PT + dr[draw_num++] * SIGMA_TT_PT ) ;
-        double B_TT_CS_RND = ( B_TT_CS + dr[draw_num++] * SIGMA_TT_CS ) ;
-        double B_TT_CP_RND = ( B_TT_CP + dr[draw_num++] * SIGMA_TT_CP ) ;
+        double B_TT_W_RND  = ( B_TT_W + dr[1] * SIGMA_TT_W )  ;
+        double B_TT_B_RND  = ( B_TT_B + dr[2] * SIGMA_TT_B ) ;
+        double B_TT_C_RND  = ( B_TT_C + dr[3] * SIGMA_TT_C ) ;
+        double B_TT_PT_RND = ( B_TT_PT + dr[4] * SIGMA_TT_PT ) ;
+        double B_TT_CS_RND = ( B_TT_CS + dr[5] * SIGMA_TT_CS ) ;
+        double B_TT_CP_RND = ( B_TT_CP + dr[6] * SIGMA_TT_CP ) ;
 
-        double ASC_W_RNP  = ASC_W + dr[draw_num++] * SIGMA_W ;
-        double ASC_B_RNP  = ASC_B + dr[draw_num++] * SIGMA_B ;
-        double ASC_C_RNP  = ASC_C + dr[draw_num++] * SIGMA_C ;
-        double ASC_CS_RNP  = ASC_CS + dr[draw_num++] * SIGMA_CS ;
-        double ASC_CP_RNP  = ASC_CP + dr[draw_num++] * SIGMA_CP ;
+        double ASC_W_RNP  = ASC_W + dr[7] * SIGMA_W ;
+        double ASC_B_RNP  = ASC_B + dr[8] * SIGMA_B ;
+        double ASC_C_RNP  = ASC_C + dr[9] * SIGMA_C ;
+        double ASC_CS_RNP  = ASC_CS + dr[10] * SIGMA_CS ;
+        double ASC_CP_RNP  = ASC_CP + dr[11] * SIGMA_CP ;
 
-        int u_i = 0;
+        ///wen want to convert tt_w_rp into tt_w_rp[i]
+        // want to detect all the variables used, check if they are in the dataframe, then generate the vectors above.
+        // want to also do the same for the betas (the ones that don't start with double)
 
-        utilities[u_i++] =  1 * (ASC_W_RNP + B_COST_RND * B_TT_W_RND * tt_w_rp[i] / 60 );
+        utilities[0] =  1 * (ASC_W_RNP + B_COST_RND * B_TT_W_RND * tt_w_rp[i] / 60 );
 
-        utilities[u_i++] =  1 * (ASC_B_RNP + B_COST_RND * B_TT_B_RND * tt_b_rp[i] / 60 );
+        utilities[1] =  1 * (ASC_B_RNP + B_COST_RND * B_TT_B_RND * tt_b_rp[i] / 60 );
 
-        utilities[u_i++] =  1 * (ASC_C_RNP + B_COST_RND * ( B_TT_C_RND * tt_c_rp[i] / 60 +  tc_c_rp[i] ));
+        utilities[2] =  1 * (ASC_C_RNP + B_COST_RND * ( B_TT_C_RND * tt_c_rp[i] / 60 +  tc_c_rp[i] ));
 
-        utilities[u_i++] =  1 * (B_COST_RND * ( B_TT_PT_RND * tt_pt_rp[i] / 60  + tc_pt_rp_a1[i] ));
+        utilities[3] =  1 * (B_COST_RND * ( B_TT_PT_RND * tt_pt_rp[i] / 60  + tc_pt_rp_a1[i] ));
 
-        utilities[u_i++] =  S_MC * (ASC_W_RNP  + B_COST_RND * B_TT_W_RND * tt_bf_mc[i] / 60);
+        utilities[4] =  S_MC * (ASC_W_RNP  + B_COST_RND * B_TT_W_RND * tt_bf_mc[i] / 60);
 
-        utilities[u_i++] =  S_MC * (ASC_B_RNP  + B_COST_RND * B_TT_B_RND * tt_v_mc[i] / 60);
+        utilities[5] =  S_MC * (ASC_B_RNP  + B_COST_RND * B_TT_B_RND * tt_v_mc[i] / 60);
 
-        utilities[u_i++] =  S_MC * (ASC_CP_RNP + B_COST_RND * ( B_TT_CP_RND * tt_cp_mc[i] / 60 + c_cp_mc[i] ));
+        utilities[6] =  S_MC * (ASC_CP_RNP + B_COST_RND * ( B_TT_CP_RND * tt_cp_mc[i] / 60 + c_cp_mc[i] ));
 
-        utilities[u_i++] =  S_MC * (ASC_CS_RNP + B_COST_RND * ( B_TT_CS_RND * tt_cs_mc[i] / 60 + c_cs_mc[i] ));
+        utilities[7] =  S_MC * (ASC_CS_RNP + B_COST_RND * ( B_TT_CS_RND * tt_cs_mc[i] / 60 + c_cs_mc[i] ));
 
-        utilities[u_i++] =  S_MC *  (B_COST_RND * ( B_TT_PT_RND * tt_pt_mc[i] / 60 + c_pt_mc[i] ));
+        utilities[8] =  S_MC *  (B_COST_RND * ( B_TT_PT_RND * tt_pt_mc[i] / 60 + c_pt_mc[i] ));
 
         // SP RCC data
 
-        utilities[u_i++] =  S_RCC *  (B_COST_RND * ( B_TT_CS_RND * tt_a1_rcc[i] / 60 + c_a1_rcc[i] ));
+        utilities[9] =  S_RCC *  (B_COST_RND * ( B_TT_CS_RND * tt_a1_rcc[i] / 60 + c_a1_rcc[i] ));
 
-        utilities[u_i++] =  S_RCC *  (B_COST_RND * ( B_TT_CS_RND * tt_a2_rcc[i] / 60 + c_a2_rcc[i] ));
+        utilities[10] =  S_RCC *  (B_COST_RND * ( B_TT_CS_RND * tt_a2_rcc[i] / 60 + c_a2_rcc[i] ));
 
-        utilities[u_i++] =  S_RCC *  (B_COST_RND * ( B_TT_CS_RND * tt_a3_rcc[i] / 60 + c_a3_rcc[i] ));
+        utilities[11] =  S_RCC *  (B_COST_RND * ( B_TT_CS_RND * tt_a3_rcc[i] / 60 + c_a3_rcc[i] ));
 
         // SP RCPT data
 
-        utilities[u_i++] =  S_RCPT *  (B_COST_RND * ( B_TT_PT_RND * tt_a1_rcpt[i] / 60 + c_a1_rcpt[i] ));
+        utilities[12] =  S_RCPT *  (B_COST_RND * ( B_TT_PT_RND * tt_a1_rcpt[i] / 60 + c_a1_rcpt[i] ));
 
-        utilities[u_i++] =  S_RCPT *  (B_COST_RND * ( B_TT_PT_RND * tt_a2_rcpt[i] / 60 + c_a2_rcpt[i] ));
+        utilities[13] =  S_RCPT *  (B_COST_RND * ( B_TT_PT_RND * tt_a2_rcpt[i] / 60 + c_a2_rcpt[i] ));
 
-        utilities[u_i++] =  S_RCPT *  (B_COST_RND * ( B_TT_PT_RND * tt_a3_rcpt[i] / 60 + c_a3_rcpt[i] ));
+        utilities[14] =  S_RCPT *  (B_COST_RND * ( B_TT_PT_RND * tt_a3_rcpt[i] / 60 + c_a3_rcpt[i] ));
 
 
         //dont edit beflow this line
