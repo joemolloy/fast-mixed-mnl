@@ -1,3 +1,0 @@
-import(RcppEigen)
-importFrom(Rcpp, evalCpp)
-useDynLib(fastutility, .registration = TRUE)
