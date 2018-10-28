@@ -6,7 +6,7 @@
 #include <omp.h>
 #include <Rcpp.h>
 
-#include "../test_package/fastutility/inst/include/maxLogLikelihood.h"
+#include "../fastutility/inst/include/maxLogLikelihood.h"
 
 using namespace Rcpp;
 
@@ -118,7 +118,7 @@ void utilityFunction()
 
   //for parallel, decide on private, shared varaibles
   int nthreads = omp_get_num_threads();
-  //printf("Number of threads = %d\n", nthreads);
+  printf("Number of threads = %d\n", nthreads);
 
 
   #pragma omp parallel
@@ -132,26 +132,26 @@ void utilityFunction()
 
       int tid = omp_get_thread_num();
 
-      for (int draw=0; draw<Ndraws; draw++) {
+      for (int d=0; d<Ndraws; d++) {
 
-        int draw_index = individual_index * Ndraws + draw; //drawsrep give the index of the draw, based on id, which we dont want to carry in here.
-        NumericMatrix::Row dr = draws(draw_index, _);
+        int draw_index = individual_index * Ndraws + d; //drawsrep give the index of the draw, based on id, which we dont want to carry in here.
+        NumericMatrix::Row draw = draws(draw_index, _);
 
 
-        double B_COST_RND = -exp( B_COST + dr[0] * SIGMA_SCALE ) ;
+        double B_COST_RND = -exp( B_COST + draw[0] * SIGMA_SCALE ) ;
 
-        double B_TT_W_RND  = ( B_TT_W + dr[1] * SIGMA_TT_W )  ;
-        double B_TT_B_RND  = ( B_TT_B + dr[2] * SIGMA_TT_B ) ;
-        double B_TT_C_RND  = ( B_TT_C + dr[3] * SIGMA_TT_C ) ;
-        double B_TT_PT_RND = ( B_TT_PT + dr[4] * SIGMA_TT_PT ) ;
-        double B_TT_CS_RND = ( B_TT_CS + dr[5] * SIGMA_TT_CS ) ;
-        double B_TT_CP_RND = ( B_TT_CP + dr[6] * SIGMA_TT_CP ) ;
+        double B_TT_W_RND  = ( B_TT_W + draw[1] * SIGMA_TT_W )  ;
+        double B_TT_B_RND  = ( B_TT_B + draw[2] * SIGMA_TT_B ) ;
+        double B_TT_C_RND  = ( B_TT_C + draw[3] * SIGMA_TT_C ) ;
+        double B_TT_PT_RND = ( B_TT_PT + draw[4] * SIGMA_TT_PT ) ;
+        double B_TT_CS_RND = ( B_TT_CS + draw[5] * SIGMA_TT_CS ) ;
+        double B_TT_CP_RND = ( B_TT_CP + draw[6] * SIGMA_TT_CP ) ;
 
-        double ASC_W_RNP  = ASC_W + dr[7] * SIGMA_W ;
-        double ASC_B_RNP  = ASC_B + dr[8] * SIGMA_B ;
-        double ASC_C_RNP  = ASC_C + dr[9] * SIGMA_C ;
-        double ASC_CS_RNP  = ASC_CS + dr[10] * SIGMA_CS ;
-        double ASC_CP_RNP  = ASC_CP + dr[11] * SIGMA_CP ;
+        double ASC_W_RNP  = ASC_W + draw[7] * SIGMA_W ;
+        double ASC_B_RNP  = ASC_B + draw[8] * SIGMA_B ;
+        double ASC_C_RNP  = ASC_C + draw[9] * SIGMA_C ;
+        double ASC_CS_RNP  = ASC_CS + draw[10] * SIGMA_CS ;
+        double ASC_CP_RNP  = ASC_CP + draw[11] * SIGMA_CP ;
 
         ///wen want to convert tt_w_rp into tt_w_rp[i]
         // want to detect all the variables used, check if they are in the dataframe, then generate the vectors above.
@@ -210,9 +210,9 @@ void utilityFunction()
 
         #pragma omp critical
         {
-                P(individual_index, draw) += log(p_choice); //sum up the draws as we go along.
+                P(individual_index, d) += log(p_choice); //sum up the draws as we go along.
         }
-    //    printf("Hello world from omp thread %d - %d %d | %d %d\n", tid, i, draw, individual_index, draw_index);
+    //   printf("Hello world from omp thread %d - %d %d | %d %d\n", tid, i, draw, individual_index, draw_index);
 
       }
 

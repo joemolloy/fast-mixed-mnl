@@ -11,7 +11,7 @@ rm(list = ls())
 
 # source code
 
-load("../checkpoint.RData")
+load("checkpoint.RData")
 
 #source("source_code.R") # estimation/postestimation
 #source("texout.R")      # creates formatted latex output
@@ -19,7 +19,7 @@ load("../checkpoint.RData")
 
 # overall settings
 library(fastutility)
-  #backups incase we run on the local session
+#backups incase we run on the local session
 p = matrix(0, nrow=N, ncol=Ndraws)
 
 n <- as.integer(N)
@@ -49,7 +49,7 @@ availabilities = as.matrix(data1[,(4+1):(4+15)])
 
 library(Rcpp)
 library(fastutility)
-sourceCpp(file = "TestUtilityFunction.cpp")
+sourceCpp(file = "run_mixl/cpp_utility.cpp")
 individualLL(beta, data1, N, availabilities, draws, Ndraws, p)
 
 
@@ -71,8 +71,8 @@ runMaxLik (data, availabilities, N, beta, draws, Ndraws, p) {
   individualLL <- compileUtilityFunction() # - gives the parallel c++ utility function - maybe can precompile this? or does caching handle this already
 
   loglike <- function (beta) {
-      LL <- individualLL (beta, data, N, availabilities, draws, Ndraws, p)
-      return (LL)
+    LL <- individualLL (beta, data, N, availabilities, draws, Ndraws, p)
+    return (LL)
   }
 
   model <- maxLik::maxLik (loglike,start=beta,fixed=fixedparams,method="BFGS",print.level=3,iterlim=10000)
