@@ -1,124 +1,160 @@
 library(stringr)
 library(readr)
 
-utility_script <- readr::read_file("../run_mixl/utility_script.txt")
 
-comment_regex = "/\\*+[^*]*\\\\*+(?:[^/*][^*]*\\\\*+)*/";
-without_comments <- stringr::str_replace(utility_script, comment_regex,"")
-cat(without_comments)
-text <- "B_TT_W_RND  = ( B_TT_W + draw1 * SIGMA_TT_W );"
-
-reserved_words = c("utilities", "draw", "exp", "log") #TODO: ecclu
+reserved_words = c("utilities") #TODO: ecclu
 
 beta_pattern <- "@(\\w+)"
 draw_pattern <- "draw(\\d+)"
 data_pattern <- "\\$(\\w+)"
-
 new_vars_pattern <- "^\\w+"
 
-data_text <- "aaaa $test_col eee"
+extract_new_vars <- function (var_lines) {
 
-data_names <- names(data)
-beta_names <- names(beta)
-
-#get new vars - they need to be excluded, and then prepended with double later
-script_lines <- str_split(utility_script, "\n")[[1]]
-#filter out comment lines and rejoin
-code_lines <-  script_lines[
-  !startsWith(script_lines, "//") &
-    !startsWith(script_lines, "#")  &
-    nchar(script_lines) > 0
-]
-
-var_lines <- code_lines[!startsWith(code_lines, "utilities")]
-util_lines <- code_lines[startsWith(code_lines, "utilities")]
-
-#get new declared vars in script
-script_new_vars = sapply(var_lines, function (s) str_extract_all(s, new_vars_pattern)[[1]])
-script_new_vars = setdiff(script_new_vars, reserved_words)
-script_new_vars
-
-script_draws = str_extract_all(utility_script,draw_pattern)[[1]]
+  script_new_vars <- sapply(var_lines, function (s) str_extract_all(s, new_vars_pattern)[[1]])
+  script_new_vars <- setdiff(script_new_vars, reserved_words)
+  return (script_new_vars)
+}
 
 trim_marker <- function(s) stringr::str_sub(s, 2)
-get_variables <- function(text, pattern) {
+
+extract_var <- function(text, pattern) {
+
   script_els = str_extract_all(text,pattern)[[1]]
   unqiue_els = unique(script_els)
   return (sapply(unqiue_els, trim_marker))
 }
 
-#check data_els are in the data list
-data_els1 = get_variables(utility_script,data_pattern)
-script_betas = get_variables(utility_script,beta_pattern)
+extract_variables <- function (source_txt) {
+  e <- new.env()
+  e$source <- source_txt
 
-data_errors <- setdiff(data_els1, data_names)
-beta_errors <- setdiff(script_betas, beta_names)
+  script_lines <- str_split(source_txt, "\n")[[1]]
+  #filter out comment lines
+  code_lines <-  script_lines[
+    !startsWith(script_lines, "//") &
+      !startsWith(script_lines, "#")  &
+      nchar(script_lines) > 0
+    ]
 
+  e$code_lines <- code_lines
 
-#need to capture script betas which aren't anything else
+  e$var_lines <- code_lines[!startsWith(code_lines, "utilities") & grepl("\\w", code_lines)]
+  e$util_lines <- code_lines[startsWith(code_lines, "utilities")]
 
+  e$new_vars = extract_new_vars(e$var_lines)
+  e$draws = str_extract_all(source_txt,draw_pattern)[[1]]
 
+  e$data_cols = extract_var(source_txt,data_pattern)
+  e$betas = extract_var(source_txt,beta_pattern)
 
+ return (e)
 
-
-
-valid = TRUE
-
-if (length(data_errors) > 0) {
-  valid = FALSE
-  print("The following variables are not available in the dataset:")
-  data_errors
 }
 
-#check betas are all in the beta list
-if (length(beta_errors) > 0) {
-  valid = FALSE
-  print("The following coefficients are not named:")
-  beta_errors
+validate_env <- function (e, data_names, beta_names) {
+
+  e$data_errors <- setdiff(e$data_cols, data_names)
+  e$beta_errors <- setdiff(e$betas, beta_names)
+
+  valid = TRUE
+  data_msg = c()
+  beta_msg = c()
+
+  e1$errors = list()
+
+  if (length(e1$data_errors) > 0) {
+    valid = FALSE
+    data_msg <- paste("The following variables are not available in the dataset:", data_errors)
+  }
+
+  #check betas are all in the beta list
+  if (length(e1$beta_errors) > 0) {
+    valid = FALSE
+    beta_msg <- paste("The following coefficients are not named:", beta_errors)
+  }
+
+  #check highest draw number is lower than requested
+  #TODO
+
+  e1$is_valid <- valid
+  e1$error_messages <- c(data_msg, beta_msg)
+
+  return (valid)
+
 }
 
-#check highest draw number is lower than requested
 
-if (valid) { #start making the replacements
 
-  col_name = "test_col"
+
+convert_to_valid_cpp <- function(cpp_template, e1) {
+
   data_prefix <- "data_"
   data_sub <- str_glue("{data_prefix}\\1[i]")
   draw_sub <- "draw[\\1]"
 
   #build data column vector initialization code
   data_var_init_text <- 'const NumericVector {data_prefix}{col_name} = data["{col_name}"];'
-  data_inits_vec <- sapply(data_els1, function (col_name) str_glue(data_var_init_text)) #vector creation
+  data_inits_vec <- sapply(e1$data_cols, function (col_name) str_glue(data_var_init_text)) #vector creation
   data_declarations <-stringi::stri_paste(data_inits_vec, collapse="\n")
 
   #build betas initialization code
   beta_var_init_text <- 'double {beta_name} = beta1["{beta_name}"];'
-  beta_inits_vec <- sapply(script_betas, function (beta_name) str_glue(beta_var_init_text)) #vector creation
+  beta_inits_vec <- sapply(e1$betas, function (beta_name) str_glue(beta_var_init_text)) #vector creation
   beta_declarations <- stringi::stri_paste(beta_inits_vec, collapse="\n")
 
 
   #add double type to new var initialization
-  var_initialisations_list <- lapply(var_lines, function(s) paste("double", s))
+  var_initialisations_list <- lapply(e1$var_lines, function(s) paste("double", s))
 
-  ccode <- c(var_initialisations_list, util_lines)
+  ccode <- c(var_initialisations_list, c("\n"), e1$util_lines)
   #replace data and draws
   script_w_data <- str_replace_all(ccode, data_pattern, data_sub)
   script_w_data_draws <- str_replace_all(script_w_data, draw_pattern, draw_sub)
   script_wo_ats <- str_replace_all(script_w_data_draws, beta_pattern, "\\1")
   draw_and_utility_declarations <- stringi::stri_paste(script_wo_ats, collapse="\n")
 
+  #fill in template
+  cpp_code <- stringr::str_glue(cpp_template, .open="!===", .close="===!")
 
-
-  #write out result
-  cpp_template <- readr::read_file("../run_mixl/cpp_utility_template.cpp")
-  r <- stringr::str_glue(cpp_template, .open="!===", .close="===!")
-
-  output_file <- "../run_mixl/cpp_utility_processed.cpp"
-  readr::write_file(r, output_file)
-  Rcpp::sourceCpp(output_file)
-getwd()
+  return (cpp_code)
 
 }
+
+
+#' @export
+preprocess_file <- function (utility_script, cpp_template, data, beta, output_file = NULL) {
+
+  data_names <- names(data)
+  beta_names <- names(beta)
+
+  e1 = extract_and_Check_variables(utility_script)
+
+  validate_env(e1, data_names, beta_names)
+
+  if (e1$is_valid) { #start making the replacements
+
+    cpp_code <- convert_to_valid_cpp(cpp_template, e1=e1)
+
+    if (!is.null(output_file)) {
+      readr::write_file(cpp_code, output_file)
+
+    }
+
+  } else {
+    stop (paste(c("The utility script is not valid", e1$error_messages), collapse = "\n"))
+  }
+}
+
+load("../checkpoint.RData")
+
+cpp_template <- readr::read_file("../run_mixl/cpp_utility_template.cpp")
+utility_script <- readr::read_file("../run_mixl/utility_script.txt")
+output_file <- "../run_mixl/cpp_utility_processed.cpp"
+
+preprocess_file(utility_script, cpp_template, output_file, data, beta)
+
+
 
 
 

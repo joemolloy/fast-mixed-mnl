@@ -141,6 +141,8 @@ double ASC_B_RNP  = ASC_B + draw[8] * SIGMA_B ;
 double ASC_C_RNP  = ASC_C + draw[9] * SIGMA_C ;
 double ASC_CS_RNP  = ASC_CS + draw[10] * SIGMA_CS ;
 double ASC_CP_RNP  = ASC_CP + draw[11] * SIGMA_CP ;
+
+
 utilities[0] =  1 * (ASC_W_RNP + B_COST_RND * B_TT_W_RND * data_tt_w_rp[i] / 60 );
 utilities[1] =  1 * (ASC_B_RNP + B_COST_RND * B_TT_B_RND * data_tt_b_rp[i] / 60 );
 utilities[2] =  1 * (ASC_C_RNP + B_COST_RND * ( B_TT_C_RND * data_tt_c_rp[i] / 60 +  data_tc_c_rp[i] ));
@@ -155,7 +157,7 @@ utilities[10] =  S_RCC *  (B_COST_RND * ( B_TT_CS_RND * data_tt_a2_rcc[i] / 60 +
 utilities[11] =  S_RCC *  (B_COST_RND * ( B_TT_CS_RND * data_tt_a3_rcc[i] / 60 + data_c_a3_rcc[i] ));
 utilities[12] =  S_RCPT *  (B_COST_RND * ( B_TT_PT_RND * data_tt_a1_rcpt[i] / 60 + data_c_a1_rcpt[i] ));
 utilities[13] =  S_RCPT *  (B_COST_RND * ( B_TT_PT_RND * data_tt_a2_rcpt[i] / 60 + data_c_a2_rcpt[i] ));
-utilities[14] =  S_RCPT *  (B_COST_RND * ( B_TT_PT_RND * data_tt_a3_rcpt[i] / 60 + data_c_a3_rcpt[i] ));
+utilities[14] =  S_RCPT *  (B_COST_RND * ( B_TT_PT_RND * data_tt_a3_rcpt[i] / 60 + data_c_a3_rcpt[i] ));
 
         //dont edit beflow this line
         for (int k=0; k < utilities.size(); ++k) {
@@ -198,3 +200,4 @@ utilities[14] =  S_RCPT *  (B_COST_RND * ( B_TT_PT_RND * data_tt_a3_rcpt[i] / 60
 
 
 
+

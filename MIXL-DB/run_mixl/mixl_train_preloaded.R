@@ -49,15 +49,16 @@ availabilities = as.matrix(data1[,(4+1):(4+15)])
 
 library(Rcpp)
 library(fastutility)
-sourceCpp(file = "run_mixl/cpp_utility.cpp")
+sourceCpp(file = "../run_mixl/cpp_utility.cpp")
 individualLL(beta, data1, N, availabilities, draws, Ndraws, p)
 
 
 ####################
 
 compileUtilityFunction <- function( file ) {
-  processed_script <- preprocess_file(file, save_location)
-  sourceCpp(fnName, code = processed_script)
+  utility_script, cpp_template, data, beta, output_file = NULL
+  processed_script <- fastutility::preprocess_file(file, save_location)
+  sourceCpp(code = processed_script)
 
   return (fnName) #TODO: need to make sure the function is returned
 
