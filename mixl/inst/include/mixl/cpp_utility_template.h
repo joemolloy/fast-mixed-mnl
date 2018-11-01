@@ -1,12 +1,12 @@
 // [[Rcpp::plugins(cpp11)]]
 // [[Rcpp::plugins(openmp)]]
 // [[Rcpp::depends(RcppEigen)]]
-// [[Rcpp::depends(fastutility)]]
+// [[Rcpp::depends(mixl)]]
 
 #include <omp.h>
 #include <Rcpp.h>
 
-#include "../fastutility/inst/include/maxLogLikelihood.h"
+#include <mixl/maxLogLikelihood.h>
 
 using namespace Rcpp;
 
@@ -96,10 +96,9 @@ void utilityFunction()
 
   //      printf("%f, %f\n", chosen_utility, sum_utilities);
 
-        #pragma omp critical
-        {
-                P(individual_index, d) += log(p_choice); //sum up the draws as we go along.
-        }
+        #pragma omp atomic
+        P(individual_index, d) += log(p_choice); //sum up the draws as we go along.
+        
     //   printf("Hello world from omp thread %d - %d %d | %d %d\n", tid, i, draw, individual_index, draw_index);
 
       }

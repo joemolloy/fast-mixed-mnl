@@ -48,10 +48,10 @@ extract_variables <- function (source_txt) {
 
 }
 
-validate_env <- function (e, data_names, beta_names) {
+validate_env <- function (e1, data_names, beta_names) {
 
-  e$data_errors <- setdiff(e$data_cols, data_names)
-  e$beta_errors <- setdiff(e$betas, beta_names)
+  e1$data_errors <- setdiff(e1$data_cols, data_names)
+  e1$beta_errors <- setdiff(e1$betas, beta_names)
 
   valid = TRUE
   data_msg = c()
@@ -135,13 +135,22 @@ preprocess_file <- function (utility_script, cpp_template, data, beta, output_fi
     if (!is.null(output_file)) {
       readr::write_file(cpp_code, output_file)
 
-    }
+    } else 
+      return (cpp_code)
 
   } else {
     stop (paste(c("The utility script is not valid", e1$error_messages), collapse = "\n"))
   }
 }
 
+#' @export
+compileUtilityFunction <- function( script, data, betas ) {
+  header_file_location <- system.file("include", "mixl", "cpp_utility_template.h", package = "mixl")
+  cpp_template <- readr::read_file(header_file_location)
+  ccode <- mixl::preprocess_file(script, cpp_template, data, betas)
+  Rcpp::sourceCpp(code = ccode)
+  
+}
 
 #load("../checkpoint.RData")
 

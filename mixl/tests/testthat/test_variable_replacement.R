@@ -54,6 +54,9 @@ test_that("declarations are put into a template", {
 
 
 
-test_that("a valid file processes correctly", {
-
+test_that("a valid file processes without failing", {
+  data_names <- c("data_tt_w_rp", "data_tt_b_rp")
+  beta_names <- c("B_COST", "SIGMA_SCALE", "ASC_C", "SIGMA_C", "ASC_CS", "SIGMA_CS", "ASC_CP", "SIGMA_CP") ;
+  
+  expect_silent(validate_env(e1, data_names, beta_names))
 })

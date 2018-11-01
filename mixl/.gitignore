@@ -7,7 +7,7 @@
 
 # Example code in package build process
 *-Ex.R
-
+*.dll
 # Output files from R CMD build
 /*.tar.gz
 

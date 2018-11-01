@@ -1,4 +1,4 @@
 library(testthat)
-library(fastutility)
+library(mixl)
 
-test_check("fastutility")
+test_check("mixl")

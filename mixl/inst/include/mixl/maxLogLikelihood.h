@@ -28,9 +28,9 @@ NumericVector runUtilityFunction() {
   double logNdraws = log(Ndraws);
 
  //TODO: parallelise this as well
-  for (int i=0; i<Nindividuals; ++i) {
+  for (int i=0; i<Nindividuals; i++) {
     double s = 0;
-    for (int draw=0; draw<Ndraws; ++draw) {
+    for (int draw=0; draw<Ndraws; draw++) {
       s += exp(P(i,draw));
     }
 
