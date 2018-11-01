@@ -52,7 +52,7 @@ test_that("spacing after the variables is handled correctly", {
 })
 
 test_that("utilities length - ignore commented lines", {
-  expect_length(2, e1$util_liness)
+  expect_equal(2, length(e1$util_lines))
 })
 
 bad_text1 = ""

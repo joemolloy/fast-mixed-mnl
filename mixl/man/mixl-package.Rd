@@ -1,6 +1,6 @@
-\name{blah-package}
-\alias{blah-package}
-\alias{blah}
+\name{mixl-package}
+\alias{mixl-package}
+\alias{mixl}
 \docType{package}
 \title{
   A short title line describing what the package does

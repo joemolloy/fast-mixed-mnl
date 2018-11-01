@@ -1,11 +1,15 @@
-Package: fastutility
+Package: mixl
 Type: Package
 Title: What the Package Does in One 'Title Case' Line
 Version: 1.0
-Date: 2018-10-31
+Date: 2018-11-01
 Author: Your Name
 Maintainer: Your Name <your@email.com>
 Description: One paragraph description of what the package does as one or more full sentences.
 License: GPL (>= 2)
-Encoding: UTF-8
-LazyData: true
+Imports:
+  readr,
+  stringr,
+   Rcpp (>= 0.12.19)
+LinkingTo: Rcpp
+Suggests: testthat

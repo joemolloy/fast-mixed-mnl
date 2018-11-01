@@ -1,7 +1,3 @@
-library(stringr)
-library(readr)
-
-
 reserved_words = c("utilities") #TODO: ecclu
 
 beta_pattern <- "@(\\w+)"
@@ -11,7 +7,7 @@ new_vars_pattern <- "^\\w+"
 
 extract_new_vars <- function (var_lines) {
 
-  script_new_vars <- sapply(var_lines, function (s) str_extract_all(s, new_vars_pattern)[[1]])
+  script_new_vars <- sapply(var_lines, function (s) stringr::str_extract_all(s, new_vars_pattern)[[1]])
   script_new_vars <- setdiff(script_new_vars, reserved_words)
   return (script_new_vars)
 }
@@ -20,7 +16,7 @@ trim_marker <- function(s) stringr::str_sub(s, 2)
 
 extract_var <- function(text, pattern) {
 
-  script_els = str_extract_all(text,pattern)[[1]]
+  script_els = stringr::str_extract_all(text,pattern)[[1]]
   unqiue_els = unique(script_els)
   return (sapply(unqiue_els, trim_marker))
 }
@@ -29,7 +25,7 @@ extract_variables <- function (source_txt) {
   e <- new.env()
   e$source <- source_txt
 
-  script_lines <- str_split(source_txt, "\n")[[1]]
+  script_lines <- stringr::str_split(source_txt, "\n")[[1]]
   #filter out comment lines
   code_lines <-  script_lines[
     !startsWith(script_lines, "//") &
@@ -43,7 +39,7 @@ extract_variables <- function (source_txt) {
   e$util_lines <- code_lines[startsWith(code_lines, "utilities")]
 
   e$new_vars = extract_new_vars(e$var_lines)
-  e$draws = str_extract_all(source_txt,draw_pattern)[[1]]
+  e$draws = stringr::str_extract_all(source_txt,draw_pattern)[[1]]
 
   e$data_cols = extract_var(source_txt,data_pattern)
   e$betas = extract_var(source_txt,beta_pattern)
@@ -65,13 +61,13 @@ validate_env <- function (e, data_names, beta_names) {
 
   if (length(e1$data_errors) > 0) {
     valid = FALSE
-    data_msg <- paste("The following variables are not available in the dataset:", data_errors)
+    data_msg <- paste("The following variables are not available in the dataset:", e1$data_errors)
   }
 
   #check betas are all in the beta list
   if (length(e1$beta_errors) > 0) {
     valid = FALSE
-    beta_msg <- paste("The following coefficients are not named:", beta_errors)
+    beta_msg <- paste("The following coefficients are not named:", e1$beta_errors)
   }
 
   #check highest draw number is lower than requested
@@ -90,18 +86,18 @@ validate_env <- function (e, data_names, beta_names) {
 convert_to_valid_cpp <- function(cpp_template, e1) {
 
   data_prefix <- "data_"
-  data_sub <- str_glue("{data_prefix}\\1[i]")
+  data_sub <- stringr::str_glue("{data_prefix}\\1[i]")
   draw_sub <- "draw[\\1]"
 
   #build data column vector initialization code
   data_var_init_text <- 'const NumericVector {data_prefix}{col_name} = data["{col_name}"];'
-  data_inits_vec <- sapply(e1$data_cols, function (col_name) str_glue(data_var_init_text)) #vector creation
-  data_declarations <-stringi::stri_paste(data_inits_vec, collapse="\n")
+  data_inits_vec <- sapply(e1$data_cols, function (col_name) stringr::str_glue(data_var_init_text)) #vector creation
+  data_declarations <- paste(data_inits_vec, collapse="\n")
 
   #build betas initialization code
   beta_var_init_text <- 'double {beta_name} = beta1["{beta_name}"];'
-  beta_inits_vec <- sapply(e1$betas, function (beta_name) str_glue(beta_var_init_text)) #vector creation
-  beta_declarations <- stringi::stri_paste(beta_inits_vec, collapse="\n")
+  beta_inits_vec <- sapply(e1$betas, function (beta_name) stringr::str_glue(beta_var_init_text)) #vector creation
+  beta_declarations <- paste(beta_inits_vec, collapse="\n")
 
 
   #add double type to new var initialization
@@ -109,10 +105,10 @@ convert_to_valid_cpp <- function(cpp_template, e1) {
 
   ccode <- c(var_initialisations_list, c("\n"), e1$util_lines)
   #replace data and draws
-  script_w_data <- str_replace_all(ccode, data_pattern, data_sub)
-  script_w_data_draws <- str_replace_all(script_w_data, draw_pattern, draw_sub)
-  script_wo_ats <- str_replace_all(script_w_data_draws, beta_pattern, "\\1")
-  draw_and_utility_declarations <- stringi::stri_paste(script_wo_ats, collapse="\n")
+  script_w_data <- stringr::str_replace_all(ccode, data_pattern, data_sub)
+  script_w_data_draws <- stringr::str_replace_all(script_w_data, draw_pattern, draw_sub)
+  script_wo_ats <- stringr::str_replace_all(script_w_data_draws, beta_pattern, "\\1")
+  draw_and_utility_declarations <- paste(script_wo_ats, collapse="\n")
 
   #fill in template
   cpp_code <- stringr::str_glue(cpp_template, .open="!===", .close="===!")
@@ -128,7 +124,7 @@ preprocess_file <- function (utility_script, cpp_template, data, beta, output_fi
   data_names <- names(data)
   beta_names <- names(beta)
 
-  e1 = extract_and_Check_variables(utility_script)
+  e1 = extract_variables(utility_script)
 
   validate_env(e1, data_names, beta_names)
 
