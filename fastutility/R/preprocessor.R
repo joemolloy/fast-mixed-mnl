@@ -146,13 +146,14 @@ preprocess_file <- function (utility_script, cpp_template, data, beta, output_fi
   }
 }
 
-load("../checkpoint.RData")
 
-cpp_template <- readr::read_file("../run_mixl/cpp_utility_template.cpp")
-utility_script <- readr::read_file("../run_mixl/utility_script.txt")
-output_file <- "../run_mixl/cpp_utility_processed.cpp"
+#load("../checkpoint.RData")
 
-preprocess_file(utility_script, cpp_template, output_file, data, beta)
+#cpp_template <- readr::read_file("../run_mixl/cpp_utility_template.cpp")
+#utility_script <- readr::read_file("../run_mixl/utility_script.txt")
+#output_file <- "../run_mixl/cpp_utility_processed.cpp"
+
+#preprocess_file(utility_script, cpp_template, output_file, data, beta)
 
 
 
