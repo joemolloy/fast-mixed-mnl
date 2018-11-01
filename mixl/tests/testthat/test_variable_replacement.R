@@ -53,6 +53,12 @@ test_that("declarations are put into a template", {
 })
 
 
+test_that("draw replacement function works well", {
+  expect_true(FALSE)
+})
+
+
+
 
 test_that("a valid file processes without failing", {
   data_names <- c("data_tt_w_rp", "data_tt_b_rp")

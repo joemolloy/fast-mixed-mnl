@@ -38,8 +38,9 @@ extract_variables <- function (source_txt) {
   e$var_lines <- code_lines[!startsWith(code_lines, "utilities") & grepl("\\w", code_lines)]
   e$util_lines <- code_lines[startsWith(code_lines, "utilities")]
 
-  e$new_vars = extract_new_vars(e$var_lines)
-  e$draws = stringr::str_extract_all(source_txt,draw_pattern)[[1]]
+  e$new_vars <- extract_new_vars(e$var_lines)
+  e$draws <- unique(stringr::str_extract_all(source_txt,draw_pattern)[[1]])
+  e$draw_dimensions <- length(e$draws)
 
   e$data_cols = extract_var(source_txt,data_pattern)
   e$betas = extract_var(source_txt,beta_pattern)
@@ -79,7 +80,7 @@ validate_env <- function (e1, data_names, beta_names) {
   return (valid)
 
 }
-
+#TODO: decide if draws should be changed everywhere!
 
 
 
@@ -88,6 +89,12 @@ convert_to_valid_cpp <- function(cpp_template, e1) {
   data_prefix <- "data_"
   data_sub <- stringr::str_glue("{data_prefix}\\1[i]")
   draw_sub <- "draw[\\1]"
+  
+  draw_sub2 <- setNames(c(0:e1$draw_dimensions-1), e1$draws)
+  
+  d_sub_f <- function(draw_name) {
+    paste0("draw[", draw_sub2[draw_name], "]")
+  }
 
   #build data column vector initialization code
   data_var_init_text <- 'const NumericVector {data_prefix}{col_name} = data["{col_name}"];'
@@ -106,7 +113,7 @@ convert_to_valid_cpp <- function(cpp_template, e1) {
   ccode <- c(var_initialisations_list, c("\n"), e1$util_lines)
   #replace data and draws
   script_w_data <- stringr::str_replace_all(ccode, data_pattern, data_sub)
-  script_w_data_draws <- stringr::str_replace_all(script_w_data, draw_pattern, draw_sub)
+  script_w_data_draws <- stringr::str_replace_all(script_w_data, draw_pattern, d_sub_f)
   script_wo_ats <- stringr::str_replace_all(script_w_data_draws, beta_pattern, "\\1")
   draw_and_utility_declarations <- paste(script_wo_ats, collapse="\n")
 
@@ -131,12 +138,12 @@ preprocess_file <- function (utility_script, cpp_template, data, beta, output_fi
   if (e1$is_valid) { #start making the replacements
 
     cpp_code <- convert_to_valid_cpp(cpp_template, e1=e1)
+    e1$cpp_code <- cpp_code
 
     if (!is.null(output_file)) {
       readr::write_file(cpp_code, output_file)
-
-    } else 
-      return (cpp_code)
+    }
+    return (e1)
 
   } else {
     stop (paste(c("The utility script is not valid", e1$error_messages), collapse = "\n"))
@@ -147,8 +154,9 @@ preprocess_file <- function (utility_script, cpp_template, data, beta, output_fi
 compileUtilityFunction <- function( script, data, betas ) {
   header_file_location <- system.file("include", "mixl", "cpp_utility_template.h", package = "mixl")
   cpp_template <- readr::read_file(header_file_location)
-  ccode <- mixl::preprocess_file(script, cpp_template, data, betas)
-  Rcpp::sourceCpp(code = ccode)
+  e1 <- mixl::preprocess_file(script, cpp_template, data, betas)
+  Rcpp::sourceCpp(code = e1$cpp_code)
+  return (e1)
   
 }
 
