@@ -1,3 +1,4 @@
 #useDynLib(mixl, .registration=TRUE)
 exportPattern("^[[:alpha:]]+")
+import("nloptr")
 importFrom(Rcpp, evalCpp)

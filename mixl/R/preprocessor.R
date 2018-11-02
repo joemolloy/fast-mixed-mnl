@@ -90,7 +90,7 @@ convert_to_valid_cpp <- function(cpp_template, e1) {
   data_sub <- stringr::str_glue("{data_prefix}\\1[i]")
   draw_sub <- "draw[\\1]"
   
-  draw_sub2 <- setNames(c(0:e1$draw_dimensions-1), e1$draws)
+  draw_sub2 <- setNames(c(0:(e1$draw_dimensions-1)), e1$draws)
   
   d_sub_f <- function(draw_name) {
     paste0("draw[", draw_sub2[draw_name], "]")

@@ -11,6 +11,7 @@ Imports:
   readr,
   stringr,
    Rcpp (>= 0.12.19),
-   RcppEigen
-LinkingTo: Rcpp, RcppEigen
+   RcppEigen,
+   nloptr (>= 1.2.0)
+LinkingTo: Rcpp, RcppEigen, nloptr (>= 1.2.0)
 Suggests: testthat

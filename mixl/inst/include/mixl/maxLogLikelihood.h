@@ -1,29 +1,29 @@
-
 #include <RcppEigen.h>
+#include <nloptrAPI.h>
 
 using namespace Rcpp;
 
 namespace v {
-  NumericVector beta1;
   DataFrame data;
   int Nindividuals;
   IntegerMatrix availabilities;
   NumericMatrix draws;
   int Ndraws;
-  Eigen::MatrixXd P;
-
+  NumericMatrix P;
+  StringVector beta_names;
   NumericVector LL(Nindividuals);
 
 } ;
 
-void utilityFunction();
+void utilityFunction(NumericVector betas);
 
-NumericVector runUtilityFunction() {
-
+NumericVector runUtilityFunction(NumericVector betas) {
   using namespace v;
-  utilityFunction();
+  
+  std::fill(LL.begin(), LL.end(), 8);
 
-  NumericVector LL(Nindividuals);
+  utilityFunction(betas);
+
   double logNdraws = log(Ndraws);
 
  //TODO: parallelise this as well
@@ -40,6 +40,67 @@ NumericVector runUtilityFunction() {
   return LL;
 
 }
+
+
+static int fcount = 0;
+
+using namespace Rcpp;
+using namespace Eigen;
+
+using namespace v;
+
+
+typedef Map<const VectorXd>  ConstVectorT ;
+typedef Map<VectorXd>  VectorT ;
+typedef Eigen::Ref<const VectorXd> RefVec;
+
+double value(const RefVec  x) {
+  NumericVector xx = wrap(x);
+  xx.names() = beta_names;
+  
+  
+  NumericVector v = runUtilityFunction(xx);
+  double llsum = std::accumulate(v.begin(), v.end(), 0.0);
+  
+  return llsum;
+}
+
+
+double myfunc(unsigned n, const double *x, double *grad, void *my_func_data) {
+  fcount++;
+  
+  ConstVectorT xx (x, n);
+  VectorT gg (grad, n);
+  
+  const double eps = 2e-06;
+  
+  if (grad) {
+    
+    VectorXd xx1 = xx;
+    VectorXd xx2 = xx;
+    
+    for (unsigned i = 0; i < n; i++) {
+      grad[i] = 0;
+      {
+        double temp1 = xx1[i];
+        double temp2 = xx2[i];
+        xx1[i] -= eps;
+        xx2[i] += eps;
+        grad[i] += (value(xx2) - value(xx1))/(2*eps);
+        xx1[i] = temp1;
+        xx2[i] = temp2;
+      }
+    }
+    
+  }
+  
+  double val = value(xx);
+  
+  Rcpp::Rcout << "iteration: " << fcount << std::setprecision(8) << val << std::endl;  
+  
+  return val;
+}
+
 
 
 

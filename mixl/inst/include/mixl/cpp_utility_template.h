@@ -1,6 +1,8 @@
 // [[Rcpp::plugins(cpp11)]]
 // [[Rcpp::plugins(openmp)]]
 // [[Rcpp::depends(RcppEigen)]]
+// [[Rcpp::depends(nloptr)]]
+// [[Rcpp::depends(stats)]]
 // [[Rcpp::depends(mixl)]]
 
 #include <omp.h>
@@ -14,33 +16,11 @@ using namespace Rcpp;
 //idea - preprocess the c++ code to declare all the variables at compilation time.
 //or - through r, check the names in the utility function, that they are in the data, and return error if not. Then desugarise and compile
 //need to distinquish between betas, random-coeefs and parameters
+using namespace v;
 
-
-// [[Rcpp::export]]
-NumericVector individualLL(NumericVector beta, //TODO const things!
-                           DataFrame data,
-                           int Nindividuals,
-                           IntegerMatrix availabilities,
-                           NumericMatrix draws,
-                           int Ndraws,
-                           NumericMatrix P) {
-  v::beta1 = beta;
-  v::data = data;
-  v::Nindividuals = Nindividuals;
-  v::availabilities = availabilities;
-  v::draws = draws;
-  v::Ndraws = Ndraws;
-  v::P = Eigen::MatrixXd::Zero(Nindividuals, Ndraws);
-  v::LL = NumericVector(Nindividuals);
-
-  NumericVector LL = runUtilityFunction();
-
-  return LL;
-}
-
-void utilityFunction()
+void utilityFunction(NumericVector beta1)
 {
-  using namespace v;
+  
   
   #pragma omp parallel
   {
@@ -48,7 +28,7 @@ void utilityFunction()
       printf("num_threads = %d\n", omp_get_num_threads());
   }
 
-  //  Rcpp::Rcout << "running utility function"<<  std::endl;
+  //Rcpp::Rcout << "running utility function"<<  std::endl;
   clock_t begin = std::clock();
 
   //delcare the variables that you will be using from the dataframe
@@ -70,6 +50,8 @@ void utilityFunction()
   for (int i=0; i < data.nrows(); i++) {
     
     int individual_index = row_ids[i]; //indexes should be for c, ie. start at 0
+    //Rcpp::Rcout << "indv: " << individual_index << std::endl;
+    
     
       for (int d=0; d<Ndraws; d++) {
         
@@ -107,13 +89,77 @@ void utilityFunction()
 
     clock_t end = std::clock();
     double elapsed_secs = 1000.0 * double(end - begin) / CLOCKS_PER_SEC;
-  Rcpp::Rcout << std::setprecision(3) << "time ms: " << elapsed_secs << std::endl;
+    Rcpp::Rcout << std::setprecision(3) << "time ms: " << elapsed_secs << std::endl;
 
 
 
 
 }
 
+// [[Rcpp::export]]
+NumericVector logLik(NumericVector start_betas, //TODO const things!
+                        DataFrame data,
+                        int Nindividuals,
+                        IntegerMatrix availabilities,
+                        NumericMatrix draws,
+                        int Ndraws,
+                        NumericMatrix P) {
+  
+  v::data = data;
+  v::Nindividuals = Nindividuals;
+  v::availabilities = availabilities;
+  v::draws = draws;
+  v::Ndraws = Ndraws;
+  v::P = P;
+  v::beta_names = start_betas.names();
+  v::LL = NumericVector(Nindividuals);
+  
+  return runUtilityFunction(start_betas);
+}
+
+
+// [[Rcpp::export]]
+NumericVector runMaxLik(NumericVector start_betas, //TODO const things!
+                        DataFrame data,
+                        int Nindividuals,
+                        IntegerMatrix availabilities,
+                        NumericMatrix draws,
+                        int Ndraws,
+                        NumericMatrix P) {
+  
+  v::data = data;
+  v::Nindividuals = Nindividuals;
+  v::availabilities = availabilities;
+  v::draws = draws;
+  v::Ndraws = Ndraws;
+  v::P = P;
+  v::beta_names = start_betas.names();
+  v::LL = NumericVector(Nindividuals);
+  
+  bool verbose=true;
+  nlopt_opt opt = nlopt_create(NLOPT_LD_LBFGS, start_betas.size()); 
+  nlopt_set_min_objective(opt, myfunc, NULL);
+  nlopt_set_xtol_rel(opt, 1e-4);
+  
+  NumericVector x(start_betas);
+  
+  double minf; 							// minimum objective value, upon return
+  fcount = 0;            	    // reset counters
+  
+  if (nlopt_optimize(opt, x.begin(), &minf) < 0) {
+    if (verbose) Rcpp::Rcout << "nlopt failed!" << std::endl;
+  } else {
+    if (verbose) {
+      Rcpp::Rcout << std::setprecision(5)
+                  << "Found minimum at f(" << x[0] << "," << x[1] << ") "
+                  << "= " << std::setprecision(8) << minf
+                  << " after " << fcount << " function"
+                  << std::endl;
+    }
+  }
+  nlopt_destroy(opt);
+  return x;
+}
 
 
 
