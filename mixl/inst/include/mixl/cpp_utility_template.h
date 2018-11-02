@@ -5,6 +5,7 @@
 
 #include <omp.h>
 #include <Rcpp.h>
+#include <RcppEigen.h>
 
 #include <mixl/maxLogLikelihood.h>
 
@@ -29,7 +30,7 @@ NumericVector individualLL(NumericVector beta, //TODO const things!
   v::availabilities = availabilities;
   v::draws = draws;
   v::Ndraws = Ndraws;
-  v::P = P;
+  v::P = Eigen::MatrixXd::Zero(Nindividuals, Ndraws);
   v::LL = NumericVector(Nindividuals);
 
   NumericVector LL = runUtilityFunction();
@@ -40,11 +41,15 @@ NumericVector individualLL(NumericVector beta, //TODO const things!
 void utilityFunction()
 {
   using namespace v;
+  
+  #pragma omp parallel
+  {
+    #pragma omp single
+      printf("num_threads = %d\n", omp_get_num_threads());
+  }
 
   //  Rcpp::Rcout << "running utility function"<<  std::endl;
   clock_t begin = std::clock();
-
-  std::fill(P.begin(), P.end(), 0);
 
   //delcare the variables that you will be using from the dataframe
   const NumericVector ids = data["ID"];
@@ -57,24 +62,17 @@ void utilityFunction()
   //data
   !=== data_declarations ===!
 
-  //for parallel, decide on private, shared varaibles
-  int nthreads = omp_get_num_threads();
-  printf("Number of threads = %d\n", nthreads);
-
-
   #pragma omp parallel
 {
   std::array<double, 15> utilities = { {0} };  //specify here the number of alternatives
 
   #pragma omp for
   for (int i=0; i < data.nrows(); i++) {
-
-      int individual_index = row_ids[i]; //indexes should be for c, ie. start at 0
-
-      int tid = omp_get_thread_num();
-
+    
+    int individual_index = row_ids[i]; //indexes should be for c, ie. start at 0
+    
       for (int d=0; d<Ndraws; d++) {
-
+        
         int draw_index = individual_index * Ndraws + d; //drawsrep give the index of the draw, based on id, which we dont want to carry in here.
         NumericMatrix::Row draw = draws(draw_index, _);
 
@@ -96,9 +94,9 @@ void utilityFunction()
 
   //      printf("%f, %f\n", chosen_utility, sum_utilities);
 
-        #pragma omp atomic
+        #pragma omp atomic 
         P(individual_index, d) += log(p_choice); //sum up the draws as we go along.
-        
+
     //   printf("Hello world from omp thread %d - %d %d | %d %d\n", tid, i, draw, individual_index, draw_index);
 
       }

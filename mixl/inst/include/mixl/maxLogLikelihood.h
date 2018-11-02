@@ -1,4 +1,3 @@
-// [[Rcpp::depends(RcppEigen)]]
 
 #include <RcppEigen.h>
 
@@ -11,7 +10,7 @@ namespace v {
   IntegerMatrix availabilities;
   NumericMatrix draws;
   int Ndraws;
-  NumericMatrix P;
+  Eigen::MatrixXd P;
 
   NumericVector LL(Nindividuals);
 

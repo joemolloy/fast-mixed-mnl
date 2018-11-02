@@ -10,6 +10,7 @@ License: GPL (>= 2)
 Imports:
   readr,
   stringr,
-   Rcpp (>= 0.12.19)
-LinkingTo: Rcpp
+   Rcpp (>= 0.12.19),
+   RcppEigen
+LinkingTo: Rcpp, RcppEigen
 Suggests: testthat
