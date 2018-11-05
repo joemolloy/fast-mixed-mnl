@@ -16,11 +16,10 @@ using namespace Rcpp;
 //idea - preprocess the c++ code to declare all the variables at compilation time.
 //or - through r, check the names in the utility function, that they are in the data, and return error if not. Then desugarise and compile
 //need to distinquish between betas, random-coeefs and parameters
-using namespace v;
 
 void utilityFunction(NumericVector beta1)
 {
-  
+  using namespace v;
   
   #pragma omp parallel
   {
@@ -74,7 +73,7 @@ void utilityFunction(NumericVector beta1)
 
         //TODO: have a flag here to store utilities in namespace v
 
-  //      printf("%f, %f\n", chosen_utility, sum_utilities);
+//        printf("%f, %f, %f\n", chosen_utility, sum_utilities, log(p_choice));
 
         #pragma omp atomic 
         P(individual_index, d) += log(p_choice); //sum up the draws as we go along.
