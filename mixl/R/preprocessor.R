@@ -1,14 +1,14 @@
-reserved_words = c("utilities") #TODO: ecclu
+utility_prefix = "U_" #TODO: ecclu
 
 beta_pattern <- "@(\\w+)"
 draw_pattern <- "draw(\\d+)"
 data_pattern <- "\\$(\\w+)"
 new_vars_pattern <- "^\\w+"
+utility_pattern <- sprintf("^%s\\w+", utility_prefix)
 
 extract_new_vars <- function (var_lines) {
 
   script_new_vars <- sapply(var_lines, function (s) stringr::str_extract_all(s, new_vars_pattern)[[1]])
-  script_new_vars <- setdiff(script_new_vars, reserved_words)
   return (script_new_vars)
 }
 
@@ -35,8 +35,11 @@ extract_variables <- function (source_txt) {
 
   e$code_lines <- code_lines
 
-  e$var_lines <- code_lines[!startsWith(code_lines, "utilities") & grepl("\\w", code_lines)]
-  e$util_lines <- code_lines[startsWith(code_lines, "utilities")]
+  e$var_lines <- code_lines[!startsWith(code_lines, utility_prefix) & grepl("\\w", code_lines)]
+  e$util_lines <- code_lines[startsWith(code_lines, utility_prefix)]
+  
+  e$num_utility_functions = length(e$util_lines)
+  e$utility_function_names = stringr::str_match(e$util_lines, utility_pattern)
 
   e$new_vars <- extract_new_vars(e$var_lines)
   e$draws <- unique(stringr::str_extract_all(source_txt,draw_pattern)[[1]])
@@ -88,12 +91,16 @@ convert_to_valid_cpp <- function(cpp_template, e1) {
 
   data_prefix <- "data_"
   data_sub <- stringr::str_glue("{data_prefix}\\1[i]")
-  draw_sub <- "draw[\\1]"
-  
-  draw_sub2 <- setNames(c(0:(e1$draw_dimensions-1)), e1$draws)
+
+  draw_sub <- setNames(c(0:(e1$draw_dimensions-1)), e1$draws)
+  utility_sub <- setNames(c(0:(e1$num_utility_functions-1)), e1$utility_function_names)
   
   d_sub_f <- function(draw_name) {
-    paste0("draw[", draw_sub2[draw_name], "]")
+    paste0("draw[", draw_sub[draw_name], "]")
+  }
+  
+  u_sub_f <- function(utility_name) {
+    paste0("utilities[", utility_sub[utility_name], "]")
   }
 
   #build data column vector initialization code
@@ -111,14 +118,16 @@ convert_to_valid_cpp <- function(cpp_template, e1) {
   var_initialisations_list <- lapply(e1$var_lines, function(s) paste("double", s))
 
   ccode <- c(var_initialisations_list, c("\n"), e1$util_lines)
+  #replace util prefixes
+  script_w_utils <- stringr::str_replace_all(ccode, utility_pattern, u_sub_f)
   #replace data and draws
-  script_w_data <- stringr::str_replace_all(ccode, data_pattern, data_sub)
+  script_w_data <- stringr::str_replace_all(script_w_utils, data_pattern, data_sub)
   script_w_data_draws <- stringr::str_replace_all(script_w_data, draw_pattern, d_sub_f)
   script_wo_ats <- stringr::str_replace_all(script_w_data_draws, beta_pattern, "\\1")
   draw_and_utility_declarations <- paste(script_wo_ats, collapse="\n")
   
   #number of utilities, take from the number of utility lines
-  utility_length = length(e1$util_lines)
+  utility_length = e1$num_utility_functions
 
   #fill in template
   cpp_code <- stringr::str_glue(cpp_template, .open="!===", .close="===!")
