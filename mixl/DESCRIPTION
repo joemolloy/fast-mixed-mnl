@@ -1,17 +1,17 @@
 Package: mixl
 Type: Package
-Title: What the Package Does in One 'Title Case' Line
+Title: Simulated Maximum Likelihood Estimation of Mixed Logit Models
 Version: 1.0
 Date: 2018-11-01
-Author: Your Name
-Maintainer: Your Name <your@email.com>
+Authors@R: person("Joseph", "Molloy", email = "joseph.molloy@ivt.baug.ethz.ch",
+  role = c("aut", "cre"))
 Description: One paragraph description of what the package does as one or more full sentences.
 License: GPL (>= 2)
 Imports:
   readr,
   stringr,
-   Rcpp (>= 0.12.19),
-   RcppEigen,
-   nloptr (>= 1.2.0)
-LinkingTo: Rcpp, RcppEigen, nloptr (>= 1.2.0)
+  maxLik,
+  numDeriv,
+  Rcpp (>= 0.12.19)
+LinkingTo: Rcpp
 Suggests: testthat

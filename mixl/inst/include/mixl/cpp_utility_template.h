@@ -1,166 +1,146 @@
-// [[Rcpp::plugins(cpp11)]]
 // [[Rcpp::plugins(openmp)]]
 // [[Rcpp::depends(RcppEigen)]]
-// [[Rcpp::depends(nloptr)]]
-// [[Rcpp::depends(stats)]]
-// [[Rcpp::depends(mixl)]]
 
-#include <omp.h>
-#include <Rcpp.h>
 #include <RcppEigen.h>
 
-#include <mixl/maxLogLikelihood.h>
-
 using namespace Rcpp;
+
+struct UF_args {
+  const DataFrame data;
+  const int Nindividuals;
+  const IntegerMatrix availabilities;
+  const NumericMatrix draws;
+  const int Ndraws;
+  NumericMatrix P;
+  StringVector beta_names;
+  
+  UF_args(DataFrame data, int Nindividuals, IntegerMatrix availabilities, NumericMatrix draws, int Ndraws, NumericMatrix P)
+    : data(data), Nindividuals(Nindividuals), availabilities(availabilities), draws(draws), Ndraws(Ndraws), P(P)
+  { }
+  
+} ;
+
+void utilityFunction(NumericVector beta1, UF_args& v);
+
+// [[Rcpp::export]]
+NumericVector logLik(NumericVector betas, //TODO const things!
+                     DataFrame data,
+                     int Nindividuals,
+                     IntegerMatrix availabilities,
+                     NumericMatrix draws,
+                     int Ndraws,
+                     NumericMatrix P, int num_threads=1) {
+  
+  omp_set_num_threads(num_threads);
+  
+  UF_args v(data, Nindividuals, availabilities, draws, Ndraws, P);
+  
+  NumericVector LL(v.Nindividuals);
+  std::fill(v.P.begin(), v.P.end(), 0);
+  
+  //Rcpp::Rcout << "running utility function"<<  std::endl;
+  double begin = omp_get_wtime();
+  
+  utilityFunction(betas, v);
+  
+  const double logNdraws = log(v.Ndraws);
+  
+  //TODO: parallelise this as well
+  //pragma omp parallel for
+  for (int i=0; i<v.Nindividuals; i++) {
+    double s = 0;
+    for (int draw=0; draw<v.Ndraws; draw++) {
+      s += exp(v.P(i,draw));
+    }
+    
+    LL[i] = log(s) - logNdraws;
+    
+  }
+  
+  double end = omp_get_wtime();
+  double elapsed_secs = double(end - begin) * 1000;
+  
+#pragma omp parallel
+{
+#pragma omp single
+  Rcpp::Rcout << std::setprecision(3) << elapsed_secs << " ms on " << omp_get_num_threads() << " threads" << std::endl;
+}
+
+
+return LL;
+}
 
 //idea - preprocess the c++ code to declare all the variables at compilation time.
 //or - through r, check the names in the utility function, that they are in the data, and return error if not. Then desugarise and compile
 //need to distinquish between betas, random-coeefs and parameters
 
-void utilityFunction(NumericVector beta1)
+void utilityFunction(NumericVector beta1, UF_args& v)
 {
-  using namespace v;
   
-  #pragma omp parallel
-  {
-    #pragma omp single
-      printf("num_threads = %d\n", omp_get_num_threads());
-  }
-
-  //Rcpp::Rcout << "running utility function"<<  std::endl;
-  clock_t begin = std::clock();
-
   //delcare the variables that you will be using from the dataframe
-  const NumericVector ids = data["ID"];
-  const NumericVector row_ids = data["p_row_id"];
-  const NumericVector choice = data["CHOICE"];
-
+  const NumericVector ids = v.data["ID"];
+  const NumericVector row_ids = v.data["p_row_id"];
+  const NumericVector choice = v.data["CHOICE"];
+  
+  /////////////////////////////////////
+  
+  
   //betas
-  !=== beta_declarations ===!
-
+  !===beta_declarations===!
+    
+  
   //data
-  !=== data_declarations ===!
-
-  #pragma omp parallel
+  !===data_declarations===!
+    
+  
+  
+  
+  /////////////////////////////////////
+  
+#pragma omp parallel
 {
-  std::array<double, 15> utilities = { {0} };  //specify here the number of alternatives
-
-  #pragma omp for
-  for (int i=0; i < data.nrows(); i++) {
+  std::vector<double> utilities(!===utility_length===!);  //specify here the number of alternatives
+  
+#pragma omp for
+  for (int i=0; i < v.data.nrows(); i++) {
     
     int individual_index = row_ids[i]; //indexes should be for c, ie. start at 0
     //Rcpp::Rcout << "indv: " << individual_index << std::endl;
+    for (int d=0; d<v.Ndraws; d++) {
+      
+      int draw_index = individual_index * v.Ndraws + d; //drawsrep give the index of the draw, based on id, which we dont want to carry in here.
+      NumericMatrix::ConstRow draw = v.draws(draw_index, _);
+      
+      std::fill(utilities.begin(), utilities.end(), 0.0);
+      
+      /////////////////////////
+      
+      !===draw_and_utility_declarations===!
     
-    
-      for (int d=0; d<Ndraws; d++) {
-        
-        int draw_index = individual_index * Ndraws + d; //drawsrep give the index of the draw, based on id, which we dont want to carry in here.
-        NumericMatrix::Row draw = draws(draw_index, _);
-
-        !=== draw_and_utility_declarations ===!
-
-        //dont edit beflow this line
-        for (int k=0; k < utilities.size(); ++k) {
-          utilities[k] = std::min(700.0, std::max(-700.0, utilities[k])); //trip utilities to +- 700 for compuational reasons
-          utilities[k] = exp(utilities[k]); //take the exponential of each utility
-        }
-
-        IntegerMatrix::Row  choices_avail = availabilities( i , _ );
-
-        double chosen_utility = utilities[choice[i]-1]; //this -1 is needed if the choices start at 1 (as they should)
-        double sum_utilities = std::inner_product(utilities.begin(), utilities.end(), choices_avail.begin(), 0.0);
-        double p_choice = chosen_utility / sum_utilities;
-
-        //TODO: have a flag here to store utilities in namespace v
-
-//        printf("%f, %f, %f\n", chosen_utility, sum_utilities, log(p_choice));
-
-        #pragma omp atomic 
-        P(individual_index, d) += log(p_choice); //sum up the draws as we go along.
-
-    //   printf("Hello world from omp thread %d - %d %d | %d %d\n", tid, i, draw, individual_index, draw_index);
-
+      /////////////////////////
+      
+      //dont edit beflow this line
+      for (unsigned k=0; k < utilities.size(); ++k) {
+        utilities[k] = std::min(700.0, std::max(-700.0, utilities[k])); //trip utilities to +- 700 for compuational reasons
+        utilities[k] = exp(utilities[k]); //take the exponential of each utility
       }
-
+      
+      IntegerMatrix::ConstRow  choices_avail = v.availabilities( i , _ );
+      
+      double chosen_utility = utilities[choice[i]-1]; //this -1 is needed if the choices start at 1 (as they should)
+      double sum_utilities = std::inner_product(utilities.begin(), utilities.end(), choices_avail.begin(), 0.0);
+      double p_choice = chosen_utility / sum_utilities;
+      
+      
+#pragma omp atomic 
+      v.P(individual_index, d) += log(p_choice); //sum up the draws as we go along.
+      
+      //   printf("Hello world from omp thread %d - %d %d | %d %d\n", tid, i, draw, individual_index, draw_index);
+      
     }
-
-}
-
-    clock_t end = std::clock();
-    double elapsed_secs = 1000.0 * double(end - begin) / CLOCKS_PER_SEC;
-    Rcpp::Rcout << std::setprecision(3) << "time ms: " << elapsed_secs << std::endl;
-
-
-
-
-}
-
-// [[Rcpp::export]]
-NumericVector logLik(NumericVector start_betas, //TODO const things!
-                        DataFrame data,
-                        int Nindividuals,
-                        IntegerMatrix availabilities,
-                        NumericMatrix draws,
-                        int Ndraws,
-                        NumericMatrix P) {
-  
-  v::data = data;
-  v::Nindividuals = Nindividuals;
-  v::availabilities = availabilities;
-  v::draws = draws;
-  v::Ndraws = Ndraws;
-  v::P = P;
-  v::beta_names = start_betas.names();
-  v::LL = NumericVector(Nindividuals);
-  
-  return runUtilityFunction(start_betas);
-}
-
-
-// [[Rcpp::export]]
-NumericVector runMaxLik(NumericVector start_betas, //TODO const things!
-                        DataFrame data,
-                        int Nindividuals,
-                        IntegerMatrix availabilities,
-                        NumericMatrix draws,
-                        int Ndraws,
-                        NumericMatrix P) {
-  
-  v::data = data;
-  v::Nindividuals = Nindividuals;
-  v::availabilities = availabilities;
-  v::draws = draws;
-  v::Ndraws = Ndraws;
-  v::P = P;
-  v::beta_names = start_betas.names();
-  v::LL = NumericVector(Nindividuals);
-  
-  bool verbose=true;
-  nlopt_opt opt = nlopt_create(NLOPT_LD_LBFGS, start_betas.size()); 
-  nlopt_set_min_objective(opt, myfunc, NULL);
-  nlopt_set_xtol_rel(opt, 1e-4);
-  
-  NumericVector x(start_betas);
-  
-  double minf; 							// minimum objective value, upon return
-  fcount = 0;            	    // reset counters
-  
-  if (nlopt_optimize(opt, x.begin(), &minf) < 0) {
-    if (verbose) Rcpp::Rcout << "nlopt failed!" << std::endl;
-  } else {
-    if (verbose) {
-      Rcpp::Rcout << std::setprecision(5)
-                  << "Found minimum at f(" << x[0] << "," << x[1] << ") "
-                  << "= " << std::setprecision(8) << minf
-                  << " after " << fcount << " function"
-                  << std::endl;
-    }
+    
   }
-  nlopt_destroy(opt);
-  return x;
+  
 }
 
-
-
-
-
+}

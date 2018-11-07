@@ -97,7 +97,7 @@ convert_to_valid_cpp <- function(cpp_template, e1) {
   }
 
   #build data column vector initialization code
-  data_var_init_text <- 'const NumericVector {data_prefix}{col_name} = data["{col_name}"];'
+  data_var_init_text <- 'const NumericVector {data_prefix}{col_name} = v.data["{col_name}"];'
   data_inits_vec <- sapply(e1$data_cols, function (col_name) stringr::str_glue(data_var_init_text)) #vector creation
   data_declarations <- paste(data_inits_vec, collapse="\n")
 
@@ -116,6 +116,9 @@ convert_to_valid_cpp <- function(cpp_template, e1) {
   script_w_data_draws <- stringr::str_replace_all(script_w_data, draw_pattern, d_sub_f)
   script_wo_ats <- stringr::str_replace_all(script_w_data_draws, beta_pattern, "\\1")
   draw_and_utility_declarations <- paste(script_wo_ats, collapse="\n")
+  
+  #number of utilities, take from the number of utility lines
+  utility_length = length(e1$util_lines)
 
   #fill in template
   cpp_code <- stringr::str_glue(cpp_template, .open="!===", .close="===!")
@@ -151,10 +154,10 @@ preprocess_file <- function (utility_script, cpp_template, data, beta, output_fi
 }
 
 #' @export
-compileUtilityFunction <- function( script, data, betas ) {
+compileUtilityFunction <- function( script, data, betas , output_file = NULL) {
   header_file_location <- system.file("include", "mixl", "cpp_utility_template.h", package = "mixl")
   cpp_template <- readr::read_file(header_file_location)
-  e1 <- mixl::preprocess_file(script, cpp_template, data, betas)
+  e1 <- mixl::preprocess_file(script, cpp_template, data, betas, output_file)
   Rcpp::sourceCpp(code = e1$cpp_code)
   return (e1)
   
