@@ -1,5 +1,46 @@
 
-modeloutput <- function(model, data, Nindividuals, Ndraws) {
+# 
+# result <- structure(
+#   list(
+#     coefficients  = x$coefficients,
+#     logLik        = logLik,
+#     gradient      = gradient,
+#     hessian       = hessian,
+#     est.stat      = x$est.stat,
+#     fitted.values = fitted,
+#     probabilities = probabilities,
+#     linpred       = linpred,
+#     indpar        = indpar,
+#     residuals     = resid,
+#     omega         = Omega,
+#     rpar          = rpar,
+#     nests         = nests,
+#     model         = mf,
+#     freq          = freq,
+#     formula       = formula,
+#     call          = callT),
+#   class = 'mlogit'
+# ) 
+# #result$Mi <- Mi
+# #result$alt.lev <- alt.lev
+# result
+
+process_maxlik_output <- function(maxLik.model, data, Nindividuals, Ndraws) {
+  class(maxLik.model) <- append(class(maxLik.model), "mixl") #TODO: oder preprend?
+  
+#  runtime     = "????"
+#  choicetasks = choicetasks,
+#  Nindividuals= Nindividuals,
+#  Ndraws      = Ndraws,
+  
+  
+  return (maxLik.model)
+}
+
+#mixl class:
+#  model, data, Nindividuals, Ndraws
+
+summary.mixl <- function (object,...){
   SIG_FIGS4 <- 4
   SIG_FIGS2 <- 4
   
@@ -44,12 +85,11 @@ modeloutput <- function(model, data, Nindividuals, Ndraws) {
     robtrat_0 <- round(robtrat_0, SIG_FIGS2)
     robtrat_1 <- round(robtrat_1, SIG_FIGS2)
     
-    output <- t(rbind(est,se,trat_0,trat_1,robse,robtrat_0,robtrat_1))
+    coefTable <- t(rbind(est,se,trat_0,trat_1,robse,robtrat_0,robtrat_1))
     
-    model_stats <- list(
-      model       = model,
-      output      = output,
-      robvarcov   = robvarcov,
+    object$coefTable <- coefTable
+    object$robvarcov <- robvarcov
+    
       run_summary = list(
         runtime     = "????",
         choicetasks = choicetasks,
@@ -67,8 +107,10 @@ modeloutput <- function(model, data, Nindividuals, Ndraws) {
         AICc = round(-2*finalLL+2*(num_params)*Nindividuals/(Nindividuals-(num_params)-1),SIG_FIGS2),
         BIC  = round(-2*finalLL+(num_params)*log(choicetasks),SIG_FIGS2)
       )
-    )
+    
+    
     model_stats
+    class(object) <- c("summary.mlogit", "mlogit")
 }
 
 print_output <- function (model_output) {

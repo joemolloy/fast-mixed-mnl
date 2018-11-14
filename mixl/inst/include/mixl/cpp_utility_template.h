@@ -81,6 +81,7 @@ void utilityFunction(NumericVector beta1, UF_args& v)
   const NumericVector ids = v.data["ID"];
   const NumericVector row_ids = v.data["p_row_id"];
   const NumericVector choice = v.data["CHOICE"];
+  const NumericVector count = v.data["count"];
   
   /////////////////////////////////////
   
@@ -131,9 +132,11 @@ void utilityFunction(NumericVector beta1, UF_args& v)
       double sum_utilities = std::inner_product(utilities.begin(), utilities.end(), choices_avail.begin(), 0.0);
       double p_choice = chosen_utility / sum_utilities;
       
+      double P_indic_total = 0.0;
+      !===prob_indicator_sum===!
       
 #pragma omp atomic 
-      v.P(individual_index, d) += log(p_choice); //sum up the draws as we go along.
+      v.P(individual_index, d) += log(p_choice) + (1/count[i])*log(P_indic_total); //sum up the draws as we go along.
       
       //   printf("Hello world from omp thread %d - %d %d | %d %d\n", tid, i, draw, individual_index, draw_index);
       

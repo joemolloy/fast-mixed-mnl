@@ -1,10 +1,13 @@
 utility_prefix = "U_" #TODO: ecclu
+p_indic_prefix = "P_indic_" #TODO: ecclu
+HYBRID <- TRUE;
 
 beta_pattern <- "@(\\w+)"
 draw_pattern <- "draw(\\d+)"
 data_pattern <- "\\$(\\w+)"
 new_vars_pattern <- "^\\w+"
-utility_pattern <- sprintf("^%s\\w+", utility_prefix)
+utility_pattern <- sprintf("%s\\w+", utility_prefix)
+p_indic_pattern <- sprintf("%s\\w+", p_indic_prefix)
 
 extract_new_vars <- function (var_lines) {
 
@@ -19,6 +22,13 @@ extract_var <- function(text, pattern) {
   script_els = stringr::str_extract_all(text,pattern)[[1]]
   unqiue_els = unique(script_els)
   return (sapply(unqiue_els, trim_marker))
+}
+
+extract_word <- function(text, pattern) {
+  
+  script_els = stringr::str_extract_all(text,pattern)[[1]]
+  unqiue_els = unique(script_els)
+  return (unqiue_els)
 }
 
 extract_variables <- function (source_txt) {
@@ -38,8 +48,8 @@ extract_variables <- function (source_txt) {
   e$var_lines <- code_lines[!startsWith(code_lines, utility_prefix) & grepl("\\w", code_lines)]
   e$util_lines <- code_lines[startsWith(code_lines, utility_prefix)]
   
-  e$num_utility_functions = length(e$util_lines)
-  e$utility_function_names = stringr::str_match(e$util_lines, utility_pattern)
+  e$utility_function_names = unique(stringr::str_match(e$util_lines, utility_pattern))
+  e$num_utility_functions = length(e$utility_function_names)
 
   e$new_vars <- extract_new_vars(e$var_lines)
   e$draws <- unique(stringr::str_extract_all(source_txt,draw_pattern)[[1]])
@@ -47,9 +57,18 @@ extract_variables <- function (source_txt) {
 
   e$data_cols = extract_var(source_txt,data_pattern)
   e$betas = extract_var(source_txt,beta_pattern)
-
+ 
+  if (HYBRID) {
+    e$p_indic_lines <- code_lines[!startsWith(code_lines, p_indic_prefix) & grepl("\\w", code_lines)]
+    e$p_indics <- extract_word(source_txt,p_indic_pattern)
+  }
+  
  return (e)
 
+}
+
+create_p_indic_sum <- function(p_indics) {
+  paste("P_indic_total = ", paste(p_indics, collapse = " * "), ";")
 }
 
 validate_env <- function (e1, data_names, beta_names) {
@@ -85,7 +104,11 @@ validate_env <- function (e1, data_names, beta_names) {
 }
 #TODO: decide if draws should be changed everywhere!
 
-
+add_semi_colons <- function(lines) {
+  lapply(X = lines, FUN = function(l) {
+    if (endsWith(l, ";")) l else paste0(l, ";")
+  })
+}
 
 convert_to_valid_cpp <- function(cpp_template, e1) {
 
@@ -124,10 +147,14 @@ convert_to_valid_cpp <- function(cpp_template, e1) {
   script_w_data <- stringr::str_replace_all(script_w_utils, data_pattern, data_sub)
   script_w_data_draws <- stringr::str_replace_all(script_w_data, draw_pattern, d_sub_f)
   script_wo_ats <- stringr::str_replace_all(script_w_data_draws, beta_pattern, "\\1")
-  draw_and_utility_declarations <- paste(script_wo_ats, collapse="\n")
+  sript_with_semicolons <- add_semi_colons(script_wo_ats)
+  draw_and_utility_declarations <- paste(sript_with_semicolons, collapse="\n")
   
   #number of utilities, take from the number of utility lines
   utility_length = e1$num_utility_functions
+  
+  #summing p_indics for hybrid choice
+  prob_indicator_sum <- if (HYBRID) create_p_indic_sum(e1$p_indics) else "//blank"
 
   #fill in template
   cpp_code <- stringr::str_glue(cpp_template, .open="!===", .close="===!")
