@@ -9,10 +9,10 @@ ASC_C_RNP  = @ASC_C + log(draw9) * @SIGMA_C ;
 ASC_CS_RNP  = @ASC_CS + draw10 * @SIGMA_CS ;
 ASC_CP_RNP  = @ASC_CP + draw11 * @SIGMA_CP ;
 
-utilities[0] =  1 * (ASC_W_RNP + B_COST_RND * B_TT_W_RND * $tt_w_rp / 60 );
+U_1 =  1 * (ASC_W_RNP + B_COST_RND * B_TT_W_RND * $tt_w_rp / 60 );
 //utilities[2] =  1 * (ASC_W_RNP + B_COST_RND*B_TT_W_RND * $tt_w_rp/ 60 );
 
-utilities[1] =  1 * (ASC_B_RNP + B_COST_RND * B_TT_B_RND * $tt_b_rp / 60 );
+U_2 =  1 * (ASC_B_RNP + B_COST_RND * B_TT_B_RND * $tt_b_rp / 60 );
 "
 
 
@@ -22,9 +22,9 @@ B_COST_RND= -exp(@B_COST + draw0 * @SIGMA_SCALE) ;
 ASC_C_RNP  =@ASC_C + log(draw9) * @SIGMA_C ;
 ASC_CS_RNP  = @ASC_CS + draw10*@SIGMA_CS ;
 
-utilities[0] =  1 * (ASC_W_RNP + B_COST_RND*B_TT_W_RND * $tt_w_rp/ 60 );
+U_1 =  1 * (ASC_W_RNP + B_COST_RND*B_TT_W_RND * $tt_w_rp/ 60 );
 
-utilities[1] =  1 * (ASC_B_RNP + B_COST_RNDB_TT_B_RND *$tt_b_rp / 60);
+U_bus =  1 * (ASC_B_RNP + B_COST_RNDB_TT_B_RND *$tt_b_rp / 60);
 "
 e1 <- extract_variables(text1)
 e2 <- extract_variables(text2)
@@ -52,7 +52,8 @@ test_that("spacing after the variables is handled correctly", {
 })
 
 test_that("utilities length - ignore commented lines", {
-  expect_equal(2, length(e1$util_lines))
+  expect_equal(2, length(e1$utility_function_names))
+  expect_equal(2, e1$num_utility_functions)
 })
 
 bad_text1 = ""

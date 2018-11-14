@@ -5,9 +5,9 @@ HYBRID <- TRUE;
 beta_pattern <- "@(\\w+)"
 draw_pattern <- "draw(\\d+)"
 data_pattern <- "\\$(\\w+)"
-new_vars_pattern <- "^\\w+"
-utility_pattern <- sprintf("%s\\w+", utility_prefix)
-p_indic_pattern <- sprintf("%s\\w+", p_indic_prefix)
+new_vars_pattern <- sprintf("\\b((?!%s)\\w+)\\b(?=\\s*\\=)", utility_prefix)
+utility_pattern <-  sprintf("%s\\w+", utility_prefix)
+p_indic_pattern <-  sprintf("%s\\w+", p_indic_prefix)
 
 extract_new_vars <- function (var_lines) {
 
@@ -24,43 +24,26 @@ extract_var <- function(text, pattern) {
   return (sapply(unqiue_els, trim_marker))
 }
 
-extract_word <- function(text, pattern) {
-  
-  script_els = stringr::str_extract_all(text,pattern)[[1]]
-  unqiue_els = unique(script_els)
-  return (unqiue_els)
-}
-
 extract_variables <- function (source_txt) {
   e <- new.env()
   e$source <- source_txt
-
-  script_lines <- stringr::str_split(source_txt, "\n")[[1]]
-  #filter out comment lines
-  code_lines <-  script_lines[
-    !startsWith(script_lines, "//") &
-      !startsWith(script_lines, "#")  &
-      nchar(script_lines) > 0
-    ]
-
-  e$code_lines <- code_lines
-
-  e$var_lines <- code_lines[!startsWith(code_lines, utility_prefix) & grepl("\\w", code_lines)]
-  e$util_lines <- code_lines[startsWith(code_lines, utility_prefix)]
   
-  e$utility_function_names = unique(stringr::str_match(e$util_lines, utility_pattern))
+  source_wo_comments <- stringr::str_replace_all(e$source, "(?://|#).*", ""); #remove all comment lines
+
+  #any lines dont start with U_ are variable definition lines
+  e$new_vars <- unique(stringr::str_extract_all(source_wo_comments,new_vars_pattern))[[1]]
+
+  e$utility_function_names = unique(stringr::str_extract_all(source_wo_comments, utility_pattern)[[1]])
   e$num_utility_functions = length(e$utility_function_names)
 
-  e$new_vars <- extract_new_vars(e$var_lines)
-  e$draws <- unique(stringr::str_extract_all(source_txt,draw_pattern)[[1]])
+  e$draws <- unique(stringr::str_extract_all(source_wo_comments,draw_pattern)[[1]])
   e$draw_dimensions <- length(e$draws)
 
-  e$data_cols = extract_var(source_txt,data_pattern)
-  e$betas = extract_var(source_txt,beta_pattern)
+  e$data_cols = extract_var(source_wo_comments,data_pattern)
+  e$betas = extract_var(source_wo_comments,beta_pattern)
  
   if (HYBRID) {
-    e$p_indic_lines <- code_lines[!startsWith(code_lines, p_indic_prefix) & grepl("\\w", code_lines)]
-    e$p_indics <- extract_word(source_txt,p_indic_pattern)
+    e$p_indics <- e$new_vars[startsWith(e$new_vars, p_indic_prefix)]
   }
   
  return (e)
@@ -138,17 +121,16 @@ convert_to_valid_cpp <- function(cpp_template, e1) {
 
 
   #add double type to new var initialization
-  var_initialisations_list <- lapply(e1$var_lines, function(s) paste("double", s))
+  ccode_w_var_init <- stringr::str_replace_all(e1$source, new_vars_pattern, "double \\1")
 
-  ccode <- c(var_initialisations_list, c("\n"), e1$util_lines)
   #replace util prefixes
-  script_w_utils <- stringr::str_replace_all(ccode, utility_pattern, u_sub_f)
+  ccode_w_utils <- stringr::str_replace_all(ccode_w_var_init, utility_pattern, u_sub_f)
   #replace data and draws
-  script_w_data <- stringr::str_replace_all(script_w_utils, data_pattern, data_sub)
-  script_w_data_draws <- stringr::str_replace_all(script_w_data, draw_pattern, d_sub_f)
-  script_wo_ats <- stringr::str_replace_all(script_w_data_draws, beta_pattern, "\\1")
-  sript_with_semicolons <- add_semi_colons(script_wo_ats)
-  draw_and_utility_declarations <- paste(sript_with_semicolons, collapse="\n")
+  ccode_w_data  <- stringr::str_replace_all(ccode_w_utils, data_pattern, data_sub)
+  ccode_w_draws <- stringr::str_replace_all(ccode_w_data, draw_pattern, d_sub_f)
+  ccode_wo_ampersands <- stringr::str_replace_all(ccode_w_draws, beta_pattern, "\\1")
+  #sript_with_semicolons <- add_semi_colons(script_wo_ats)
+  draw_and_utility_declarations <- ccode_wo_ampersands
   
   #number of utilities, take from the number of utility lines
   utility_length = e1$num_utility_functions
@@ -190,11 +172,11 @@ preprocess_file <- function (utility_script, cpp_template, data, beta, output_fi
 }
 
 #' @export
-compileUtilityFunction <- function( script, data, betas , output_file = NULL) {
+compileUtilityFunction <- function( script, data, betas , output_file = NULL, compile=TRUE) {
   header_file_location <- system.file("include", "mixl", "cpp_utility_template.h", package = "mixl")
   cpp_template <- readr::read_file(header_file_location)
   e1 <- mixl::preprocess_file(script, cpp_template, data, betas, output_file)
-  Rcpp::sourceCpp(code = e1$cpp_code)
+  if (compile) Rcpp::sourceCpp(code = e1$cpp_code)
   return (e1)
   
 }
