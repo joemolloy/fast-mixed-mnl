@@ -61,9 +61,12 @@ create_p_indic_sum <- function(p_indics) {
 validate_env <- function (e1, data_names, beta_names) {
 
   e1$data_errors <- setdiff(e1$data_cols, data_names)
-  e1$beta_errors <- setdiff(e1$betas, beta_names)
-  e1$new_var_errors <- intersect(e1$new_vars, beta_names)
   
+  e1$beta_errors <- setdiff(e1$betas, beta_names)
+  e1$excess_betas <- setdiff(beta_names, e1$betas)
+  
+  e1$new_var_errors <- intersect(e1$new_vars, beta_names)
+
   valid = TRUE
   data_msg = c()
   beta_msg = c()
@@ -73,23 +76,28 @@ validate_env <- function (e1, data_names, beta_names) {
 
   if (length(e1$data_errors) > 0) {
     valid = FALSE
-    data_msg <- paste("The following variables are not available in the dataset:", paste(e1$data_errors, collapse = ", "))
+    e1$error_messages <- c(e1$error_messages, paste("The following variables are not available in the dataset:", paste(e1$data_errors, collapse = ", ")))
   }
 
   #check betas are all in the beta list
   if (length(e1$beta_errors) > 0) {
     valid = FALSE
-    beta_msg <- paste("The following parameters are not named:", paste(e1$beta_errors, collapse = ", "))
+    e1$error_messages <- c(e1$error_messages, paste("The following parameters are not named:", paste(e1$beta_errors, collapse = ", ")))
   }
   
   if (length(e1$new_var_errors) > 0) {
     valid = FALSE
-    new_var_msg <- paste("The following new variables have the same names as parameters:", paste(e1$new_var_errors, collapse = ", "))
+    e1$error_messages <- c(e1$error_messages, paste("The following new variables have the same names as parameters:", paste(e1$new_var_errors, collapse = ", ")))
   }
-
+  
+  if (length(e1$excess_betas) > 0) {
+    for (b in e1$excess_betas) {
+      warning(paste("The following parameter was not used in the utility function but will be estimated anyway:", b))
+    }
+  }
+  
 
   e1$is_valid <- valid
-  e1$error_messages <- c(data_msg, beta_msg, new_var_msg)
 
   return (valid)
 
@@ -156,7 +164,7 @@ preprocess_file <- function (utility_script, cpp_template, data, betas, output_f
   e1 = extract_variables(utility_script)
 
   validate_env(e1, data_names, beta_names)
-
+  
   if (e1$is_valid) { #start making the replacements
 
     cpp_code <- convert_to_valid_cpp(cpp_template, e1=e1)
@@ -173,7 +181,7 @@ preprocess_file <- function (utility_script, cpp_template, data, betas, output_f
 }
 
 #' @export
-compileUtilityFunction <- function( script, data, betas , output_file = NULL, compile=TRUE, return_parse_info=FALSE) {
+compileUtilityFunction <- function( script, data, betas , output_file = NULL, compile=TRUE) {
   cpp_container <- new.env()
   cpp_container$logLik <- NULL ## remove old function
   
@@ -181,11 +189,12 @@ compileUtilityFunction <- function( script, data, betas , output_file = NULL, co
   cpp_template <- readr::read_file(header_file_location)
   e1 <- mixl::preprocess_file(script, cpp_template, data, betas, output_file)
   
+  cpp_container$num_utility_functions <- e1$num_utility_functions
+  cpp_container$draw_dimensions <- e1$draw_dimensions
+  
   if (compile) Rcpp::sourceCpp(code = e1$cpp_code, env = cpp_container)
   
-  if (return_parse_info)
-    return (c("loglik"=cpp_container$logLik, "parse_info"=e1))
-  else return (cpp_container$logLik)
+  return (cpp_container)
   
 }
 
