@@ -57,3 +57,7 @@ test_that("utilities length - ignore commented lines", {
 })
 
 bad_text1 = ""
+
+test_that("data_EinstAV_1 and data_EinstAV_13_m are both handled", {
+  
+})

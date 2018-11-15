@@ -1,13 +1,13 @@
 utility_prefix = "U_" #TODO: ecclu
 p_indic_prefix = "P_indic_" #TODO: ecclu
-HYBRID <- TRUE;
 
-beta_pattern <- "@(\\w+)"
-draw_pattern <- "draw(\\d+)"
-data_pattern <- "\\$(\\w+)"
+beta_pattern <- "@(\\w+)\\b"
+draw_pattern <- "draw(\\d+)\\b"
+data_pattern <- "\\$(\\w+)\\b"
 new_vars_pattern <- sprintf("\\b((?!%s)\\w+)\\b(?=\\s*\\=)", utility_prefix)
-utility_pattern <-  sprintf("%s\\w+", utility_prefix)
-p_indic_pattern <-  sprintf("%s\\w+", p_indic_prefix)
+utility_pattern <-  sprintf("%s\\w+\\b", utility_prefix)
+p_indic_pattern <-  sprintf("%s\\w+\\b", p_indic_prefix)
+
 
 extract_new_vars <- function (var_lines) {
 
@@ -46,9 +46,9 @@ extract_variables <- function (source_txt) {
   e$data_cols = extract_var(source_wo_comments,data_pattern)
   e$betas = extract_var(source_wo_comments,beta_pattern)
  
-  if (HYBRID) {
-    e$p_indics <- e$new_vars[startsWith(e$new_vars, p_indic_prefix)]
-  }
+  #get p_indic filenames for hybrid choice if they are available
+  e$p_indics <- e$new_vars[startsWith(e$new_vars, p_indic_prefix)]
+  e$is_hybrid_choice <- length(e$p_indics) > 0 
   
  return (e)
 
@@ -101,14 +101,13 @@ add_semi_colons <- function(lines) {
   })
 }
 
-convert_to_valid_cpp <- function(cpp_template, e1) {
+convert_to_valid_cpp <- function(cpp_template, e1, hybrid_choice=FALSE) {
 
   data_prefix <- "data_"
   
-  
-  data_subs <- setNames (paste0(data_prefix, e1$data_cols , "[i]"), paste0("\\$", e1$data_cols))
-  draw_subs <-  setNames (paste0("draw[", 0:(e1$draw_dimensions-1), "]"), e1$draws)
-  utility_subs <- setNames (paste0("utilities[", 0:(e1$num_utility_functions-1) , "]"), e1$utility_function_names)
+  data_subs <- setNames (paste0(data_prefix, e1$data_cols , "[i]"), paste0("\\$", e1$data_cols, "\\b"))
+  draw_subs <-  setNames (paste0("draw[", 0:(e1$draw_dimensions-1), "]"), paste0(e1$draws,"\\b"))
+  utility_subs <- setNames (paste0("utilities[", 0:(e1$num_utility_functions-1) , "]"), paste0(e1$utility_function_names, "\\b"))
 
   #build data column vector initialization code
   data_var_init_text <- 'const NumericVector {data_prefix}{col_name} = v.data["{col_name}"];'
@@ -138,7 +137,7 @@ convert_to_valid_cpp <- function(cpp_template, e1) {
   utility_length = e1$num_utility_functions
   
   #summing p_indics for hybrid choice
-  prob_indicator_sum <- if (HYBRID) create_p_indic_sum(e1$p_indics) else "//blank"
+  prob_indicator_sum <- if (e1$is_hybrid_choice) create_p_indic_sum(e1$p_indics) else "//note: not a hybrid choice model"
 
   #fill in template
   cpp_code <- stringr::str_glue(cpp_template, .open="!===", .close="===!")
@@ -149,10 +148,10 @@ convert_to_valid_cpp <- function(cpp_template, e1) {
 
 
 #' @export
-preprocess_file <- function (utility_script, cpp_template, data, beta, output_file = NULL) {
+preprocess_file <- function (utility_script, cpp_template, data, betas, output_file = NULL) {
 
   data_names <- names(data)
-  beta_names <- names(beta)
+  beta_names <- names(betas)
 
   e1 = extract_variables(utility_script)
 
@@ -174,12 +173,19 @@ preprocess_file <- function (utility_script, cpp_template, data, beta, output_fi
 }
 
 #' @export
-compileUtilityFunction <- function( script, data, betas , output_file = NULL, compile=TRUE) {
+compileUtilityFunction <- function( script, data, betas , output_file = NULL, compile=TRUE, return_parse_info=FALSE) {
+  cpp_container <- new.env()
+  cpp_container$logLik <- NULL ## remove old function
+  
   header_file_location <- system.file("include", "mixl", "cpp_utility_template.h", package = "mixl")
   cpp_template <- readr::read_file(header_file_location)
   e1 <- mixl::preprocess_file(script, cpp_template, data, betas, output_file)
-  if (compile) Rcpp::sourceCpp(code = e1$cpp_code)
-  return (e1)
+  
+  if (compile) Rcpp::sourceCpp(code = e1$cpp_code, env = cpp_container)
+  
+  if (return_parse_info)
+    return (c("loglik"=cpp_container$logLik, "parse_info"=e1))
+  else return (cpp_container$logLik)
   
 }
 
