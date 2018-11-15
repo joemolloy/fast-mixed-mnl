@@ -24,6 +24,10 @@ extract_var <- function(text, pattern) {
   return (sapply(unqiue_els, trim_marker))
 }
 
+replace_orm <- function(text) {
+  dnorm
+}
+
 extract_variables <- function (source_txt) {
   e <- new.env()
   e$source <- source_txt
@@ -58,34 +62,38 @@ validate_env <- function (e1, data_names, beta_names) {
 
   e1$data_errors <- setdiff(e1$data_cols, data_names)
   e1$beta_errors <- setdiff(e1$betas, beta_names)
-
+  e1$new_var_errors <- intersect(e1$new_vars, beta_names)
+  
   valid = TRUE
   data_msg = c()
   beta_msg = c()
-
+  new_var_msg = c()
+  
   e1$errors = list()
 
   if (length(e1$data_errors) > 0) {
     valid = FALSE
-    data_msg <- paste("The following variables are not available in the dataset:", e1$data_errors)
+    data_msg <- paste("The following variables are not available in the dataset:", paste(e1$data_errors, collapse = ", "))
   }
 
   #check betas are all in the beta list
   if (length(e1$beta_errors) > 0) {
     valid = FALSE
-    beta_msg <- paste("The following coefficients are not named:", e1$beta_errors)
+    beta_msg <- paste("The following parameters are not named:", paste(e1$beta_errors, collapse = ", "))
+  }
+  
+  if (length(e1$new_var_errors) > 0) {
+    valid = FALSE
+    new_var_msg <- paste("The following new variables have the same names as parameters:", paste(e1$new_var_errors, collapse = ", "))
   }
 
-  #check highest draw number is lower than requested
-  #TODO
 
   e1$is_valid <- valid
-  e1$error_messages <- c(data_msg, beta_msg)
+  e1$error_messages <- c(data_msg, beta_msg, new_var_msg)
 
   return (valid)
 
 }
-#TODO: decide if draws should be changed everywhere!
 
 add_semi_colons <- function(lines) {
   lapply(X = lines, FUN = function(l) {
@@ -96,18 +104,11 @@ add_semi_colons <- function(lines) {
 convert_to_valid_cpp <- function(cpp_template, e1) {
 
   data_prefix <- "data_"
-  data_sub <- stringr::str_glue("{data_prefix}\\1[i]")
-
-  draw_sub <- setNames(c(0:(e1$draw_dimensions-1)), e1$draws)
-  utility_sub <- setNames(c(0:(e1$num_utility_functions-1)), e1$utility_function_names)
   
-  d_sub_f <- function(draw_name) {
-    paste0("draw[", draw_sub[draw_name], "]")
-  }
   
-  u_sub_f <- function(utility_name) {
-    paste0("utilities[", utility_sub[utility_name], "]")
-  }
+  data_subs <- setNames (paste0(data_prefix, e1$data_cols , "[i]"), paste0("\\$", e1$data_cols))
+  draw_subs <-  setNames (paste0("draw[", 0:(e1$draw_dimensions-1), "]"), e1$draws)
+  utility_subs <- setNames (paste0("utilities[", 0:(e1$num_utility_functions-1) , "]"), e1$utility_function_names)
 
   #build data column vector initialization code
   data_var_init_text <- 'const NumericVector {data_prefix}{col_name} = v.data["{col_name}"];'
@@ -124,10 +125,11 @@ convert_to_valid_cpp <- function(cpp_template, e1) {
   ccode_w_var_init <- stringr::str_replace_all(e1$source, new_vars_pattern, "double \\1")
 
   #replace util prefixes
-  ccode_w_utils <- stringr::str_replace_all(ccode_w_var_init, utility_pattern, u_sub_f)
+  ccode_w_utils <- stringr::str_replace_all(ccode_w_var_init, utility_subs)
+  
   #replace data and draws
-  ccode_w_data  <- stringr::str_replace_all(ccode_w_utils, data_pattern, data_sub)
-  ccode_w_draws <- stringr::str_replace_all(ccode_w_data, draw_pattern, d_sub_f)
+  ccode_w_data  <- stringr::str_replace_all(ccode_w_utils, data_subs)
+  ccode_w_draws <- stringr::str_replace_all(ccode_w_data, draw_subs)
   ccode_wo_ampersands <- stringr::str_replace_all(ccode_w_draws, beta_pattern, "\\1")
   #sript_with_semicolons <- add_semi_colons(script_wo_ats)
   draw_and_utility_declarations <- ccode_wo_ampersands

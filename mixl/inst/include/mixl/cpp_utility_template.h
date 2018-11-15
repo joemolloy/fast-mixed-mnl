@@ -20,6 +20,8 @@ struct UF_args {
   
 } ;
 
+inline double dorm
+
 void utilityFunction(NumericVector beta1, UF_args& v);
 
 // [[Rcpp::export]]
