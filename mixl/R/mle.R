@@ -13,15 +13,24 @@ maximumLikelihood <- function (logLik_function_env,
     Nindividuals = length(unique(data$ID))
     draw_dimensions <- logLik_function_env$draw_dimensions
     is_hybrid_choice <- logLik_function_env$is_hybrid_choice
+    is_mnl <- logLik_function_env$is_mnl #TODO: change from is_mnl to a 'is_mixed' boolean
     
-    draws <- create_draws(draws, Nindividuals, draw_dimensions)
-    Ndraws = nrow(draws) / Nindividuals
-    
+    if (!is_mnl) {
+      draws <- create_draws(draws, Nindividuals, draw_dimensions)
+      Ndraws = nrow(draws) / Nindividuals
+      p <- matrix(0, nrow=Nindividuals, ncol=Ndraws);
+      
+      ll2 <- function (betas) logLik_function_env$logLik(betas, data, Nindividuals, availabilities, draws, Ndraws, p, num_threads, p_indices=is_hybrid_choice)
+      
+    } else {
+      p <- matrix(0, nrow=Nindividuals, ncol=1);
+      
+      ll2 <- function (betas) logLik_function_env$logLik(betas, data, Nindividuals, availabilities, p, num_threads)
+      
+    }
     ######## missing availabilities handled in cpp code
     
-    p <- matrix(0, nrow=Nindividuals, ncol=Ndraws);
     
-    ll2 <- function (betas) logLik_function_env$logLik(betas, data, Nindividuals, availabilities, draws, Ndraws, p, num_threads, p_indices=is_hybrid_choice)
     llsum <- function (betas) sum(ll2(betas))
     hessian_function <- function (betas) numDeriv::hessian(llsum, beta1)
     
