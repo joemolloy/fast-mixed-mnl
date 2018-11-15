@@ -14,4 +14,8 @@ Imports:
   numDeriv,
   Rcpp (>= 0.12.19)
 LinkingTo: Rcpp
-Suggests: testthat
+Suggests: 
+    testthat,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
