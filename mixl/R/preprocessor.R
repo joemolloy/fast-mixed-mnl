@@ -55,7 +55,7 @@ extract_variables <- function (source_txt) {
 }
 
 create_p_indic_sum <- function(p_indics) {
-  paste("P_indic_total = ", paste(p_indics, collapse = " * "), ";")
+  paste("double p_indic_total = ", paste(p_indics, collapse = " * "), ";")
 }
 
 validate_env <- function (e1, data_names, beta_names) {
@@ -191,6 +191,7 @@ compileUtilityFunction <- function( script, data, betas , output_file = NULL, co
   
   cpp_container$num_utility_functions <- e1$num_utility_functions
   cpp_container$draw_dimensions <- e1$draw_dimensions
+  cpp_container$is_hybrid_choice <- e1$is_hybrid_choice
   
   if (compile) Rcpp::sourceCpp(code = e1$cpp_code, env = cpp_container)
   

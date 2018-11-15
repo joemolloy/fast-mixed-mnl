@@ -12,10 +12,10 @@ struct UF_args {
   const NumericMatrix draws;
   const int Ndraws;
   NumericMatrix P;
-  StringVector beta_names;
+  bool include_probability_indices;
   
-  UF_args(DataFrame data, int Nindividuals, Nullable<IntegerMatrix> availabilities, NumericMatrix draws, int Ndraws, NumericMatrix P)
-    : data(data), Nindividuals(Nindividuals), availabilities(availabilities), draws(draws), Ndraws(Ndraws), P(P)
+  UF_args(DataFrame data, int Nindividuals, Nullable<IntegerMatrix> availabilities, NumericMatrix draws, int Ndraws, NumericMatrix P,bool include_probability_indices)
+    : data(data), Nindividuals(Nindividuals), availabilities(availabilities), draws(draws), Ndraws(Ndraws), P(P),include_probability_indices(include_probability_indices)
   { }
   
 } ;
@@ -29,11 +29,11 @@ NumericVector logLik(NumericVector betas, //TODO const things!
                      Nullable<IntegerMatrix> availabilities,
                      NumericMatrix draws,
                      int Ndraws,
-                     NumericMatrix P, int num_threads=1) {
+                     NumericMatrix P, int num_threads=1, bool p_indices=false) {
   
   omp_set_num_threads(num_threads);
   
-  UF_args v(data, Nindividuals, availabilities, draws, Ndraws, P);
+  UF_args v(data, Nindividuals, availabilities, draws, Ndraws, P, p_indices);
   
   NumericVector LL(v.Nindividuals);
   std::fill(v.P.begin(), v.P.end(), 0);
@@ -139,13 +139,15 @@ void utilityFunction(NumericVector beta1, UF_args& v)
         sum_utilities = std::accumulate(utilities.begin(), utilities.end(), 0.0);
       }
       
-      double p_choice = chosen_utility / sum_utilities;
+      double log_p_choice = log(chosen_utility / sum_utilities);
       
-      double P_indic_total = 0.0;
-      !===prob_indicator_sum===!
+      if (v.include_probability_indices){
+        !===prob_indicator_sum===!
+        log_p_choice += (1/count[i])*log(p_indic_total);
+      }
       
 #pragma omp atomic 
-      v.P(individual_index, d) += log(p_choice) + (1/count[i])*log(P_indic_total); //sum up the draws as we go along.
+      v.P(individual_index, d) += log_p_choice; //sum up the draws as we go along.
       
       //   printf("Hello world from omp thread %d - %d %d | %d %d\n", tid, i, draw, individual_index, draw_index);
       
