@@ -8,13 +8,13 @@ using namespace Rcpp;
 struct UF_args {
   const DataFrame data;
   const int Nindividuals;
-  const IntegerMatrix availabilities;
+  const Nullable<IntegerMatrix> availabilities;
   const NumericMatrix draws;
   const int Ndraws;
   NumericMatrix P;
   StringVector beta_names;
   
-  UF_args(DataFrame data, int Nindividuals, IntegerMatrix availabilities, NumericMatrix draws, int Ndraws, NumericMatrix P)
+  UF_args(DataFrame data, int Nindividuals, Nullable<IntegerMatrix> availabilities, NumericMatrix draws, int Ndraws, NumericMatrix P)
     : data(data), Nindividuals(Nindividuals), availabilities(availabilities), draws(draws), Ndraws(Ndraws), P(P)
   { }
   
@@ -26,7 +26,7 @@ void utilityFunction(NumericVector beta1, UF_args& v);
 NumericVector logLik(NumericVector betas, //TODO const things!
                      DataFrame data,
                      int Nindividuals,
-                     IntegerMatrix availabilities,
+                     Nullable<IntegerMatrix> availabilities,
                      NumericMatrix draws,
                      int Ndraws,
                      NumericMatrix P, int num_threads=1) {
@@ -126,10 +126,19 @@ void utilityFunction(NumericVector beta1, UF_args& v)
         utilities[k] = exp(utilities[k]); //take the exponential of each utility
       }
       
-      IntegerMatrix::ConstRow  choices_avail = v.availabilities( i , _ );
+      
       
       double chosen_utility = utilities[choice[i]-1]; //this -1 is needed if the choices start at 1 (as they should)
-      double sum_utilities = std::inner_product(utilities.begin(), utilities.end(), choices_avail.begin(), 0.0);
+      double sum_utilities = 0;
+      if (v.availabilities.isNotNull()) {
+        const IntegerMatrix availabilities(v.availabilities);
+        IntegerMatrix::ConstRow  choices_avail = availabilities( i , _ );
+        sum_utilities = std::inner_product(utilities.begin(), utilities.end(), choices_avail.begin(), 0.0);
+      }
+      else {
+        sum_utilities = std::accumulate(utilities.begin(), utilities.end(), 0.0);
+      }
+      
       double p_choice = chosen_utility / sum_utilities;
       
       double P_indic_total = 0.0;
