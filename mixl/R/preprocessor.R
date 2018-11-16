@@ -145,6 +145,9 @@ convert_to_valid_cpp <- function(cpp_template, e1, hybrid_choice=FALSE) {
 compileUtilityFunction <- function( utility_script, data , output_file = NULL, compile=TRUE) {
   
   data_names <- names(data)
+  
+  if (!all(c("ID", "CHOICE") %in% data_names)) stop ("ID and CHOICE columns must be present in data") #TODO move this to compile
+  
 
   e1 = extract_variables(utility_script)
   validate_env(e1, data_names)

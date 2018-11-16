@@ -1,0 +1,128 @@
+context("Test maxlikelihood function")
+
+data("Train", package="mlogit")
+head(Train, 3)
+Train$ID <- Train$id - 1
+Train$CHOICE <- as.numeric(Train$choice)
+
+Nindividuals <- length(unique(Train$id))
+
+rcpp_skip_message <- "sourceCpp cannot be tested through testthat, this test must be run manually"
+
+skip_on_cran(rcpp_skip_message)
+test_that("A basic MNL model converges", {
+    #randomly assign observations to ID's
+    mnl_test <- "
+    U_A = @B_price * $price_A / 1000 + @B_time * $time_A / 60 + @B_change * $change_A;
+    U_B = @B_price * $price_B / 1000 + @B_timeB * $time_B / 60;
+    "
+
+    logLik_env <- compileUtilityFunction(mnl_test, Train, output_file="mnl_test.cpp", compile=TRUE)
+
+    #only take starting values that are needed
+    est <- setNames(c(1,1,1,1), c("B_price", "B_time", "B_timeB", "B_change"))
+
+    availabilities <- mixl::generate_default_availabilities(Train, logLik_env$num_utility_functions)
+
+    model <- mixl::maxLikelihood(logLik_env, est, Train, availabilities = availabilities)
+
+    expect_equal(model$code, 0)
+    expect_equal(model$maximum, -1842.784, tolerance=1e-3)
+})
+
+
+
+test_that("A mixed MNL model converges", {
+  #randomly assign observations to ID's
+  mnl_test <- "
+    ASC_A_RND 	= @ASC_A 	+ draw_1 * @SIGMA_A1 		+ draw_7 * @SIGMA_A2;
+    ASC_B_RND 	= @ASC_B 	+ draw_2 * @SIGMA_B;
+
+    U_A = ASC_A_RND + @B_price * $price_A / 1000 + @B_time * $time_A / 60 + @B_change * $change_A; 
+    U_B = ASC_B_RND + @B_price * $price_B / 1000 + @B_timeB * $time_B / 60;
+  "
+  
+  logLik_env <- mixl::compileUtilityFunction(mnl_test, Train, compile=TRUE)
+  
+  #only take starting values that are needed
+  est <- setNames(c(1,1,1,1, 0.1, 0.1, 0.1, 0.1, 0.1), c("B_price", "B_time", "B_timeB", "B_change", "ASC_A", "ASC_B", "SIGMA_A1", "SIGMA_A2", "SIGMA_B"))
+  
+  availabilities <- mixl::generate_default_availabilities(Train, logLik_env$num_utility_functions)
+  
+  model <- mixl::maxLikelihood(logLik_env, est, Train, availabilities = availabilities, Ndraws = 5)
+  
+  expect_equal(model$code, 0)
+  expect_length(model$estimate, 9)
+  expect_equal(model$maximum, -2030.228, tolerance=1e-3)
+})
+
+
+test_that("A mixed MNL model failes : not enough betas", {
+  #randomly assign observations to ID's
+  mnl_test <- "
+    ASC_A_RND 	= @ASC_A 	+ draw_1 * @SIGMA_A1 		+ draw_7 * @SIGMA_A2;
+    ASC_B_RND 	= @ASC_B 	+ draw_2 * @SIGMA_B;
+
+    U_A = ASC_A_RND + @B_price * $price_A / 1000 + @B_time * $time_A / 60 + @B_change * $change_A; 
+    U_B = ASC_B_RND + @B_price * $price_B / 1000 + @B_timeB * $time_B / 60;
+  "
+  
+  logLik_env <- mixl::compileUtilityFunction(mnl_test, Train, compile=TRUE)
+  
+  #only take starting values that are needed
+  est <- setNames(c(1,1,1,1), c("B_price", "B_time", "B_timeB", "B_change"))
+  
+  availabilities <- mixl::generate_default_availabilities(Train, logLik_env$num_utility_functions)
+  exp_error <- "The following parameters are not named: ASC_A, SIGMA_A1, SIGMA_A2, ASC_B, SIGMA_B"
+  expect_error(model <- mixl::maxLikelihood(logLik_env, est, Train, availabilities = availabilities, Ndraws = 5), exp_error)
+  
+  est <- setNames(c(1,1,1,1, 0.1, 0.1, 0.1, 0.1, 0.1, 0), c("B_price", "B_time", "B_timeB", "B_change", "ASC_A", "ASC_B", "SIGMA_A1", "SIGMA_A2", "SIGMA_B", "SIG_EXTRA"))
+  
+  exp_warning <- "The following parameters are not used in the utility function but will be estimated anyway: SIG_EXTRA"
+  expect_warning(model <- mixl::maxLikelihood(logLik_env, est, Train, availabilities = availabilities, Ndraws = 5), exp_warning)
+  
+  
+})
+
+
+
+test_that("creating and validating draws", {
+  #randomly assign observations to ID's
+  mnl_test <- "
+    ASC_A_RND 	= @ASC_A 	+ draw_1 * @SIGMA_A1 		+ draw_7 * @SIGMA_A2;
+    ASC_B_RND 	= @ASC_B 	+ draw_2 * @SIGMA_B;
+
+    U_A = ASC_A_RND + @B_price * $price_A / 1000 + @B_time * $time_A / 60 + @B_change * $change_A; 
+    U_B = ASC_B_RND + @B_price * $price_B / 1000 + @B_timeB * $time_B / 60;
+  "
+  
+  logLik_env <- mixl::compileUtilityFunction(mnl_test, Train, compile=TRUE)
+  
+  #only take starting values that are needed
+  est <- setNames(c(1,1,1,1, 0.1, 0.1, 0.1, 0.1, 0.1), c("B_price", "B_time", "B_timeB", "B_change", "ASC_A", "ASC_B", "SIGMA_A1", "SIGMA_A2", "SIGMA_B"))
+  
+  availabilities <- mixl::generate_default_availabilities(Train, logLik_env$num_utility_functions)
+
+  exp_error <- "Either a draw matrix or the desired number of draws needs to be specified"
+  expect_error(model <- mixl::maxLikelihood(logLik_env, est, Train, availabilities = availabilities), exp_error)
+  
+  draws <- mixl::create_halton_draws(100, 1, logLik_env$draw_dimensions)
+  exp_error <- "The draw matrix of dimensions 100 x 3 is not large enough (must be at least 235 x 3)"
+  expect_error(model <- mixl::maxLikelihood(logLik_env, est, Train, availabilities = availabilities, draws = draws), exp_error, fixed=TRUE)
+  
+  draws <- mixl::create_halton_draws(Nindividuals, 1, 1)
+  exp_error <- "The draw matrix of dimensions 235 x 1 is not large enough (must be at least 235 x 3)"
+  expect_error(model <- mixl::maxLikelihood(logLik_env, est, Train, availabilities = availabilities, draws = draws), exp_error, fixed=TRUE)
+  
+  
+  exp_message <- "Created a draw matrix of dimensions (5, 3) for 235 Individuals"
+  expect_message(model <- mixl::maxLikelihood(logLik_env, est, Train, availabilities = availabilities, Ndraws = 5), exp_message, fixed=TRUE)
+  
+  
+  
+})
+
+test_that("hybrid choice", {
+  
+})
+

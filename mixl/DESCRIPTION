@@ -17,5 +17,6 @@ LinkingTo: Rcpp
 Suggests: 
     testthat,
     knitr,
-    rmarkdown
+    rmarkdown,
+    mlogit
 VignetteBuilder: knitr

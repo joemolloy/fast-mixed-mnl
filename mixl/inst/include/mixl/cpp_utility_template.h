@@ -59,13 +59,13 @@ NumericVector logLik(NumericVector betas, //TODO const things!
   
   double end = omp_get_wtime();
   double elapsed_secs = double(end - begin) * 1000;
-  
-#pragma omp parallel
-{
-#pragma omp single
-  Rcpp::Rcout << std::setprecision(3) << elapsed_secs << " ms on " << omp_get_num_threads() << " threads" << std::endl;
-}
-
+  /*  
+  #pragma omp parallel
+  {
+  #pragma omp single
+    Rcpp::Rcout << std::setprecision(3) << elapsed_secs << " ms on " << omp_get_num_threads() << " threads" << std::endl;
+  }
+  */
 
 return LL;
 }
@@ -77,12 +77,19 @@ return LL;
 void utilityFunction(NumericVector beta1, UF_args& v)
 {
   
-  //delcare the variables that you will be using from the dataframe
-  const NumericVector ids = v.data["ID"];
-  const NumericVector row_ids = v.data["p_row_id"];
-  const NumericVector choice = v.data["CHOICE"];
-  const NumericVector count = v.data["count"];
+  if (!(v.data.containsElementNamed("ID") && v.data.containsElementNamed("CHOICE"))) {
+    stop("Both ID and CHOICE columns need to be present in the data");
+  }
   
+  //delcare the variables that you will be using from the dataframe
+  const NumericVector row_ids = v.data["ID"];
+  const NumericVector choice = v.data["CHOICE"];
+  
+  NumericVector count;
+  
+  if (v.include_probability_indices){
+    count = v.data["count"];
+  }
   /////////////////////////////////////
   
   

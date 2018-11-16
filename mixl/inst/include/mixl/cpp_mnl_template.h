@@ -65,13 +65,15 @@ return LL;
 
 void utilityFunction(NumericVector beta1, UF_args& v)
 {
+  if (!(v.data.containsElementNamed("ID") && v.data.containsElementNamed("CHOICE"))) {
+    stop("Both ID and CHOICE columns need to be present in the data");
+  }
+  
   
   //delcare the variables that you will be using from the dataframe
-  const NumericVector ids = v.data["ID"];
-  const NumericVector row_ids = v.data["p_row_id"];
+  const NumericVector row_ids = v.data["ID"];
   const NumericVector choice = v.data["CHOICE"];
-  const NumericVector count = v.data["count"];
-  
+
   /////////////////////////////////////
   
   
