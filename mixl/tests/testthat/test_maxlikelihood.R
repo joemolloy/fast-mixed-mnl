@@ -7,17 +7,15 @@ Train$CHOICE <- as.numeric(Train$choice)
 
 Nindividuals <- length(unique(Train$id))
 
-rcpp_skip_message <- "sourceCpp cannot be tested through testthat, this test must be run manually"
-
-skip_on_cran(rcpp_skip_message)
-test_that("A basic MNL model converges", {
+skip_on_cran()
+test_that("A basic MNL model converges and creates the output", {
     #randomly assign observations to ID's
     mnl_test <- "
     U_A = @B_price * $price_A / 1000 + @B_time * $time_A / 60 + @B_change * $change_A;
     U_B = @B_price * $price_B / 1000 + @B_timeB * $time_B / 60;
     "
 
-    logLik_env <- compileUtilityFunction(mnl_test, Train, output_file="mnl_test.cpp", compile=TRUE)
+    logLik_env <- compileUtilityFunction(mnl_test, Train, compile=TRUE)
 
     #only take starting values that are needed
     est <- setNames(c(1,1,1,1), c("B_price", "B_time", "B_timeB", "B_change"))
@@ -28,11 +26,14 @@ test_that("A basic MNL model converges", {
 
     expect_equal(model$code, 0)
     expect_equal(model$maximum, -1842.784, tolerance=1e-3)
+    expect_s3_class(model, "mixl")
+    expect_s3_class(summary(model), "summary.mixl")
+    prints_text(summary(model))
 })
 
 
 
-test_that("A mixed MNL model converges", {
+test_that("A mixed MNL model converges and creates the output", {
   #randomly assign observations to ID's
   mnl_test <- "
     ASC_A_RND 	= @ASC_A 	+ draw_1 * @SIGMA_A1 		+ draw_7 * @SIGMA_A2;
@@ -54,6 +55,10 @@ test_that("A mixed MNL model converges", {
   expect_equal(model$code, 0)
   expect_length(model$estimate, 9)
   expect_equal(model$maximum, -2030.228, tolerance=1e-3)
+  
+  expect_s3_class(model, "mixl")
+  expect_s3_class(summary(model), "summary.mixl")
+  prints_text(summary(model))
 })
 
 

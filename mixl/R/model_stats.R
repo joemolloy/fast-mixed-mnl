@@ -39,6 +39,7 @@ summary.mixl <- function (object,...){
     finalLL <- model$finalLL
     zeroLL  <- model$zeroLL
     est <- model$estimate
+    Nindividuals <- model$Nindividuals
     
     varcov <- vcov(model)
     se=sqrt(diag(varcov))
