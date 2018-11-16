@@ -112,7 +112,7 @@ void utilityFunction(NumericVector beta1, UF_args& v)
 #pragma omp for
   for (int i=0; i < v.data.nrows(); i++) {
     
-    int individual_index = row_ids[i]; //indexes should be for c, ie. start at 0
+    int individual_index = row_ids[i]-1; //indexes should be for c, ie. start at 0
     //Rcpp::Rcout << "indv: " << individual_index << std::endl;
     for (int d=0; d<v.Ndraws; d++) {
       

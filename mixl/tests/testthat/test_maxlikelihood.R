@@ -2,7 +2,7 @@ context("Test maxlikelihood function")
 
 data("Train", package="mlogit")
 head(Train, 3)
-Train$ID <- Train$id - 1
+Train$ID <- Train$id
 Train$CHOICE <- as.numeric(Train$choice)
 
 Nindividuals <- length(unique(Train$id))
