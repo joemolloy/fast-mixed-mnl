@@ -3,11 +3,11 @@ context("Test replacement and intepretation of variables in source files")
 text1 <- "//regexes:
 //ignore lines starting with //
 
-B_COST_RND = -exp( @B_COST + draw0 * @SIGMA_SCALE ) ;
+B_COST_RND = -exp( @B_COST + draw_0 * @SIGMA_SCALE ) ;
 
-ASC_C_RNP  = @ASC_C + log(draw9) * @SIGMA_C ;
-ASC_CS_RNP  = @ASC_CS + draw10 * @SIGMA_CS ;
-ASC_CP_RNP  = @ASC_CP + draw11 * @SIGMA_CP ;
+ASC_C_RNP  = @ASC_C + log(draw_bus) * @SIGMA_C ;
+ASC_CS_RNP  = @ASC_CS + draw_8 * @SIGMA_CS ;
+ASC_CP_RNP  = @ASC_CP + draw_11 * @SIGMA_CP ;
 
 U_1 =  1 * (ASC_W_RNP + B_COST_RND * B_TT_W_RND * $tt_w_rp / 60 );
 //  U_2 =  1 * (ASC_W_RNP + B_COST_RND*B_TT_W_RND * $tt_w_rp/ 60 );
@@ -52,28 +52,28 @@ utilities[1] =  1 * (ASC_B_RNP + B_COST_RND * B_TT_B_RND * data_tt_b_rp[i] / 60 
 
 e1 <- extract_variables(text1)
 
-test_that("declarations are put into a template", {
-  cpp_code <- as.character(convert_to_valid_cpp(test_template, e1))
-  expect_equal(2, e1$num_utility_functions)
-  expect_equal(strsplit(expected_output, "\n"), strsplit(cpp_code, "\n"))
-})
 
 
 test_that("draw replacement function works well", {
-  expect_true(FALSE)
+  
+  draws_exp <- c("draw_0", "draw_bus", "draw_8", "draw_11")
+  draw_dimensions_exp <- 4
+  
+  expect_equal(e1$draw_dimensions, draw_dimensions_exp)
+  expect_equal(e1$draws, draws_exp)
 })
-
-
-
-test_that("commented lines are handled correctly for all beta/utilities/draws replacement", {
-  expect_true(FALSE)
-})
-
 
 
 test_that("a valid file processes without failing", {
   data_names <- c("data_tt_w_rp", "data_tt_b_rp")
   beta_names <- c("B_COST", "SIGMA_SCALE", "ASC_C", "SIGMA_C", "ASC_CS", "SIGMA_CS", "ASC_CP", "SIGMA_CP") ;
   
-  expect_silent(validate_env(e1, data_names, beta_names))
+  expect_silent(validate_env(e1, data_names))
 })
+
+test_that("declarations are put into a template", {
+  cpp_code <- as.character(convert_to_valid_cpp(test_template, e1))
+  expect_equal(e1$num_utility_functions, 2)
+  expect_equal(strsplit(cpp_code, "\n"), strsplit(expected_output, "\n"))
+})
+

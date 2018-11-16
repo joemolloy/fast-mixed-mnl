@@ -1,10 +1,11 @@
 utility_prefix = "U_" #TODO: ecclu
 p_indic_prefix = "P_indic_" #TODO: ecclu
+draw_prefix = "draw" #TODO: ecclu
 
 beta_pattern <- "@(\\w+)\\b"
-draw_pattern <- "draw(\\d+)\\b"
 data_pattern <- "\\$(\\w+)\\b"
 new_vars_pattern <- sprintf("\\b((?!%s)\\w+)\\b(?=\\s*\\=)", utility_prefix)
+draw_pattern    <-  sprintf("%s\\w+\\b", draw_prefix)
 utility_pattern <-  sprintf("%s\\w+\\b", utility_prefix)
 p_indic_pattern <-  sprintf("%s\\w+\\b", p_indic_prefix)
 
@@ -32,7 +33,7 @@ extract_variables <- function (source_txt) {
   e <- new.env()
   e$source <- source_txt
   
-  source_wo_comments <- stringr::str_replace_all(e$source, "(?://|#).*", ""); #remove all comment lines
+  source_wo_comments <- stringr::str_replace_all(e$source, "//.*", ""); #remove all comment lines
 
   #any lines dont start with U_ are variable definition lines
   e$new_vars <- unique(stringr::str_extract_all(source_wo_comments,new_vars_pattern))[[1]]

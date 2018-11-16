@@ -15,7 +15,7 @@ test_that("perfect input", {
   e1$betas <- c("B_COST", "SIGMA_SCALE", "ASC_C", "SIGMA_C", "ASC_CS",  "SIGMA_CS")
   e1$new_vars <- c("B_COST_RND", "ASC_C_RNP", "ASC_CS_RNP")
   
-  valid <- validate_env(e1, data_names, beta_names)
+  valid <- validate_env(e1, data_names)
   
   expect_true(valid)
   expect_equal(e1$error_messages, c())
@@ -30,28 +30,11 @@ test_that("data error", {
   e1$betas <- c("B_COST", "SIGMA_SCALE", "ASC_C", "SIGMA_C", "ASC_CS",  "SIGMA_CS")
   e1$new_vars <- c("B_COST_RND", "ASC_C_RNP", "ASC_CS_RNP")
   
-  valid <- validate_env(e1, data_names, beta_names)
+  valid <- validate_env(e1, data_names)
   
   expect_false(valid)
   expect_equal(e1$error_messages, c(paste("The following variables are not available in the dataset:", "tt_b_rp2" )))
   
-})
-
-test_that("should be no errors if a data or beta isnt used", {
-  
-  e1 <- new.env()
-  e1$data_cols <- c("tt_w_rp")
-  e1$betas <- c("B_COST", "SIGMA_SCALE", "ASC_C", "ASC_CS",  "SIGMA_CS")
-  e1$new_vars <- c("B_COST_RND", "ASC_C_RNP", "ASC_CS_RNP")
-  
-  expect_warning(
-    valid <- validate_env(e1, data_names, beta_names),
-    "The following parameter was not used in the utility function but will be estimated anyway: SIGMA_C"
-  )
-  
-  expect_true(valid)
-  expect_equal(e1$error_messages, c())
-
 })
 
 test_that("multiple errors", {
@@ -60,19 +43,15 @@ test_that("multiple errors", {
   e1$data_cols <- c("tt_w_rp", "tt_b_rp", "tt_b_rp2")
   e1$betas <- c("B_COST", "SIGMA_SCALE", "ASC_C", "ASC_CS",  "SIGMA_CS", "SIGMA_SCALE2")
   e1$new_vars <- c("B_COST_RND", "ASC_C_RNP", "ASC_C")
-  
-  expect_warning(
-    valid <- validate_env(e1, data_names, beta_names),
-    "The following parameter was not used in the utility function but will be estimated anyway: SIGMA_C"
-  )
-    
+
   
   expected_errors <- c("The following variables are not available in the dataset: tt_b_rp2",
-                       "The following parameters are not named: SIGMA_SCALE2",
                        "The following new variables have the same names as parameters: ASC_C")
   
+  valid <- validate_env(e1, data_names)
+  
   expect_false(valid)
-  expect_length(e1$error_messages, 3)
+  expect_length(e1$error_messages, 2)
   expect_equal(e1$error_messages, expected_errors)
   
 })
