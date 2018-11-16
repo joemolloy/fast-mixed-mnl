@@ -59,14 +59,12 @@ create_p_indic_sum <- function(p_indics) {
   paste("double p_indic_total = ", paste(p_indics, collapse = " * "), ";")
 }
 
-validate_env <- function (e1, data_names, beta_names) {
+validate_env <- function (e1, data_names) {
 
   e1$data_errors <- setdiff(e1$data_cols, data_names)
+
   
-  e1$beta_errors <- setdiff(e1$betas, beta_names)
-  e1$excess_betas <- setdiff(beta_names, e1$betas)
-  
-  e1$new_var_errors <- intersect(e1$new_vars, beta_names)
+  e1$new_var_errors <- intersect(e1$new_vars, e1$betas)
 
   valid = TRUE
   data_msg = c()
@@ -80,23 +78,10 @@ validate_env <- function (e1, data_names, beta_names) {
     e1$error_messages <- c(e1$error_messages, paste("The following variables are not available in the dataset:", paste(e1$data_errors, collapse = ", ")))
   }
 
-  #check betas are all in the beta list
-  if (length(e1$beta_errors) > 0) {
-    valid = FALSE
-    e1$error_messages <- c(e1$error_messages, paste("The following parameters are not named:", paste(e1$beta_errors, collapse = ", ")))
-  }
-  
   if (length(e1$new_var_errors) > 0) {
     valid = FALSE
     e1$error_messages <- c(e1$error_messages, paste("The following new variables have the same names as parameters:", paste(e1$new_var_errors, collapse = ", ")))
   }
-  
-  if (length(e1$excess_betas) > 0) {
-    for (b in e1$excess_betas) {
-      warning(paste("The following parameter was not used in the utility function but will be estimated anyway:", b))
-    }
-  }
-  
 
   e1$is_valid <- valid
 
@@ -156,13 +141,12 @@ convert_to_valid_cpp <- function(cpp_template, e1, hybrid_choice=FALSE) {
 }
 
 #' @export
-compileUtilityFunction <- function( utility_script, data, betas , output_file = NULL, compile=TRUE) {
+compileUtilityFunction <- function( utility_script, data , output_file = NULL, compile=TRUE) {
   
   data_names <- names(data)
-  beta_names <- names(betas)
-  
+
   e1 = extract_variables(utility_script)
-  validate_env(e1, data_names, beta_names)
+  validate_env(e1, data_names)
   
   if (!e1$is_valid) { #start making the replacements
     stop (paste(c("The utility script is not valid", e1$error_messages), collapse = "\n"))
@@ -187,6 +171,8 @@ compileUtilityFunction <- function( utility_script, data, betas , output_file = 
     cpp_container$draw_dimensions <- e1$draw_dimensions
     cpp_container$is_hybrid_choice <- e1$is_hybrid_choice
     cpp_container$is_mixed <- e1$is_mixed
+    cpp_container$beta_names <- setNames(e1$betas, NULL)
+    cpp_container$num_coeffs <- length(e1$betas)
     
     if (compile) Rcpp::sourceCpp(code = e1$cpp_code, env = cpp_container)
     

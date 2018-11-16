@@ -25,29 +25,21 @@
 # #result$alt.lev <- alt.lev
 # result
 
-x <- rnorm(50, 1, 2 )
-
-llf <- function( param ) {
-  mu <- param[ 1 ]
-  sigma <- param[ 2 ]
-  llValue <- dnorm(x, mean=mu, sd=sigma, log=TRUE)
-  return(llValue)
-}
-## Estimate it. Take standard normal as start values
-ml <- maxLik::maxLik( llf, start = c(mu=0, sigma=1) )
 
 #mixl class:
 #  model, data, Nindividuals, Ndraws
 
 #' @export
 summary.mixl <- function (object,...){
-  SIG_FIGS4 <- 4
-  SIG_FIGS2 <- 2
+    SIG_FIGS4 <- 4
+    SIG_FIGS2 <- 2
   
     model <- object
-    output <- list()
-  
+    
+    finalLL <- model$finalLL
+    zeroLL  <- model$zeroLL
     est <- model$estimate
+    
     varcov <- vcov(model)
     se=sqrt(diag(varcov))
     se[model$fixed] <- NA
@@ -59,7 +51,7 @@ summary.mixl <- function (object,...){
     trat_0 <- est/se
     trat_1 <- (est-1)/se
     
-    robvarcov <- sandwich::sandwich(bb)
+    robvarcov <- sandwich::sandwich(model)
     robvarcov[model$fixed,] <- NA
     robvarcov[,model$fixed] <- NA
     
@@ -84,41 +76,42 @@ summary.mixl <- function (object,...){
     
     model$coefTable <- coefTable
     model$robvarcov <- robvarcov
-    
-    finalLL <- model$finalLL
-    zeroLL  <- model$zeroLL
+    model$num_params <- num_params
+
     
     model$metrics <- list(
       rho2zero    = 1-finalLL/zeroLL,
       adjrho2zero = 1-(finalLL-num_params)/zeroLL,
       
       AIC  = round(-2*finalLL+2*(num_params),SIG_FIGS2),
-      AICc = round(-2*finalLL+2*(num_params)*Nindividuals/(Nindividuals-(num_params)-1),SIG_FIGS2),
-      BIC  = round(-2*finalLL+(num_params)*log(choicetasks),SIG_FIGS2)
+      AICc = round(-2*finalLL+2*(num_params)*Nindividuals/(Nindividuals-(num_params)-1),SIG_FIGS2)
+##    ,BIC  = round(-2*finalLL+(num_params)*log(choicetasks),SIG_FIGS2)    ##TODO: what if choice task numbers vary over participants
     )
     
     class(model) <- c("summary.mixl", class(model))
+    
+    model
 }
 
 print.summary.mixl <- function (model_output) {
     with(model_output, {
-      cat("Runtime:", run_summary$runtime,"\n\n")
-      cat("Model diagnosis:",model$message,"\n\n")
-      cat("Number of decision makers:",run_summary$Nindividuals,"\n")
-      cat("Number of observations:",run_summary$choicetasks,"\n\n")
-      cat("Number of draws for random component:",run_summary$Ndraws,"\n\n")
+      cat("Runtime:", "????? ","\n\n")
+      cat("Model diagnosis:", message,"\n\n")
+      cat("Number of decision makers:", Nindividuals,"\n")
+ #     cat("Number of observations:",run_summary$choicetasks,"\n\n")
+      cat("Number of draws for random component:", Ndraws,"\n\n")
       
-      cat("LL(null): ",run_summary$zeroLL,"\n")
-      cat("LL(final): ",run_summary$finalLL,"\n")
-      cat("Rho2: ",run_summary$rho2zero,"\n")
+      cat("LL(null): ", zeroLL,"\n")
+      cat("LL(final): ", finalLL,"\n")
+      cat("Rho2: ", metrics$rho2zero,"\n")
       
-      cat("Estimated parameters: ",run_summary$num_params,"\n\n")
+      cat("Estimated parameters: ",num_params,"\n\n")
       
       cat("Estimates:\n")
-      print(output)
+      print(coefTable)
       
-      cat("\n\nRobust covariance matrix:\n")
-      print(robvarcov)
+   #   cat("\n\nRobust covariance matrix:\n")
+   #   print(robvarcov)
     
     })
 }
