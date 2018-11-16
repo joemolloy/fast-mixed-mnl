@@ -14,17 +14,17 @@ maxLikelihood <- function (logLik_function_env, start_values, data, availabiliti
   k <- logLik_function_env$num_utility_functions
   
   #check IDs are in range
-  if (!is.integer((data$ID) | min(data$ID) < 1 | max(data$ID) > Nindividuals)) {
+  if (!is.integer(data$ID) | min(data$ID) < 1 | max(data$ID) > Nindividuals) {
     stop(paste("The individual IDs for this dataset must be integers in the range 1..", Nindividuals))
   }
   
   #check CHOICEs are in range
-  if (!is.integer((data$CHOICE) | min(data$CHOICE) < 1 | max(data$CHOICE) > k)) {
+  if (!is.integer(data$CHOICE) | min(data$CHOICE) < 1 | max(data$CHOICE) > k) {
     stop(paste("The Choices for this dataset must be integers in the range 1..", k))
   }
   
   #check availabilities are in range
-  if (!matrix(availabilities) | nrow(availabilities) != nrow(data) | ncol(availabilities) != k) {
+  if (!is.matrix(availabilities) | nrow(availabilities) != nrow(data) | ncol(availabilities) != k) {
     stop(sprintf("The availabilities must be  matrix of the size %d x %d", nrow(data), k))
   }
   
