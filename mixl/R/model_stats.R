@@ -102,6 +102,7 @@ print.summary.mixl <- function (model_output) {
       cat("Number of draws for random component:", Ndraws,"\n\n")
       
       cat("LL(null): ", zeroLL,"\n")
+      cat("LL(init): ", initLL,"\n")
       cat("LL(final): ", finalLL,"\n")
       cat("Rho2: ", metrics$rho2zero,"\n")
       
