@@ -8,13 +8,13 @@ using namespace Rcpp;
 struct UF_args {
   const DataFrame data;
   const int Nindividuals;
-  const Nullable<IntegerMatrix> availabilities;
+  const IntegerMatrix availabilities;
   const NumericMatrix draws;
   const int Ndraws;
   NumericMatrix P;
   bool include_probability_indices;
   
-  UF_args(DataFrame data, int Nindividuals, Nullable<IntegerMatrix> availabilities, NumericMatrix draws, int Ndraws, NumericMatrix P,bool include_probability_indices)
+  UF_args(DataFrame data, int Nindividuals, IntegerMatrix availabilities, NumericMatrix draws, int Ndraws, NumericMatrix P,bool include_probability_indices)
     : data(data), Nindividuals(Nindividuals), availabilities(availabilities), draws(draws), Ndraws(Ndraws), P(P),include_probability_indices(include_probability_indices)
   { }
   
@@ -26,7 +26,7 @@ void utilityFunction(NumericVector beta1, UF_args& v);
 NumericVector logLik(NumericVector betas, //TODO const things!
                      DataFrame data,
                      int Nindividuals,
-                     Nullable<IntegerMatrix> availabilities,
+                     IntegerMatrix availabilities,
                      NumericMatrix draws,
                      int Ndraws,
                      NumericMatrix P, int num_threads=1, bool p_indices=false) {
@@ -129,19 +129,14 @@ void utilityFunction(NumericVector beta1, UF_args& v)
       
       
       double chosen_utility = utilities[choice[i]-1]; //this -1 is needed if the choices start at 1 (as they should)
-      double sum_utilities = 0;
-      if (v.availabilities.isNotNull()) {
-        const IntegerMatrix availabilities(v.availabilities);
-        IntegerMatrix::ConstRow  choices_avail = availabilities( i , _ );
-        sum_utilities = std::inner_product(utilities.begin(), utilities.end(), choices_avail.begin(), 0.0);
-      }
-      else {
-        sum_utilities = std::accumulate(utilities.begin(), utilities.end(), 0.0);
-      }
+
+      IntegerMatrix::ConstRow  choices_avail = v.availabilities( i , _ );
+      double sum_utilities = std::inner_product(utilities.begin(), utilities.end(), choices_avail.begin(), 0.0);
       
       double log_p_choice = log(chosen_utility / sum_utilities);
       
       if (v.include_probability_indices){
+        double p_indic_total = 0;
         !===prob_indicator_sum===!
         log_p_choice += (1/count[i])*log(p_indic_total);
       }

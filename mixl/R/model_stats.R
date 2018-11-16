@@ -25,26 +25,26 @@
 # #result$alt.lev <- alt.lev
 # result
 
-process_maxlik_output <- function(maxLik.model, data, Nindividuals, Ndraws) {
-  class(maxLik.model) <- append(class(maxLik.model), "mixl") #TODO: oder preprend?
-  
-#  runtime     = "????"
-#  choicetasks = choicetasks,
-#  Nindividuals= Nindividuals,
-#  Ndraws      = Ndraws,
-  
-  
-  return (maxLik.model)
+x <- rnorm(50, 1, 2 )
+
+llf <- function( param ) {
+  mu <- param[ 1 ]
+  sigma <- param[ 2 ]
+  llValue <- dnorm(x, mean=mu, sd=sigma, log=TRUE)
+  return(llValue)
 }
+## Estimate it. Take standard normal as start values
+ml <- maxLik::maxLik( llf, start = c(mu=0, sigma=1) )
 
 #mixl class:
 #  model, data, Nindividuals, Ndraws
 
+#' @export
 summary.mixl <- function (object,...){
   SIG_FIGS4 <- 4
-  SIG_FIGS2 <- 4
+  SIG_FIGS2 <- 2
   
-    model <- bb
+    model <- object
     output <- list()
   
     est <- model$estimate
@@ -68,12 +68,7 @@ summary.mixl <- function (object,...){
     robtrat_1 <- (est-1)/robse
     robcorrmat <- robvarcov/(robse%*%t(robse))
     
-    iterations <- model$iterations
-    zeroLL <- sum(ll2(0*beta))
-    initLL <- sum(ll2(beta))
-    finalLL <- sum(ll2(est))
-    
-    num_params <- length(beta)-sum(model$fixed)
+    num_params <- length(est)-sum(model$fixed)
     rho2zero <- 1-finalLL/zeroLL
     adjrho2zero <- 1-(finalLL-num_params)/zeroLL
     
@@ -87,33 +82,25 @@ summary.mixl <- function (object,...){
     
     coefTable <- t(rbind(est,se,trat_0,trat_1,robse,robtrat_0,robtrat_1))
     
-    object$coefTable <- coefTable
-    object$robvarcov <- robvarcov
+    model$coefTable <- coefTable
+    model$robvarcov <- robvarcov
     
-      run_summary = list(
-        runtime     = "????",
-        choicetasks = choicetasks,
-        Nindividuals= Nindividuals,
-        Ndraws      = Ndraws,
-        iterations  = model$iterations,
-        zeroLL      = zeroLL,
-        initLL      = initLL,
-        finalLL     = finalLL,
-        num_params  = num_params,
-        rho2zero    = 1-finalLL/zeroLL,
-        adjrho2zero = 1-(finalLL-num_params)/zeroLL,
-        
-        AIC  = round(-2*finalLL+2*(num_params),SIG_FIGS2),
-        AICc = round(-2*finalLL+2*(num_params)*Nindividuals/(Nindividuals-(num_params)-1),SIG_FIGS2),
-        BIC  = round(-2*finalLL+(num_params)*log(choicetasks),SIG_FIGS2)
-      )
+    finalLL <- model$finalLL
+    zeroLL  <- model$zeroLL
     
+    model$metrics <- list(
+      rho2zero    = 1-finalLL/zeroLL,
+      adjrho2zero = 1-(finalLL-num_params)/zeroLL,
+      
+      AIC  = round(-2*finalLL+2*(num_params),SIG_FIGS2),
+      AICc = round(-2*finalLL+2*(num_params)*Nindividuals/(Nindividuals-(num_params)-1),SIG_FIGS2),
+      BIC  = round(-2*finalLL+(num_params)*log(choicetasks),SIG_FIGS2)
+    )
     
-    model_stats
-    class(object) <- c("summary.mlogit", "mlogit")
+    class(model) <- c("summary.mixl", class(model))
 }
 
-print_output <- function (model_output) {
+print.summary.mixl <- function (model_output) {
     with(model_output, {
       cat("Runtime:", run_summary$runtime,"\n\n")
       cat("Model diagnosis:",model$message,"\n\n")

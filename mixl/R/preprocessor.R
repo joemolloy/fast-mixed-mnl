@@ -49,7 +49,7 @@ extract_variables <- function (source_txt) {
   #get p_indic filenames for hybrid choice if they are available
   e$p_indics <- e$new_vars[startsWith(e$new_vars, p_indic_prefix)]
   e$is_hybrid_choice <- length(e$p_indics) > 0 
-  e$is_mnl <- e$draw_dimensions == 0
+  e$is_mixed <- e$draw_dimensions > 0
   
  return (e)
 
@@ -137,7 +137,7 @@ convert_to_valid_cpp <- function(cpp_template, e1, hybrid_choice=FALSE) {
   
   #replace data and draws
   ccode_w_data  <- stringr::str_replace_all(ccode_w_utils, data_subs)
-  ccode_w_draws <- if (e1$is_mnl) ccode_w_data else stringr::str_replace_all(ccode_w_data, draw_subs)
+  ccode_w_draws <- if (!e1$is_mixed) ccode_w_data else stringr::str_replace_all(ccode_w_data, draw_subs)
   ccode_wo_ampersands <- stringr::str_replace_all(ccode_w_draws, beta_pattern, "\\1")
   #sript_with_semicolons <- add_semi_colons(script_wo_ats)
   draw_and_utility_declarations <- ccode_wo_ampersands
@@ -169,7 +169,7 @@ compileUtilityFunction <- function( utility_script, data, betas , output_file = 
     
   } else{
     
-    template_type <- if (e1$is_mnl) "cpp_mnl_template.h" else "cpp_utility_template.h"
+    template_type <- if (e1$is_mixed) "cpp_utility_template.h" else "cpp_mnl_template.h"
     
     template_location <- system.file("include", "mixl", template_type, package = "mixl")
     cpp_template <- readr::read_file(template_location)
@@ -186,7 +186,7 @@ compileUtilityFunction <- function( utility_script, data, betas , output_file = 
     cpp_container$num_utility_functions <- e1$num_utility_functions
     cpp_container$draw_dimensions <- e1$draw_dimensions
     cpp_container$is_hybrid_choice <- e1$is_hybrid_choice
-    cpp_container$is_mnl <- e1$is_mnl
+    cpp_container$is_mixed <- e1$is_mixed
     
     if (compile) Rcpp::sourceCpp(code = e1$cpp_code, env = cpp_container)
     

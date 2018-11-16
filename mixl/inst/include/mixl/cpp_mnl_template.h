@@ -8,10 +8,10 @@ using namespace Rcpp;
 struct UF_args {
   const DataFrame data;
   const int Nindividuals;
-  const Nullable<IntegerMatrix> availabilities;
+  const IntegerMatrix availabilities;
   NumericMatrix P;
 
-  UF_args(DataFrame data, int Nindividuals, Nullable<IntegerMatrix> availabilities, NumericMatrix P)
+  UF_args(DataFrame data, int Nindividuals, IntegerMatrix availabilities, NumericMatrix P)
     : data(data), Nindividuals(Nindividuals), availabilities(availabilities), P(P)
   { }
   
@@ -23,7 +23,7 @@ void utilityFunction(NumericVector beta1, UF_args& v);
 NumericVector logLik(NumericVector betas, //TODO const things!
                      DataFrame data,
                      int Nindividuals,
-                     Nullable<IntegerMatrix> availabilities,
+                     IntegerMatrix availabilities,
                      NumericMatrix P, int num_threads=1) {
   
   omp_set_num_threads(num_threads);
@@ -48,13 +48,13 @@ NumericVector logLik(NumericVector betas, //TODO const things!
   
   double end = omp_get_wtime();
   double elapsed_secs = double(end - begin) * 1000;
-  
+  /*
 #pragma omp parallel
 {
 #pragma omp single
   Rcpp::Rcout << std::setprecision(3) << elapsed_secs << " ms on " << omp_get_num_threads() << " threads" << std::endl;
 }
-
+*/
 
 return LL;
 }
@@ -114,15 +114,10 @@ void utilityFunction(NumericVector beta1, UF_args& v)
     
     
     double chosen_utility = utilities[choice[i]-1]; //this -1 is needed if the choices start at 1 (as they should)
-    double sum_utilities = 0;
-    if (v.availabilities.isNotNull()) {
-      const IntegerMatrix availabilities(v.availabilities);
-      IntegerMatrix::ConstRow  choices_avail = availabilities( i , _ );
-      sum_utilities = std::inner_product(utilities.begin(), utilities.end(), choices_avail.begin(), 0.0);
-    }
-    else {
-      sum_utilities = std::accumulate(utilities.begin(), utilities.end(), 0.0);
-    }
+    
+    IntegerMatrix::ConstRow  choices_avail = v.availabilities( i , _ );
+    double sum_utilities = std::inner_product(utilities.begin(), utilities.end(), choices_avail.begin(), 0.0);
+    
     
     double log_p_choice = log(chosen_utility / sum_utilities);
     
