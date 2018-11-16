@@ -1,7 +1,7 @@
 
 
 #' @export
-maxLikelihood <- function (logLik_function_env, start_values, data, availabilities = NULL, 
+maxLikelihood <- function (logLik_function_env, start_values, data, availabilities, 
                            draws = NULL, Ndraws = NULL, fixedparam = c(), num_threads=1) {
   
   #check betas
@@ -10,18 +10,35 @@ maxLikelihood <- function (logLik_function_env, start_values, data, availabiliti
   beta_errors <- setdiff(function_beta_names, start_value_names)
   excess_betas <- setdiff(start_value_names, function_beta_names)
   
+  Nindividuals <- length(unique(data$ID))
+  k <- logLik_function_env$num_utility_functions
+  
+  #check IDs are in range
+  if (!is.integer((data$ID) | min(data$ID) < 1 | max(data$ID) > Nindividuals)) {
+    stop(paste("The individual IDs for this dataset must be integers in the range 1..", Nindividuals))
+  }
+  
+  #check CHOICEs are in range
+  if (!is.integer((data$CHOICE) | min(data$CHOICE) < 1 | max(data$CHOICE) > k)) {
+    stop(paste("The Choices for this dataset must be integers in the range 1..", k))
+  }
+  
+  #check availabilities are in range
+  if (!matrix(availabilities) | nrow(availabilities) != nrow(data) | ncol(availabilities) != k) {
+    stop(sprintf("The availabilities must be  matrix of the size %d x %d", nrow(data), k))
+  }
+  
   #check betas are all in the beta list
   if (length(beta_errors) > 0) {
     stop(paste("The following parameters are not named:", paste(beta_errors, collapse = ", ")))
   }
-  
   
   if (length(excess_betas) > 0) {
     warning(paste("The following parameters are not used in the utility function but will be estimated anyway:", paste(excess_betas, collapse=",")))
   }
   
   
-  Nindividuals = length(unique(data$ID))
+  
   draw_dimensions <- logLik_function_env$draw_dimensions
   is_hybrid_choice <- logLik_function_env$is_hybrid_choice
   is_mixed <- logLik_function_env$is_mixed #TODO: change from is_mnl to a 'is_mixed' boolean
@@ -50,8 +67,7 @@ maxLikelihood <- function (logLik_function_env, start_values, data, availabiliti
     ll2 <- function (betas) logLik_function_env$logLik(betas, data, Nindividuals, availabilities, p, num_threads)
     
   }
-  ######## missing availabilities handled in cpp code
-  
+
   llsum <- function (betas) sum(ll2(betas))
   hessian_function <- function (betas) numDeriv::hessian(llsum, betas)
   
