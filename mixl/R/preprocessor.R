@@ -62,7 +62,12 @@ create_p_indic_sum <- function(p_indics) {
 
 validate_env <- function (e1, data_names) {
 
-  e1$data_errors <- setdiff(e1$data_cols, data_names)
+  e1$data_errors <- if (!missing(data_names)) {
+    setdiff(e1$data_cols, data_names)
+  } else {
+    warning("data columns were not validated, as the data_names argument was not provided")
+    c()
+  }
 
   
   e1$new_var_errors <- intersect(e1$new_vars, e1$betas)
@@ -141,49 +146,6 @@ convert_to_valid_cpp <- function(cpp_template, e1, hybrid_choice=FALSE) {
 
 }
 
-#' @export
-compileUtilityFunction <- function( utility_script, data , output_file = NULL, compile=TRUE) {
-  
-  data_names <- names(data)
-  
-  if (!all(c("ID", "CHOICE") %in% data_names)) stop ("ID and CHOICE columns must be present in data") #TODO move this to compile
-  
-
-  e1 = extract_variables(utility_script)
-  validate_env(e1, data_names)
-  
-  if (!e1$is_valid) { #start making the replacements
-    stop (paste(c("The utility script is not valid", e1$error_messages), collapse = "\n"))
-    
-  } else{
-    
-    template_type <- if (e1$is_mixed) "cpp_utility_template.h" else "cpp_mnl_template.h"
-    
-    template_location <- system.file("include", "mixl", template_type, package = "mixl")
-    cpp_template <- readr::read_file(template_location)
-
-    e1$cpp_code <- convert_to_valid_cpp(cpp_template, e1=e1)
-    
-    if (!is.null(output_file)) {
-      readr::write_file(e1$cpp_code, output_file)
-    }
-    
-    cpp_container <- new.env()
-    cpp_container$logLik <- NULL ## remove old function
-    
-    cpp_container$num_utility_functions <- e1$num_utility_functions
-    cpp_container$draw_dimensions <- e1$draw_dimensions
-    cpp_container$is_hybrid_choice <- e1$is_hybrid_choice
-    cpp_container$is_mixed <- e1$is_mixed
-    cpp_container$beta_names <- setNames(e1$betas, NULL)
-    cpp_container$num_coeffs <- length(e1$betas)
-    
-    if (compile) Rcpp::sourceCpp(code = e1$cpp_code, env = cpp_container)
-    
-    return (cpp_container)
-  }
-  
-}
 
 #load("../checkpoint.RData")
 

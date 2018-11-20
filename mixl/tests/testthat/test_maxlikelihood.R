@@ -5,11 +5,10 @@ head(Train, 3)
 Train$ID <- Train$id
 Train$CHOICE <- as.integer(Train$choice)
 
-Nindividuals <- length(unique(Train$id))
 
 skip_on_cran()
 test_that("A basic MNL model converges and creates the output", {
-    #randomly assign observations to ID's
+
     mnl_test <- "
     U_A = @B_price * $price_A / 1000 + @B_time * $time_A / 60 + @B_change * $change_A;
     U_B = @B_price * $price_B / 1000 + @B_timeB * $time_B / 60;
@@ -92,6 +91,8 @@ test_that("A mixed MNL model failes : not enough betas", {
 
 
 test_that("creating and validating draws", {
+  
+  
   #randomly assign observations to ID's
   mnl_test <- "
     ASC_A_RND 	= @ASC_A 	+ draw_1 * @SIGMA_A1 		+ draw_7 * @SIGMA_A2;
