@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 ```
 
 # Introduction
-The *mixl* package presents a new approach to estimating complex choice models which is both many times faster than existing approaches, and simplier to use. The interface remains in R, while the loglikelihood function is compiled into to high performance C++ code in the background. Users need no knowledge of C++, and can specify thier utility functions and random variables as they would on paper. Where the appropriate parallel computing resources are available (in linux), the loglikelihood estimation can be easily sped up by simply specifying the number of cores available.
+The *mixl* package presents a new approach to estimating complex choice models which is both many times faster than existing approaches, and simplier to use. The interface remains in R, while the loglikelihood function is compiled into to high performance C++ code in the background. Users need no knowledge of C++, and can specify thier utility functions and random variables as they would on paper. Where the appropriate parallel computing resources are available (on linux machines), the loglikelihood estimation can be easily sped up by simply specifying the number of cores available.
 
 ## Motivation
 The development of this package was motivated by the need at the [Institute for Transport Planning and Systems (IVT)](http://http://www.ivt.ethz.ch/) at ETH Zürich to 
@@ -29,13 +29,14 @@ In R, until now there has been two approaches for specifying utility functions. 
 
 From a technical perspective, the utility functions can be seen as the 'inner loop' of the Maximum likelihood Estimation (mle) operation. If there are p parameters, then for every iteration of the mle the utility functions are calculated at least 2p+1 times. It follows that any attempt at high performance mnl estimation should focus here. 
 
-This is where approaches in R fall short. The speedups possible by coding inner loops using C++ with the Rcpp package are already well widely documented \TODO{}, however, every change to the utility function would require changes to code in C++, not something your trained choie modeller should be spending thier time on. 
+This is where approaches in R fall short. The speedups possible by coding inner loops using C++ with the Rcpp package are already well [widely documented](http://dirk.eddelbuettel.com/papers/useR2014_keynote.pdf), however, every change to the utility function would require changes to code in C++, not something your trained choice modeller should be spending thier time on. 
 
-Hence, we invisaged a package where one could write utility functions as they would on paper, which would be complied 'behind the scenes' into high performant C++ code.
+## Aim
+Hence, we invisaged a package where one could write utility functions as they would on paper, which could be parsed into C++ and complied 'behind the scenes' into a high performant loglikelihood function accessible from R.
 
 The second goal was to optimise the memory consumption. The straightforward approach is to merge the dataset with the  random draw dataset, duplicating every data row by the number of requested random draws. However, this leads to an polynomial increase in the memory required. And is particular inefficient for large panel datasets. However, if the data and random draw datasets are kept separate, then the memory usage is only linear in the number of draws.
 
-As such, this package, called mixl, allows for advanced choice modelling with arguably a simplier interface. The number of random draws is no longer limited by the computer memory available. Indeed, we have been able to estimate models with dozens of parameters and 10,000 random draws. Importantly, this performance does not require advanced programming skills from the modeller. models can be speficied as they would be on paper. The code is also parallelised, see section ________ for more details.
+As such, this package, called *mixl*, allows for advanced choice modelling through an intuitive interface. The number of random draws is no longer limited by the computer memory available. Indeed, we have been able to estimate models with dozens of parameters and 10,000 random draws. Importantly, this performance does not require advanced programming skills from the modeller. models can be speficied as they would be on paper. The code is also parallelised, see section ________ for more details.
 
 # Defining a model
 To both simplify the transformation of the utility functions into C++ code and aid the readability of the scripts, a small amount of syntax has been introduced:
