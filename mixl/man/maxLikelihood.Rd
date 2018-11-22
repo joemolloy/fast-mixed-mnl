@@ -2,10 +2,10 @@
 % Please edit documentation in R/mle.R
 \name{maxLikelihood}
 \alias{maxLikelihood}
-\title{Runs a maximum likelihood estimation to estimated various choice models}
+\title{Runs a maximum likelihood estimation on a mixl choice model}
 \usage{
 maxLikelihood(logLik_function_env, start_values, data, availabilities, ...,
-  draws = NULL, Ndraws = NULL, fixedparam = c(), num_threads = 1)
+  draws = NULL, nDraws = NULL, fixedparam = c(), num_threads = 1)
 }
 \arguments{
 \item{logLik_function_env}{The object that contains the loglikelihood function and other 
@@ -25,9 +25,9 @@ where k is the number of  utility functions}
 See \code{?maxLik::maxLik} for more details}
 
 \item{draws}{A numeric matrix of draws for calculating mixed effects. If there no mixed effects, this should be left null.
-If the model specification included mixed effects, either this or \code{Ndraws} need to be specified.}
+If the model specification included mixed effects, either this or \code{nDraws} need to be specified.}
 
-\item{Ndraws}{The number of draws to use in estimating a mixed model. 
+\item{nDraws}{The number of draws to use in estimating a mixed model. 
 Only needed if \code{draws} is left null. Then a matrix of normal halton draws will be generated.}
 
 \item{num_threads}{The maximum number of parallel cores to use in estimation. The default is 1. 
@@ -36,9 +36,7 @@ This should only be speficied on machines with an openMP compiler (linux and som
 \item{fixparam}{Coefficients which should be fixed to thier starting values during estimation.}
 }
 \value{
-a mixl object that contains the results of the estimation 
-
-#' @export
+a mixl object that contains the results of the estimation
 }
 \description{
 This function performs a maximum likelihood estimation for choice models speficied using this package.

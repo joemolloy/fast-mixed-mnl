@@ -2,6 +2,9 @@
 
 S3method(print,summary.mixl)
 S3method(summary,mixl)
+export(av_matrix)
 export(compileUtilityFunction)
 export(create_halton_draws)
+export(extract_av_cols)
 export(generate_default_availabilities)
+export(maxLikelihood)
