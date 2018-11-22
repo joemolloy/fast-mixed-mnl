@@ -36,7 +36,7 @@
 #' 
 #' @return a mixl object that contains the results of the estimation 
 #' 
-#' #' @export
+#' @export
 maxLikelihood <- function (logLik_function_env, start_values, data, availabilities, ..., 
                            draws = NULL, nDraws = NULL, fixedparam = c(), num_threads=1) {
   
