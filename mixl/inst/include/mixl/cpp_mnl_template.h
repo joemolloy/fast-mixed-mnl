@@ -1,7 +1,7 @@
+#include <Rcpp.h>
+#include <omp.h>
 // [[Rcpp::plugins(openmp)]]
-// [[Rcpp::depends(RcppEigen)]]
 
-#include <RcppEigen.h>
 
 using namespace Rcpp;
 

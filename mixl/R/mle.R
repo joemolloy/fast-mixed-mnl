@@ -1,7 +1,6 @@
 
 
-#' @export
-#' Runs a maximum likelihood estimation to estimated various choice models
+#' Runs a maximum likelihood estimation on a mixl choice model
 #' 
 #' This function performs a maximum likelihood estimation for choice models speficied using this package.
 #' 
@@ -22,9 +21,9 @@
 #' @param availabilities A 1/0 matrix of availabilities. The dimensions must be \code{nrows(data) * k}, where there are k utility functions. 
 #' 
 #' @param draws A numeric matrix of draws for calculating mixed effects. If there no mixed effects, this should be left null.
-#' If the model specification included mixed effects, either this or \code{Ndraws} need to be specified.
+#' If the model specification included mixed effects, either this or \code{nDraws} need to be specified.
 #' 
-#' @param Ndraws The number of draws to use in estimating a mixed model. 
+#' @param nDraws The number of draws to use in estimating a mixed model. 
 #' Only needed if \code{draws} is left null. Then a matrix of normal halton draws will be generated.
 #' 
 #' @param fixparam Coefficients which should be fixed to thier starting values during estimation.
@@ -37,8 +36,9 @@
 #' 
 #' @return a mixl object that contains the results of the estimation 
 #' 
+#' #' @export
 maxLikelihood <- function (logLik_function_env, start_values, data, availabilities, ..., 
-                           draws = NULL, Ndraws = NULL, fixedparam = c(), num_threads=1) {
+                           draws = NULL, nDraws = NULL, fixedparam = c(), num_threads=1) {
   
   #check betas
   start_value_names <- names(start_values)
@@ -88,22 +88,22 @@ maxLikelihood <- function (logLik_function_env, start_values, data, availabiliti
   is_mixed <- logLik_function_env$is_mixed #TODO: change from is_mnl to a 'is_mixed' boolean
   
   if (is_mixed) { # we only want to pass the draws through if the loglik function is mixed
-    if (missing(draws) & missing (Ndraws)) {
+    if (missing(draws) & missing (nDraws)) {
       stop ("Either a draw matrix or the desired number of draws needs to be specified")  
-    } else if (missing(draws) && !missing(Ndraws)) {
-      draws <- create_halton_draws(Nindividuals, Ndraws, draw_dimensions)
-      message(sprintf("Created a draw matrix of dimensions (%d, %d) for %d Individuals", Ndraws, draw_dimensions, Nindividuals) )
+    } else if (missing(draws) && !missing(nDraws)) {
+      draws <- create_halton_draws(Nindividuals, nDraws, draw_dimensions)
+      message(sprintf("Created a draw matrix of dimensions (%d, %d) for %d Individuals", nDraws, draw_dimensions, Nindividuals) )
     } else if (!is.matrix(draws)) {
       stop ("The draw parameter provieded is not a matrix")
     } else if (ncol(draws) < draw_dimensions | nrow(draws) < Nindividuals) {
       stop (sprintf("The draw matrix of dimensions %d x %d is not large enough (must be at least %d x %d)", nrow(draws), ncol(draws), Nindividuals, draw_dimensions))
     } 
     
-    Ndraws = as.integer(nrow(draws) / Nindividuals) #get the maxmimum possible number of draws available
+    nDraws = as.integer(nrow(draws) / Nindividuals) #get the maxmimum possible number of draws available
     
-    p <- matrix(0, nrow=Nindividuals, ncol=Ndraws)
+    p <- matrix(0, nrow=Nindividuals, ncol=nDraws)
     
-    ll2 <- function (betas) logLik_function_env$logLik(betas, data, Nindividuals, availabilities, draws, Ndraws, p, num_threads, p_indices=is_hybrid_choice)
+    ll2 <- function (betas) logLik_function_env$logLik(betas, data, Nindividuals, availabilities, draws, nDraws, p, num_threads, p_indices=is_hybrid_choice)
     
   } else {
     p <- matrix(0, nrow=Nindividuals, ncol=1);
@@ -124,7 +124,7 @@ maxLikelihood <- function (logLik_function_env, start_values, data, availabiliti
     if (is_hybrid_choice) {
       mL$HybridLL <- ll2(est)
       
-      ll2 <- function (betas) logLik_function_env$logLik(betas, data, Nindividuals, availabilities, draws, Ndraws, p, num_threads, p_indices=FALSE)
+      ll2 <- function (betas) logLik_function_env$logLik(betas, data, Nindividuals, availabilities, draws, nDraws, p, num_threads, p_indices=FALSE)
     }
     
     mL$zeroLL <- sum(ll2(0*start_values))
@@ -132,7 +132,7 @@ maxLikelihood <- function (logLik_function_env, start_values, data, availabiliti
     mL$finalLL <- sum(ll2(est))
     
     mL$Nindividuals <- Nindividuals
-    mL$Ndraws       <- Ndraws
+    mL$nDraws       <- nDraws
     
     class(mL) <- c("mixl", class(mL))
     

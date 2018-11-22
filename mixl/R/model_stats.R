@@ -27,7 +27,7 @@
 
 
 #mixl class:
-#  model, data, Nindividuals, Ndraws
+#  model, data, Nindividuals, nDraws
 
 #' @export
 summary.mixl <- function (object,...){
@@ -94,13 +94,14 @@ summary.mixl <- function (object,...){
     model
 }
 
+#' @export
 print.summary.mixl <- function (model_output) {
     with(model_output, {
       cat("Runtime:", "????? ","\n\n")
       cat("Model diagnosis:", message,"\n\n")
       cat("Number of decision makers:", Nindividuals,"\n")
  #     cat("Number of observations:",run_summary$choicetasks,"\n\n")
-      cat("Number of draws for random component:", Ndraws,"\n\n")
+      cat("Number of draws for random component:", nDraws,"\n\n")
       
       cat("LL(null): ", zeroLL,"\n")
       cat("LL(init): ", initLL,"\n")

@@ -7,9 +7,10 @@ Authors@R: person("Joseph", "Molloy", email = "joseph.molloy@ivt.baug.ethz.ch",
   role = c("aut", "cre"))
 Description: One paragraph description of what the package does as one or more full sentences.
 License: GPL (>= 2)
+Encoding: UTF-8
 Imports:
   readr,
-  stringr,
+  stringr (>= 1.3.1),
   maxLik,
   numDeriv,
   Rcpp (>= 0.12.19)
@@ -20,3 +21,4 @@ Suggests:
     rmarkdown,
     mlogit
 VignetteBuilder: knitr
+RoxygenNote: 6.1.1

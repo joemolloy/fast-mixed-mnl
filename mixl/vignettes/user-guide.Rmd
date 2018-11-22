@@ -51,6 +51,9 @@ To both simplify the transformation of the utility functions into C++ code and a
 
 * For powers, you need to use pow (x,y) instead of x^y
 
+## Availabilities
+The availabilities must to be provided as a matrix of $n*k$ where $n$ is the number of rows in the data, and $k$ is the number of utility functions. The helper functions \code{extract_av_cols} and \code{av_matrix} can help here
+
 ## The mixl input file
 Below are two sample model definitions to get you started. The package automatically detects mixing, and generates the loglikelihood function appropriately. A simple mnl model, using the Train dataset could look like the following:
 ```

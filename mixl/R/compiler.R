@@ -1,5 +1,5 @@
 
-#' @export
+
 #' Validate the utility functions against the dataset and generate the optimised logliklihood function
 #' 
 #' This function takes a utility function description, and generates a optimised C++ version 
@@ -16,7 +16,7 @@
 #' 
 #' @return An \code{object} which contains the loglikelihood function, and information from the compile process
 #' 
-#' 
+#' @export 
 compileUtilityFunction <- function( utility_script, data_names = NULL , output_file = NULL, compile=TRUE) {
   
   #TODO: if data is null, skip all the validaiton
