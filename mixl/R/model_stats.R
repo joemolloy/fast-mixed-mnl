@@ -1,34 +1,4 @@
 
-# 
-# result <- structure(
-#   list(
-#     coefficients  = x$coefficients,
-#     logLik        = logLik,
-#     gradient      = gradient,
-#     hessian       = hessian,
-#     est.stat      = x$est.stat,
-#     fitted.values = fitted,
-#     probabilities = probabilities,
-#     linpred       = linpred,
-#     indpar        = indpar,
-#     residuals     = resid,
-#     omega         = Omega,
-#     rpar          = rpar,
-#     nests         = nests,
-#     model         = mf,
-#     freq          = freq,
-#     formula       = formula,
-#     call          = callT),
-#   class = 'mlogit'
-# ) 
-# #result$Mi <- Mi
-# #result$alt.lev <- alt.lev
-# result
-
-
-#mixl class:
-#  model, data, Nindividuals, nDraws
-
 #' @export
 summary.mixl <- function (object,...){
     SIG_FIGS4 <- 4
@@ -40,6 +10,7 @@ summary.mixl <- function (object,...){
     zeroLL  <- model$zeroLL
     est <- model$estimate
     Nindividuals <- model$Nindividuals
+    choicetasks <- model$choicetasks
     
     varcov <- vcov(model)
     se=sqrt(diag(varcov))
@@ -60,6 +31,9 @@ summary.mixl <- function (object,...){
     robtrat_0 <- est/robse
     robtrat_1 <- (est-1)/robse
     robcorrmat <- robvarcov/(robse%*%t(robse))
+
+    rob_pval0 <- 2*pnorm(-abs(robtrat_0))
+    rob_pval1 <- 2*pnorm(-abs(robtrat_1))
     
     num_params <- length(est)-sum(model$fixed)
     rho2zero <- 1-finalLL/zeroLL
@@ -72,21 +46,24 @@ summary.mixl <- function (object,...){
     robse <- round(robse, SIG_FIGS4)
     robtrat_0 <- round(robtrat_0, SIG_FIGS2)
     robtrat_1 <- round(robtrat_1, SIG_FIGS2)
+    rob_pval0 <- round(rob_pval0, SIG_FIGS2)
+    rob_pval1 <- round(rob_pval1, SIG_FIGS2)
     
-    coefTable <- t(rbind(est,se,trat_0,trat_1,robse,robtrat_0,robtrat_1))
+    
+    coefTable <- as.data.frame(t(rbind(est,se,trat_0,trat_1,robse, robtrat_0,robtrat_1, rob_pval0, rob_pval1)))
     
     model$coefTable <- coefTable
     model$robvarcov <- robvarcov
     model$num_params <- num_params
+    model$num_params <- num_params
 
-    
     model$metrics <- list(
       rho2zero    = 1-finalLL/zeroLL,
       adjrho2zero = 1-(finalLL-num_params)/zeroLL,
       
       AIC  = round(-2*finalLL+2*(num_params),SIG_FIGS2),
       AICc = round(-2*finalLL+2*(num_params)*Nindividuals/(Nindividuals-(num_params)-1),SIG_FIGS2)
-##    ,BIC  = round(-2*finalLL+(num_params)*log(choicetasks),SIG_FIGS2)    ##TODO: what if choice task numbers vary over participants
+     ,BIC  = round(-2*finalLL+(num_params)*log(choicetasks),SIG_FIGS2)    ##TODO: what if choice task numbers vary over participants
     )
     
     class(model) <- c("summary.mixl", class(model))
@@ -100,7 +77,7 @@ print.summary.mixl <- function (model_output) {
       cat("Runtime:", "????? ","\n\n")
       cat("Model diagnosis:", message,"\n\n")
       cat("Number of decision makers:", Nindividuals,"\n")
- #     cat("Number of observations:",run_summary$choicetasks,"\n\n")
+      cat("Number of observations:", choicetasks,"\n\n")
       cat("Number of draws for random component:", nDraws,"\n\n")
       
       cat("LL(null): ", zeroLL,"\n")

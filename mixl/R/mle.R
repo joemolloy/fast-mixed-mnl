@@ -116,6 +116,10 @@ maxLikelihood <- function (logLik_function_env, start_values, data, availabiliti
   mL <- maxLik::maxLik(ll2, start=start_values, fixed=fixedparam, method="BFGS",print.level=4, hess=hessian_function, ... )
   
   ### set up output
+  mL$Nindividuals <- Nindividuals
+  mL$nDraws       <- nDraws
+  mL$choicetasks  <- nrow(data)
+  mL$model_name   <- logLik_function_env$model_name
   
   if (mL$code == 0) { #successful convergence, calculate all the metrics
     est <- mL$estimate
@@ -128,9 +132,7 @@ maxLikelihood <- function (logLik_function_env, start_values, data, availabiliti
     mL$zeroLL <- sum(ll2(0*start_values))
     mL$initLL <- sum(ll2(start_values))
     mL$finalLL <- sum(ll2(est))
-    
-    mL$Nindividuals <- Nindividuals
-    mL$nDraws       <- nDraws
+
     
     class(mL) <- c("mixl", class(mL))
     

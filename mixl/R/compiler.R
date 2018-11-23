@@ -13,12 +13,13 @@
 #' @param data_names An (optional) vector containing the names of the columns in the dataset
 #' @param output_file An (optional) location where the compiled code should be saved (useful for debugging
 #' @param compile If compile is false, then the code will not be compiled, but just validated and saved if an \code{output_file} is specified
-#' 
+#' @param model_name A name for the model, which will be used for saving. Defaults to *mixl_model*
 #' @return An \code{object} which contains the loglikelihood function, and information from the compile process
 #' 
 #' @export 
-compileUtilityFunction <- function( utility_script, data_names = NULL , output_file = NULL, compile=TRUE) {
+compileUtilityFunction <- function( utility_script, data_names = NULL , output_file = NULL, compile=TRUE, model_name="mixl_model") {
   
+
   #TODO: if data is null, skip all the validaiton
   #TODO: return an object instead of an environment
   
@@ -55,6 +56,9 @@ compileUtilityFunction <- function( utility_script, data_names = NULL , output_f
     cpp_container$is_mixed <- e1$is_mixed
     cpp_container$beta_names <- setNames(e1$betas, NULL)
     cpp_container$num_coeffs <- length(e1$betas)
+    
+    #set modelname 
+    cpp_container$model_name <- model_name
     
     if (compile) Rcpp::sourceCpp(code = e1$cpp_code, env = cpp_container)
     

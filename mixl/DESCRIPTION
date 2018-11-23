@@ -5,7 +5,7 @@ Version: 1.0
 Date: 2018-11-01
 Authors@R: person("Joseph", "Molloy", email = "joseph.molloy@ivt.baug.ethz.ch",
   role = c("aut", "cre"))
-Description: One paragraph description of what the package does as one or more full sentences.
+Description: This package allows the specification and estimation of multinomial logit models throgh maximum likelihood estimation 
 License: GPL (>= 2)
 Encoding: UTF-8
 Imports:
@@ -19,6 +19,8 @@ Suggests:
     testthat,
     knitr,
     rmarkdown,
-    mlogit
+    mlogit,
+    xtable,
+    texreg
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1

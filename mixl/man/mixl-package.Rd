@@ -3,20 +3,19 @@
 \alias{mixl}
 \docType{package}
 \title{
-  A short title line describing what the package does
+  Estimate mixed multinomial logit models
 }
 \description{
-  A more detailed description of what the package does. A length
-  of about one to five lines is recommended.
+  Estimate mixed multinomial logit models using (simulated) maximum likelihood estimation. 
+  The package supports standard mnl, mixed-logit and hybrid choice. Using compilation to C++,
+  model estimation is significantly faster than in native R code.
 }
 \details{
   This section should provide a more detailed overview of how to use the
   package, including the most important functions.
 }
 \author{
-Your Name, email optional.
-
-Maintainer: Your Name <your@email.com>
+Joe Molloy <joseph.molloy@ivt.baug.ethz.ch>.
 }
 \references{
   This optional section can contain literature or other references for
