@@ -115,7 +115,7 @@ convert_to_valid_cpp <- function(cpp_template, e1, hybrid_choice=FALSE) {
   data_declarations <- paste(data_inits_vec, collapse="\n")
 
   #build betas initialization code
-  beta_var_init_text <- 'double {beta_name} = beta1["{beta_name}"];'
+  beta_var_init_text <- 'double {beta_name} = betas["{beta_name}"];'
   beta_inits_vec <- sapply(e1$betas, function (beta_name) stringr::str_glue(beta_var_init_text)) #vector creation
   beta_declarations <- paste(beta_inits_vec, collapse="\n")
 

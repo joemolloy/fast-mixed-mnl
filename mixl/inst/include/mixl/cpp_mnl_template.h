@@ -1,29 +1,17 @@
-#include <Rcpp.h>
-#include <omp.h>
+
 // [[Rcpp::plugins(openmp)]]
+// [[Rcpp::plugins(cpp11)]]        
 
-
+#include <Rcpp.h>
+#include "mixl/utility_function.h"
 using namespace Rcpp;
-
-struct UF_args {
-  const DataFrame data;
-  const int Nindividuals;
-  const IntegerMatrix availabilities;
-  NumericMatrix P;
-
-  UF_args(DataFrame data, int Nindividuals, IntegerMatrix availabilities, NumericMatrix P)
-    : data(data), Nindividuals(Nindividuals), availabilities(availabilities), P(P)
-  { }
-  
-} ;
-
-void utilityFunction(NumericVector beta1, UF_args& v);
+using namespace Rcpp;
 
 // [[Rcpp::export]]
 NumericVector logLik(NumericVector betas, //TODO const things!
                      DataFrame data,
                      int Nindividuals,
-                     IntegerMatrix availabilities,
+                     NumericMatrix availabilities,
                      NumericMatrix P, int num_threads=1) {
   
   omp_set_num_threads(num_threads);
@@ -34,7 +22,7 @@ NumericVector logLik(NumericVector betas, //TODO const things!
   std::fill(v.P.begin(), v.P.end(), 0);
   
   //Rcpp::Rcout << "running utility function"<<  std::endl;
-  double begin = omp_get_wtime();
+  //double begin = omp_get_wtime();
   
   utilityFunction(betas, v);
   
@@ -46,8 +34,8 @@ NumericVector logLik(NumericVector betas, //TODO const things!
     
   }
   
-  double end = omp_get_wtime();
-  double elapsed_secs = double(end - begin) * 1000;
+  //double end = omp_get_wtime();
+  //double elapsed_secs = double(end - begin) * 1000;
   /*
 #pragma omp parallel
 {
@@ -63,7 +51,7 @@ return LL;
 //or - through r, check the names in the utility function, that they are in the data, and return error if not. Then desugarise and compile
 //need to distinquish between betas, random-coeefs and parameters
 
-void utilityFunction(NumericVector beta1, UF_args& v)
+void utilityFunction(NumericVector betas, UF_args& v)
 {
   if (!(v.data.containsElementNamed("ID") && v.data.containsElementNamed("CHOICE"))) {
     stop("Both ID and CHOICE columns need to be present in the data");
@@ -117,7 +105,7 @@ void utilityFunction(NumericVector beta1, UF_args& v)
     
     double chosen_utility = utilities[choice[i]-1]; //this -1 is needed if the choices start at 1 (as they should)
     
-    IntegerMatrix::ConstRow  choices_avail = v.availabilities( i , _ );
+    NumericMatrix::ConstRow  choices_avail = v.availabilities( i , _ );
     double sum_utilities = std::inner_product(utilities.begin(), utilities.end(), choices_avail.begin(), 0.0);
     
     

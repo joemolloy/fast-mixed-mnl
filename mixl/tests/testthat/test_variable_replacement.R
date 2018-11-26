@@ -24,14 +24,14 @@ test_template <-  "
 "
 
 
-expected_output = "double B_COST = beta1[\"B_COST\"];
-double SIGMA_SCALE = beta1[\"SIGMA_SCALE\"];
-double ASC_C = beta1[\"ASC_C\"];
-double SIGMA_C = beta1[\"SIGMA_C\"];
-double ASC_CS = beta1[\"ASC_CS\"];
-double SIGMA_CS = beta1[\"SIGMA_CS\"];
-double ASC_CP = beta1[\"ASC_CP\"];
-double SIGMA_CP = beta1[\"SIGMA_CP\"];
+expected_output = "double B_COST = betas[\"B_COST\"];
+double SIGMA_SCALE = betas[\"SIGMA_SCALE\"];
+double ASC_C = betas[\"ASC_C\"];
+double SIGMA_C = betas[\"SIGMA_C\"];
+double ASC_CS = betas[\"ASC_CS\"];
+double SIGMA_CS = betas[\"SIGMA_CS\"];
+double ASC_CP = betas[\"ASC_CP\"];
+double SIGMA_CP = betas[\"SIGMA_CP\"];
 
 const NumericVector data_tt_w_rp = v.data[\"tt_w_rp\"];
 const NumericVector data_tt_b_rp = v.data[\"tt_b_rp\"];
@@ -74,6 +74,6 @@ test_that("a valid file processes without failing", {
 test_that("declarations are put into a template", {
   cpp_code <- as.character(convert_to_valid_cpp(test_template, e1))
   expect_equal(e1$num_utility_functions, 2)
-  expect_equal(strsplit(cpp_code, "\n"), strsplit(expected_output, "\n"))
+  expect_equal(strsplit(cpp_code, "\n")[[1]], strsplit(expected_output, "\n")[[1]])
 })
 

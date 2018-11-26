@@ -1,44 +1,26 @@
-#include <Rcpp.h>
-#include <omp.h>
-// [[Rcpp::plugins(openmp)]]
 
+// [[Rcpp::plugins(openmp)]]
+// [[Rcpp::plugins(cpp11)]]        
+
+#include <Rcpp.h>
+#include "mixl/utility_function.h"
 using namespace Rcpp;
 
-struct UF_args {
-  const DataFrame data;
-  const int Nindividuals;
-  const IntegerMatrix availabilities;
-  const NumericMatrix draws;
-  const int nDraws;
-  NumericMatrix P;
-  bool include_probability_indices;
-  
-  UF_args(DataFrame data, int Nindividuals, IntegerMatrix availabilities, NumericMatrix draws, int nDraws, NumericMatrix P,bool include_probability_indices)
-    : data(data), Nindividuals(Nindividuals), availabilities(availabilities), draws(draws), nDraws(nDraws), P(P),include_probability_indices(include_probability_indices)
-  { }
-  
-} ;
-
-void utilityFunction(NumericVector beta1, UF_args& v);
-
 // [[Rcpp::export]]
-NumericVector logLik(NumericVector betas, //TODO const things!
-                     DataFrame data,
-                     int Nindividuals,
-                     IntegerMatrix availabilities,
-                     NumericMatrix draws,
-                     int nDraws,
+NumericVector logLik(NumericVector betas, DataFrame data,
+                     int Nindividuals, NumericMatrix availabilities,
+                     NumericMatrix draws, int nDraws,
                      NumericMatrix P, int num_threads=1, bool p_indices=false) {
   
   omp_set_num_threads(num_threads);
   
-  UF_args v(data, Nindividuals, availabilities, draws, nDraws, P, p_indices);
+  UF_args2 v(data, Nindividuals, availabilities, draws, nDraws, P, p_indices);
   
   NumericVector LL(v.Nindividuals);
   std::fill(v.P.begin(), v.P.end(), 0);
   
   //Rcpp::Rcout << "running utility function"<<  std::endl;
-  double begin = omp_get_wtime();
+  //double begin = omp_get_wtime();
   
   utilityFunction(betas, v);
   
@@ -56,8 +38,8 @@ NumericVector logLik(NumericVector betas, //TODO const things!
     
   }
   
-  double end = omp_get_wtime();
-  double elapsed_secs = double(end - begin) * 1000;
+  //double end = omp_get_wtime();
+  //double elapsed_secs = double(end - begin) * 1000;
   /*  
   #pragma omp parallel
   {
@@ -73,7 +55,7 @@ return LL;
 //or - through r, check the names in the utility function, that they are in the data, and return error if not. Then desugarise and compile
 //need to distinquish between betas, random-coeefs and parameters
 
-void utilityFunction(NumericVector beta1, UF_args& v)
+void utilityFunction(NumericVector betas, UF_args2& v)
 {
   
   if (!(v.data.containsElementNamed("ID") && v.data.containsElementNamed("CHOICE"))) {
@@ -98,15 +80,12 @@ void utilityFunction(NumericVector beta1, UF_args& v)
   
   //data
   !===data_declarations===!
-    
-  
-  
   
   /////////////////////////////////////
   
 #pragma omp parallel
 {
-  std::vector<double> utilities(!===utility_length===!);  //specify here the number of alternatives
+  std::valarray<double> utilities(!===utility_length===!);  //specify here the number of alternatives
   
 #pragma omp for
   for (int i=0; i < v.data.nrows(); i++) {
@@ -118,7 +97,7 @@ void utilityFunction(NumericVector beta1, UF_args& v)
       int draw_index = individual_index * v.nDraws + d; //drawsrep give the index of the draw, based on id, which we dont want to carry in here.
       NumericMatrix::ConstRow draw = v.draws(draw_index, _);
       
-      std::fill(utilities.begin(), utilities.end(), 0.0);
+      std::fill(std::begin(utilities), std::end(utilities), 0.0);
       
       /////////////////////////
       
@@ -131,13 +110,14 @@ void utilityFunction(NumericVector beta1, UF_args& v)
         utilities[k] = std::min(700.0, std::max(-700.0, utilities[k])); //trip utilities to +- 700 for compuational reasons
         utilities[k] = exp(utilities[k]); //take the exponential of each utility
       }
-      
-      
-      
+    
       double chosen_utility = utilities[choice[i]-1]; //this -1 is needed if the choices start at 1 (as they should)
 
-      IntegerMatrix::ConstRow  choices_avail = v.availabilities( i , _ );
-      double sum_utilities = std::inner_product(utilities.begin(), utilities.end(), choices_avail.begin(), 0.0);
+      double sum_utilities = 0.0;
+      NumericMatrix::ConstRow  choices_avail = v.availabilities( i , _ );
+      for (unsigned k=0; k < utilities.size(); ++k) {
+        sum_utilities += utilities[k] * choices_avail[k];
+      }
       
       double log_p_choice = log(chosen_utility / sum_utilities);
       
@@ -147,15 +127,125 @@ void utilityFunction(NumericVector beta1, UF_args& v)
         log_p_choice += (1/count[i])*log(p_indic_total);
       }
       
-#pragma omp atomic 
+      #pragma omp atomic 
       v.P(individual_index, d) += log_p_choice; //sum up the draws as we go along.
       
-      //   printf("Hello world from omp thread %d - %d %d | %d %d\n", tid, i, draw, individual_index, draw_index);
+      }
+    }
+  }
+}
+
+
+// [[Rcpp::export]]
+NumericMatrix predict(NumericVector betas, DataFrame data,
+                      int Nindividuals, NumericMatrix availabilities,
+                      NumericMatrix draws, int nDraws, int num_threads=1) {
+  
+  omp_set_num_threads(num_threads);
+  
+  const int PRE_COLS = 5;
+  
+  int nCols = PRE_COLS + !===utility_length===!;
+  NumericMatrix P(data.nrows()*nDraws, nCols);
+  
+  CharacterVector colnames1(nCols);
+  colnames1[0] = "i";
+  colnames1[1] = "ID";
+  colnames1[2] = "draw";
+  colnames1[3] = "choice_index";
+  colnames1[4] = "p_choice";
+  for (int i=0; i < !===utility_length===!; i++) {
+    
+    std::ostringstream oss;
+    oss << "p_" << i + 1;
+    
+    colnames1[PRE_COLS+i] = oss.str();
+  }
+  
+  colnames(P) = colnames1;
+  
+  UF_args2 v(data, Nindividuals, availabilities, draws, nDraws, P, false);
+  
+  std::fill(v.P.begin(), v.P.end(), 0);
+  
+  if (!(v.data.containsElementNamed("ID") && v.data.containsElementNamed("CHOICE"))) {
+    stop("Both ID and CHOICE columns need to be present in the data");
+  }
+  
+  //delcare the variables that you will be using from the dataframe
+  const NumericVector row_ids = v.data["ID"];
+  const NumericVector choice = v.data["CHOICE"];
+  
+  NumericVector count;
+  
+  /////////////////////////////////////
+  
+  
+  //betas
+  !===beta_declarations===!
+    
+    
+  //data
+  !===data_declarations===!
+  
+  /////////////////////////////////////
+      
+  #pragma omp parallel
+  {
+    std::valarray<double> utilities(!===utility_length===!);  //specify here the number of alternatives
+    
+    #pragma omp for
+    for (int i=0; i < v.data.nrows(); i++) {
+      
+      int individual_index = row_ids[i]-1; //indexes should be for c, ie. start at 0
+      //Rcpp::Rcout << "indv: " << individual_index << std::endl;
+      for (int d=0; d<v.nDraws; d++) {
+        
+        int draw_index = individual_index * v.nDraws + d; //drawsrep give the index of the draw, based on id, which we dont want to carry in here.
+        NumericMatrix::ConstRow draw = v.draws(draw_index, _);
+        
+        std::fill(std::begin(utilities), std::end(utilities), 0.0);
+        
+        /////////////////////////
+        
+        !===draw_and_utility_declarations===!
+          
+        /////////////////////////
+          
+        //dont edit beflow this line
+        for (unsigned k=0; k < utilities.size(); ++k) {
+          utilities[k] = std::min(700.0, std::max(-700.0, utilities[k])); //trip utilities to +- 700 for compuational reasons
+          utilities[k] = exp(utilities[k]); //take the exponential of each utility
+        }
+        
+        double chosen_utility = utilities[choice[i]-1]; //this -1 is needed if the choices start at 1 (as they should)
+      
+        double sum_utilities = 0.0;
+        NumericMatrix::ConstRow  choices_avail = v.availabilities( i , _ );
+
+        for (unsigned k=0; k < utilities.size(); ++k) {
+          sum_utilities += utilities[k] * choices_avail[k];
+        }
+        
+        double pchoice = chosen_utility / sum_utilities;
+        std::valarray<double> probabilities = utilities / sum_utilities;
+        
+        int out_index = i*v.nDraws + d;
+        
+        P(out_index, 0) = i;
+        P(out_index, 1) = individual_index;
+        P(out_index, 2) = d;
+        P(out_index, 3) = choice[i];
+        P(out_index, 4) = pchoice;
+        for (unsigned k=0; k < utilities.size(); ++k) {
+          P(out_index, PRE_COLS + k) = probabilities[k];
+        } 
+        
+      }
       
     }
     
   }
-  
+  return (P);
 }
 
-}

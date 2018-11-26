@@ -77,8 +77,8 @@ U_2 =  1 * (ASC_B_RNP + B_COST_RND * B_TT_W_RND * $tt_w_rp_m23 / 60 );
 !=== draw_and_utility_declarations ===!
 "
   
-  cpp_expected <- "double B_COST = beta1[\"B_COST\"];
-double SIGMA_SCALE = beta1[\"SIGMA_SCALE\"];
+  cpp_expected <- "double B_COST = betas[\"B_COST\"];
+double SIGMA_SCALE = betas[\"SIGMA_SCALE\"];
 
 const NumericVector data_tt_w_rp = v.data[\"tt_w_rp\"];
 const NumericVector data_tt_w_rp_m23 = v.data[\"tt_w_rp_m23\"];
