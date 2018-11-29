@@ -3,7 +3,7 @@ context("Test maxlikelihood function")
 data("Train", package="mlogit")
 head(Train, 3)
 Train$ID <- Train$id
-Train$CHOICE <- Train$choice
+Train$CHOICE <- as.numeric(Train$choice)
 
 train_cols <- names(Train)
 
@@ -22,10 +22,10 @@ test_that("A basic MNL model converges and creates the output", {
 
     availabilities <- mixl::generate_default_availabilities(Train, logLik_env$num_utility_functions)
 
-    model <- mixl::maxLikelihood(logLik_env, est, Train, availabilities = availabilities)
+    model <- mixl::maxLikelihood(logLik_env, est, Train, availabilities = availabilities, control=list(iterlim=4))
 
-    expect_equal(model$code, 0)
-    expect_equal(model$maximum, -1842.784, tolerance=1e-3)
+    expect_equal(model$code, 1) #iteration limit
+    expect_equal(model$maximum, -2046.955200, tolerance=1e-3)
     expect_s3_class(model, "mixl")
     expect_s3_class(summary(model), "summary.mixl")
     prints_text(summary(model))

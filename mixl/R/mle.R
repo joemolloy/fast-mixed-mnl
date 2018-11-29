@@ -90,9 +90,9 @@ maxLikelihood <- function (logLik_function_env, start_values, data, availabiliti
     ll2 <- function (betas) logLik_function_env$logLik(betas, data, Nindividuals, availabilities, draws, nDraws, p, num_threads, p_indices=FALSE)
   }
   
-  mL$zeroLL <- sum(ll2(0*start_values))
-  mL$initLL <- sum(ll2(start_values))
-  mL$finalLL <- sum(ll2(est))
+  mL$zeroLL <- ll2(0*start_values)
+  mL$initLL <- ll2(start_values)
+  mL$finalLL <- ll2(est)
 
   
   class(mL) <- c("mixl", class(mL))
