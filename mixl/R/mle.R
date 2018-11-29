@@ -35,8 +35,8 @@
 #' @return a mixl object that contains the results of the estimation 
 #' 
 #' @export 
-maxLikelihood <- function (logLik_function_env, start_values, data, availabilities, ..., 
-                           draws = NULL, nDraws = NULL, fixedparam = c(), num_threads=1) {
+maxLikelihood <- function (logLik_function_env, start_values, data, availabilities,  
+                           draws = NULL, nDraws = NULL, fixedparam = c(), num_threads=1, ...) {
   
   
   Nindividuals <- length(unique(data$ID))
@@ -83,23 +83,19 @@ maxLikelihood <- function (logLik_function_env, start_values, data, availabiliti
   mL$choicetasks  <- nrow(data)
   mL$model_name   <- logLik_function_env$model_name
   
-  if (mL$code == 0) { #successful convergence, calculate all the metrics
-    est <- mL$estimate
-    if (is_hybrid_choice) {
-      mL$HybridLL <- ll2(est)
-      
-      ll2 <- function (betas) logLik_function_env$logLik(betas, data, Nindividuals, availabilities, draws, nDraws, p, num_threads, p_indices=FALSE)
-    }
+  est <- mL$estimate
+  if (is_hybrid_choice) {
+    mL$HybridLL <- ll2(est)
     
-    mL$zeroLL <- sum(ll2(0*start_values))
-    mL$initLL <- sum(ll2(start_values))
-    mL$finalLL <- sum(ll2(est))
-
-    
-    class(mL) <- c("mixl", class(mL))
-    
+    ll2 <- function (betas) logLik_function_env$logLik(betas, data, Nindividuals, availabilities, draws, nDraws, p, num_threads, p_indices=FALSE)
   }
   
+  mL$zeroLL <- sum(ll2(0*start_values))
+  mL$initLL <- sum(ll2(start_values))
+  mL$finalLL <- sum(ll2(est))
+
+  
+  class(mL) <- c("mixl", class(mL))
   
   maxLik_result <- mL
   
