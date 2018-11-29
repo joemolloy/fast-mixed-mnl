@@ -122,6 +122,7 @@ void utilityFunction(NumericVector betas, UF_args2& v)
       double log_p_choice = log(chosen_utility / sum_utilities);
       
       if (v.include_probability_indices){
+        double p_indic_total = 0;
         !===prob_indicator_sum===!
         log_p_choice += (1/count[i])*log(p_indic_total);
       }

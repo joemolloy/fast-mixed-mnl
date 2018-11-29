@@ -3,7 +3,7 @@ context("Test maxlikelihood function")
 data("Train", package="mlogit")
 head(Train, 3)
 Train$ID <- Train$id
-Train$CHOICE <- as.integer(Train$choice)
+Train$CHOICE <- Train$choice
 
 train_cols <- names(Train)
 

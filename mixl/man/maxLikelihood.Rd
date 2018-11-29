@@ -33,7 +33,7 @@ Only needed if \code{draws} is left null. Then a matrix of normal halton draws w
 \item{num_threads}{The maximum number of parallel cores to use in estimation. The default is 1. 
 This should only be speficied on machines with an openMP compiler (linux and some OSXs).}
 
-\item{fixparam}{Coefficients which should be fixed to thier starting values during estimation.}
+\item{fixparam}{(optional) Coefficients which should be fixed to their starting values during estimation.}
 }
 \value{
 a mixl object that contains the results of the estimation

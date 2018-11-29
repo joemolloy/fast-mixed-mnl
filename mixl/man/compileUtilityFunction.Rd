@@ -5,7 +5,7 @@
 \title{Validate the utility functions against the dataset and generate the optimised logliklihood function}
 \usage{
 compileUtilityFunction(utility_script, data_names = NULL,
-  output_file = NULL, compile = TRUE)
+  output_file = NULL, compile = TRUE, model_name = "mixl_model")
 }
 \arguments{
 \item{utility_script}{The utility script to be compiled}
@@ -15,6 +15,8 @@ compileUtilityFunction(utility_script, data_names = NULL,
 \item{output_file}{An (optional) location where the compiled code should be saved (useful for debugging}
 
 \item{compile}{If compile is false, then the code will not be compiled, but just validated and saved if an \code{output_file} is specified}
+
+\item{model_name}{A name for the model, which will be used for saving. Defaults to *mixl_model*}
 }
 \value{
 An \code{object} which contains the loglikelihood function, and information from the compile process

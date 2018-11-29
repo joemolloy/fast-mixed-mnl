@@ -57,7 +57,7 @@ extract_variables <- function (source_txt) {
 }
 
 create_p_indic_sum <- function(p_indics) {
-  paste("double p_indic_total = ", paste(p_indics, collapse = " * "), ";")
+  paste("p_indic_total = ", paste(p_indics, collapse = " * "), ";")
 }
 
 validate_env <- function (e1, data_names) {

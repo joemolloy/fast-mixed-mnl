@@ -3,6 +3,7 @@
 S3method(print,summary.mixl)
 S3method(summary,mixl)
 export(av_matrix)
+export(check_inputs)
 export(compileUtilityFunction)
 export(create_halton_draws)
 export(extract_av_cols)

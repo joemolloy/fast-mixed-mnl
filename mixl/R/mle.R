@@ -38,48 +38,10 @@
 maxLikelihood <- function (logLik_function_env, start_values, data, availabilities, ..., 
                            draws = NULL, nDraws = NULL, fixedparam = c(), num_threads=1) {
   
-  #check betas
-  start_value_names <- names(start_values)
-  function_beta_names <- logLik_function_env$beta_names
-  
-  beta_errors <- setdiff(function_beta_names, start_value_names)
-  excess_betas <- setdiff(start_value_names, function_beta_names)
   
   Nindividuals <- length(unique(data$ID))
-  k <- logLik_function_env$num_utility_functions
-  
-  #TODO: check existence of required data variables and CHOICE and ID
-  
-  #check data is dataframe (again)
-  if (!is.data.frame(data)) {
-    stop("data argument must be a dataframe")
-  }
-  
-  #check IDs are in range
-  if (data$ID != is.integer(data$ID) | min(data$ID) < 1 | max(data$ID) > Nindividuals) {
-    stop(paste0("The individual IDs for this dataset must be integers in the range 1..", Nindividuals))
-  }
-  
-  #check CHOICEs are in range
-  if (data$CHOICE != is.integer(data$CHOICE) | min(data$CHOICE) < 1 | max(data$CHOICE) > k) {
-    stop(paste0("The Choices for this dataset must be integers in the range 1..", k))
-  }
-  
-  #check availabilities are in range
-  if (!is.matrix(availabilities) | nrow(availabilities) != nrow(data) | ncol(availabilities) != k) {
-    stop(sprintf("The availabilities must be  matrix of the size %d x %d", nrow(data), k))
-  }
-  
-  #check betas are all in the beta list
-  if (length(beta_errors) > 0) {
-    stop(paste("The following parameters are not named:", paste(beta_errors, collapse = ", ")))
-  }
-  
-  if (length(excess_betas) > 0) {
-    warning(paste("The following parameters are not used in the utility function but will be estimated anyway:", paste(excess_betas, collapse=",")))
-  }
-  
-  #TODO::: separate function to check inputs
+
+  check_inputs(logLik_function_env, start_values, data, availabilities, draws, fixedparam)
   
   draw_dimensions <- logLik_function_env$draw_dimensions
   is_hybrid_choice <- logLik_function_env$is_hybrid_choice
@@ -142,5 +104,58 @@ maxLikelihood <- function (logLik_function_env, start_values, data, availabiliti
   maxLik_result <- mL
   
   return (maxLik_result)
+  
+}
+
+#' Check the inputs to the maxLikelihood function
+#' 
+#' This function checks the start_vlaues, data, availabilities, draws and fixedparams for validity.
+#' If this function runs without error, then the inputs are valid for the maxLikelihood function. 
+#' These checks are important, because an error in the internal C++ code will cause the Rstudio session to crash.
+#' Incidentally, if there is concern of this happening, it is recommended to run the script from the 
+#' command line, using Rscript.
+#' 
+#' @export
+check_inputs <- function(logLik_function_env, start_values, data, availabilities, draws, fixedparam) {
+  #TODO: check existence of required data variables and CHOICE and ID
+  
+  #check betas
+  start_value_names <- names(start_values)
+  function_beta_names <- logLik_function_env$beta_names
+  
+  beta_errors <- setdiff(function_beta_names, start_value_names)
+  excess_betas <- setdiff(start_value_names, function_beta_names)
+  
+  Nindividuals <- length(unique(data$ID))
+  k <- logLik_function_env$num_utility_functions
+  
+  #check data is dataframe (again)
+  if (!is.data.frame(data)) {
+    stop("data argument must be a dataframe")
+  }
+  
+  #check IDs are in range
+  if (data$ID != is.integer(data$ID) | min(data$ID) < 1 | max(data$ID) > Nindividuals) {
+    stop(paste0("The individual IDs for this dataset must be integers in the range 1..", Nindividuals))
+  }
+  
+  #check CHOICEs are in range
+  if (data$CHOICE != is.integer(data$CHOICE) | min(data$CHOICE) < 1 | max(data$CHOICE) > k) {
+    stop(paste0("The Choices for this dataset must be integers in the range 1..", k))
+  }
+  
+  #check availabilities are in range
+  if (!is.matrix(availabilities) | nrow(availabilities) != nrow(data) | ncol(availabilities) != k) {
+    stop(sprintf("The availabilities must be  matrix of the size %d x %d", nrow(data), k))
+  }
+  
+  #check betas are all in the beta list
+  if (length(beta_errors) > 0) {
+    stop(paste("The following parameters are not named:", paste(beta_errors, collapse = ", ")))
+  }
+  
+  if (length(excess_betas) > 0) {
+    warning(paste("The following parameters are not used in the utility function but will be estimated anyway:", paste(excess_betas, collapse=",")))
+  }
   
 }
