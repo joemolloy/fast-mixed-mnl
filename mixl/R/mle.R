@@ -24,7 +24,7 @@
 #' @param nDraws The number of draws to use in estimating a mixed model. 
 #' Only needed if \code{draws} is left null. Then a matrix of normal halton draws will be generated.
 #' 
-#' @param fixparam Coefficients which should be fixed to thier starting values during estimation.
+#' @param fixparam (optional) Coefficients which should be fixed to their starting values during estimation.
 #' 
 #' @param num_threads The maximum number of parallel cores to use in estimation. The default is 1. 
 #' This should only be speficied on machines with an openMP compiler (linux and some OSXs).
@@ -56,13 +56,13 @@ maxLikelihood <- function (logLik_function_env, start_values, data, availabiliti
   }
   
   #check IDs are in range
-  if (!is.integer(data$ID) | min(data$ID) < 1 | max(data$ID) > Nindividuals) {
-    stop(paste("The individual IDs for this dataset must be integers in the range 1..", Nindividuals))
+  if (data$ID != is.integer(data$ID) | min(data$ID) < 1 | max(data$ID) > Nindividuals) {
+    stop(paste0("The individual IDs for this dataset must be integers in the range 1..", Nindividuals))
   }
   
   #check CHOICEs are in range
-  if (!is.integer(data$CHOICE) | min(data$CHOICE) < 1 | max(data$CHOICE) > k) {
-    stop(paste("The Choices for this dataset must be integers in the range 1..", k))
+  if (data$CHOICE != is.integer(data$CHOICE) | min(data$CHOICE) < 1 | max(data$CHOICE) > k) {
+    stop(paste0("The Choices for this dataset must be integers in the range 1..", k))
   }
   
   #check availabilities are in range
@@ -79,7 +79,7 @@ maxLikelihood <- function (logLik_function_env, start_values, data, availabiliti
     warning(paste("The following parameters are not used in the utility function but will be estimated anyway:", paste(excess_betas, collapse=",")))
   }
   
-  
+  #TODO::: separate function to check inputs
   
   draw_dimensions <- logLik_function_env$draw_dimensions
   is_hybrid_choice <- logLik_function_env$is_hybrid_choice
@@ -97,7 +97,7 @@ maxLikelihood <- function (logLik_function_env, start_values, data, availabiliti
       stop (sprintf("The draw matrix of dimensions %d x %d is not large enough (must be at least %d x %d)", nrow(draws), ncol(draws), Nindividuals, draw_dimensions))
     } 
     
-    nDraws = as.integer(nrow(draws) / Nindividuals) #get the maxmimum possible number of draws available
+    if (missing(nDraws)) nDraws = as.integer(nrow(draws) / Nindividuals) #get the maxmimum possible number of draws available
     
     p <- matrix(0, nrow=Nindividuals, ncol=nDraws)
     
