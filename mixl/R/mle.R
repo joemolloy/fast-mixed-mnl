@@ -135,12 +135,12 @@ check_inputs <- function(logLik_function_env, start_values, data, availabilities
   }
   
   #check IDs are in range
-  if (any(data$ID != is.integer(data$ID)) | min(data$ID) < 1 | max(data$ID) > Nindividuals) {
+  if (any(data$ID != as.integer(data$ID)) | min(data$ID) < 1 | max(data$ID) > Nindividuals) {
     stop(paste0("The individual IDs for this dataset must be integers in the range 1..", Nindividuals))
   }
   
   #check CHOICEs are in range
-  if (any(data$CHOICE != is.integer(data$CHOICE)) | min(data$CHOICE) < 1 | max(data$CHOICE) > k) {
+  if (any(data$CHOICE != as.integer(data$CHOICE)) | min(data$CHOICE) < 1 | max(data$CHOICE) > k) {
     stop(paste0("The Choices for this dataset must be integers in the range 1..", k))
   }
   
