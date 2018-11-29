@@ -60,8 +60,10 @@ compileUtilityFunction <- function( utility_script, data_names = NULL , output_f
     #set modelname 
     cpp_container$model_name <- model_name
     
-    if (compile) Rcpp::sourceCpp(code = e1$cpp_code, env = cpp_container)
-    
+    if (compile) {
+      Sys.setenv("PKG_CPPFLAGS"= sprintf("-I\"%s\"", system.file(package = "mixl", "include")))
+      Rcpp::sourceCpp(code = e1$cpp_code, env = cpp_container)
+    }
     return (cpp_container)
   }
   

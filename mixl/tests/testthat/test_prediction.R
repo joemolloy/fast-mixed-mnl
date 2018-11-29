@@ -13,9 +13,9 @@ test_that("The prediction code compiles and runs", {
     ASC_B_RND 	= @ASC_B 	+ draw_2 * @SIGMA_B;
   
   U_A =             @B_price * $price_A / 1000 + @B_time * $time_A / 60 + @B_change * $change_A; 
-  U_B = ASC_B_RND + @B_price * $price_B / 1000 + @B_timeB * $time_B / 60;
+  U_B = ASC_B_RND + @B_price * $price_B / 1000 + @B_timeB * $time_B / 60 ;
   "
-  Sys.setenv("PKG_CPPFLAGS"= sprintf("-I\"%s\"", system.file(package = "mixl", "include")))
+#  Sys.setenv("PKG_CPPFLAGS"= sprintf("-I\"%s\"", system.file(package = "mixl", "include")))
   
   logLik_env <- mixl::compileUtilityFunction(mnl_test, train_cols, compile=TRUE)
   

@@ -7,8 +7,6 @@ Train$CHOICE <- as.integer(Train$choice)
 
 train_cols <- names(Train)
 
-Sys.setenv("PKG_CPPFLAGS"= sprintf("-I\"%s\"", system.file(package = "mixl", "include")))
-
 skip_on_cran()
 test_that("A basic MNL model converges and creates the output", {
 
