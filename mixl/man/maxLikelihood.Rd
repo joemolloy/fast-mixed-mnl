@@ -4,8 +4,9 @@
 \alias{maxLikelihood}
 \title{Runs a maximum likelihood estimation on a mixl choice model}
 \usage{
-maxLikelihood(logLik_function_env, start_values, data, availabilities, ...,
-  draws = NULL, nDraws = NULL, fixedparam = c(), num_threads = 1)
+maxLikelihood(logLik_function_env, start_values, data, availabilities,
+  draws = NULL, nDraws = NULL, fixedparam = c(), num_threads = 1,
+  ...)
 }
 \arguments{
 \item{logLik_function_env}{The object that contains the loglikelihood function and other 
@@ -21,9 +22,6 @@ where k is the number of  utility functions}
 
 \item{availabilities}{A 1/0 matrix of availabilities. The dimensions must be \code{nrows(data) * k}, where there are k utility functions.}
 
-\item{...}{futher arguments. such as control are passed to the maximisaiton routine in maxLik. 
-See \code{?maxLik::maxLik} for more details}
-
 \item{draws}{A numeric matrix of draws for calculating mixed effects. If there no mixed effects, this should be left null.
 If the model specification included mixed effects, either this or \code{nDraws} need to be specified.}
 
@@ -32,6 +30,9 @@ Only needed if \code{draws} is left null. Then a matrix of normal halton draws w
 
 \item{num_threads}{The maximum number of parallel cores to use in estimation. The default is 1. 
 This should only be speficied on machines with an openMP compiler (linux and some OSXs).}
+
+\item{...}{futher arguments. such as control are passed to the maximisaiton routine in maxLik. 
+See \code{?maxLik::maxLik} for more details}
 
 \item{fixparam}{(optional) Coefficients which should be fixed to their starting values during estimation.}
 }

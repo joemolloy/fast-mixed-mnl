@@ -4,13 +4,13 @@
 \alias{compileUtilityFunction}
 \title{Validate the utility functions against the dataset and generate the optimised logliklihood function}
 \usage{
-compileUtilityFunction(utility_script, data_names = NULL,
+compileUtilityFunction(utility_script, dataset = NULL,
   output_file = NULL, compile = TRUE, model_name = "mixl_model")
 }
 \arguments{
 \item{utility_script}{The utility script to be compiled}
 
-\item{data_names}{An (optional) vector containing the names of the columns in the dataset}
+\item{dataset}{An (optional) dataframe to check if the all the variables are present}
 
 \item{output_file}{An (optional) location where the compiled code should be saved (useful for debugging}
 
