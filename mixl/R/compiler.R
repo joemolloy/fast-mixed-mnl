@@ -10,18 +10,19 @@
 #' @seealso browseVignettes("mixl")
 #' 
 #' @param utility_script The utility script to be compiled
-#' @param data_names An (optional) vector containing the names of the columns in the dataset
+#' @param dataset An (optional) dataframe to check if the all the variables are present
 #' @param output_file An (optional) location where the compiled code should be saved (useful for debugging
 #' @param compile If compile is false, then the code will not be compiled, but just validated and saved if an \code{output_file} is specified
 #' @param model_name A name for the model, which will be used for saving. Defaults to *mixl_model*
 #' @return An \code{object} which contains the loglikelihood function, and information from the compile process
 #' 
 #' @export 
-compileUtilityFunction <- function( utility_script, data_names = NULL , output_file = NULL, compile=TRUE, model_name="mixl_model") {
+compileUtilityFunction <- function( utility_script, dataset = NULL , output_file = NULL, compile=TRUE, model_name="mixl_model") {
   
 
   #TODO: if data is null, skip all the validaiton
   #TODO: return an object instead of an environment
+  data_names <- names(dataset)
   
   if (!missing(data_names) & (is.character(data_names) & !is.vector(data_names))) {
     stop ( "data_names argument must either be NULL or a vector of column names") #TODO move this to compile

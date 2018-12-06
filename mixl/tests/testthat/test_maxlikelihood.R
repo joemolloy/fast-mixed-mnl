@@ -5,7 +5,6 @@ head(Train, 3)
 Train$ID <- Train$id
 Train$CHOICE <- as.numeric(Train$choice)
 
-train_cols <- names(Train)
 
 skip_on_cran()
 test_that("A basic MNL model converges and creates the output", {
@@ -15,7 +14,7 @@ test_that("A basic MNL model converges and creates the output", {
     U_B = @B_price * $price_B / 1000 + @B_timeB * $time_B / 60;
     "
 
-    logLik_env <- compileUtilityFunction(mnl_test, train_cols, compile=TRUE)
+    logLik_env <- compileUtilityFunction(mnl_test, Train, compile=TRUE)
 
     #only take starting values that are needed
     est <- setNames(c(1,1,1,1), c("B_price", "B_time", "B_timeB", "B_change"))
@@ -28,7 +27,7 @@ test_that("A basic MNL model converges and creates the output", {
     expect_equal(model$maximum, -2046.955200, tolerance=1e-3)
     expect_s3_class(model, "mixl")
     expect_s3_class(summary(model), "summary.mixl")
-    prints_text(summary(model))
+    prints_text(summary(model)) #TODO::::: nDraws not found when printing mnl model
 })
 
 
@@ -42,7 +41,7 @@ test_that("A mixed MNL model converges and creates the output", {
     U_B = ASC_B_RND + @B_price * $price_B / 1000 + @B_timeB * $time_B / 60;
   "
   
-  logLik_env <- mixl::compileUtilityFunction(mnl_test, train_cols, compile=TRUE)
+  logLik_env <- mixl::compileUtilityFunction(mnl_test, Train, compile=TRUE)
   
   #only take starting values that are needed
   est <- setNames(c(0,0,0,0,0,0), c("B_price", "B_time", "B_timeB", "B_change", "ASC_B","SIGMA_B"))
@@ -71,7 +70,7 @@ test_that("A mixed MNL model failes : not enough betas", {
     U_B = ASC_B_RND + @B_price * $price_B / 1000 + @B_timeB * $time_B / 60;
   "
   
-  logLik_env <- mixl::compileUtilityFunction(mnl_test, train_cols, compile=TRUE)
+  logLik_env <- mixl::compileUtilityFunction(mnl_test, Train, compile=TRUE)
   
   #only take starting values that are needed
   est <- setNames(c(1,1,1,1), c("B_price", "B_time", "B_timeB", "B_change"))
@@ -104,7 +103,7 @@ test_that("creating and validating draws", {
   
   
   
-  logLik_env <- mixl::compileUtilityFunction(mnl_test, train_cols, compile=TRUE)
+  logLik_env <- mixl::compileUtilityFunction(mnl_test, Train, compile=TRUE)
   
   #only take starting values that are needed
   est <- setNames(c(1,1,1,1, 0.1, 0.1, 0.1, 0.1, 0.1), c("B_price", "B_time", "B_timeB", "B_change", "ASC_A", "ASC_B", "SIGMA_A1", "SIGMA_A2", "SIGMA_B"))
