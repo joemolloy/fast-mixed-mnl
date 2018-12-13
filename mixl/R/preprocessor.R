@@ -37,6 +37,7 @@ extract_variables <- function (source_txt) {
 
   #any lines dont start with U_ are variable definition lines
   e$new_vars <- unique(stringr::str_extract_all(source_wo_comments,new_vars_pattern))[[1]]
+  e$post_vars <- e$new_vars[endsWith(e$new_vars, "_RND")]
 
   e$utility_function_names = unique(stringr::str_extract_all(source_wo_comments, utility_pattern)[[1]])
   e$num_utility_functions = length(e$utility_function_names)

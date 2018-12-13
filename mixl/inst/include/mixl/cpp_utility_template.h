@@ -31,7 +31,8 @@ NumericVector logLik(NumericVector betas, DataFrame data,
   for (int i=0; i<v.Nindividuals; i++) {
     double s = 0;
     for (int draw=0; draw<v.nDraws; draw++) {
-      s += exp(v.P(i,draw));
+      v.P(i,draw) = exp(v.P(i,draw));
+      s += v.P(i,draw);
     }
     
     LL[i] = log(s) - lognDraws;
