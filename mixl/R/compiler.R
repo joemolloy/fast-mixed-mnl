@@ -48,13 +48,9 @@ compileUtilityFunction <- function( utility_script, dataset = NULL , output_file
       readr::write_file(e1$cpp_code, output_file)
     }
     
-    cpp_container <- new.env()
+    cpp_container <- e1
     cpp_container$logLik <- NULL ## remove old function
     
-    cpp_container$num_utility_functions <- e1$num_utility_functions
-    cpp_container$draw_dimensions <- e1$draw_dimensions
-    cpp_container$is_hybrid_choice <- e1$is_hybrid_choice
-    cpp_container$is_mixed <- e1$is_mixed
     cpp_container$beta_names <- setNames(e1$betas, NULL)
     cpp_container$num_coeffs <- length(e1$betas)
     

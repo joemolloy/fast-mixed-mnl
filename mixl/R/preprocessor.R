@@ -37,7 +37,7 @@ extract_variables <- function (source_txt) {
 
   #any lines dont start with U_ are variable definition lines
   e$new_vars <- unique(stringr::str_extract_all(source_wo_comments,new_vars_pattern))[[1]]
-  e$post_vars <- e$new_vars[endsWith(e$new_vars, "_RND")]
+  e$rnd_equations <- parse_equations(source_wo_comments)
 
   e$utility_function_names = unique(stringr::str_extract_all(source_wo_comments, utility_pattern)[[1]])
   e$num_utility_functions = length(e$utility_function_names)
@@ -119,6 +119,13 @@ convert_to_valid_cpp <- function(cpp_template, e1, hybrid_choice=FALSE) {
   beta_var_init_text <- 'double {beta_name} = betas["{beta_name}"];'
   beta_inits_vec <- sapply(e1$betas, function (beta_name) stringr::str_glue(beta_var_init_text)) #vector creation
   beta_declarations <- paste(beta_inits_vec, collapse="\n")
+  
+  #random equations
+  if (nrow(e1$rnd_equations) > 0) {
+    equations1 <- stringr::str_replace_all(e1$rnd_equations[,"equation"], draw_subs)
+    equations2 <- stringr::str_replace_all(equations1, beta_pattern, "betas[\"\\1\"]")
+    e1$rnd_equations[,"equation"] = equations2
+  }
 
 
   #add double type to new var initialization

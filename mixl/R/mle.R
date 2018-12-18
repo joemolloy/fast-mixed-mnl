@@ -95,6 +95,7 @@ maxLikelihood <- function (logLik_function_env, start_values, data, availabiliti
   mL$finalLL <- ll2(est)
   mL$probabilities <- p
   mL$draws <- draws
+  mL$rnd_equations <- logLik_function_env$rnd_equations
   
   
   class(mL) <- c("mixl", class(mL))
