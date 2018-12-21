@@ -41,14 +41,14 @@ test_that("A mixed MNL model converges and creates the output", {
     U_B = ASC_B_RND + @B_price * $price_B / 1000 + @B_timeB * $time_B / 60;
   "
   
-  logLik_env <- mixl::specify_model(mnl_test, Train, compile=TRUE)
+  model_spec <- mixl::specify_model(mnl_test, Train)
   
   #only take starting values that are needed
   est <- setNames(c(0,0,0,0,0,0), c("B_price", "B_time", "B_timeB", "B_change", "ASC_B","SIGMA_B"))
   
-  availabilities <- mixl::generate_default_availabilities(Train, logLik_env$num_utility_functions)
+  availabilities <- mixl::generate_default_availabilities(Train, model_spec$num_utility_functions)
   
-  model <- mixl::estimate(logLik_env, est, Train, availabilities = availabilities, nDraws = 20)
+  model <- mixl::estimate(model_spec, est, Train, availabilities = availabilities, nDraws = 20)
   
   expect_equal(model$code, 0)
   expect_length(model$estimate, 6)
