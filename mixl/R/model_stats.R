@@ -3,11 +3,12 @@
 summary.mixl <- function (object,...){
     SIG_FIGS4 <- 4
     SIG_FIGS2 <- 2
-  
-    model <- object
     
-    finalLL <- model$finalLL
-    zeroLL  <- model$zeroLL
+  
+    finalLL <- sum(model$finalLL)
+    zeroLL  <- sum(model$zeroLL)
+    initLL  <- sum(model$initLL)
+    
     est <- model$estimate
     Nindividuals <- model$Nindividuals
     choicetasks <- model$choicetasks
@@ -52,12 +53,21 @@ summary.mixl <- function (object,...){
     
     coefTable <- as.data.frame(t(rbind(est,se,trat_0,trat_1,robse, robtrat_0,robtrat_1, rob_pval0, rob_pval1)))
     
-    model$coefTable <- coefTable
-    model$robvarcov <- robvarcov
-    model$num_params <- num_params
-    model$num_params <- num_params
+    ms = list()
+    
+    ms$message <- model$message
+    ms$coefTable <- coefTable
+    ms$robvarcov <- robvarcov
+    ms$num_params <- num_params
+    ms$est <- model$estimate
+    ms$Nindividuals <- model$Nindividuals
+    ms$choicetasks <- model$choicetasks
 
-    model$metrics <- list(
+    ms$metrics <- list(
+      finalLL = finalLL,
+      zeroLL  = zeroLL,
+      initLL  = initLL,
+      
       rho2zero    = 1-finalLL/zeroLL,
       adjrho2zero = 1-(finalLL-num_params)/zeroLL,
       
@@ -66,9 +76,9 @@ summary.mixl <- function (object,...){
      ,BIC  = round(-2*finalLL+(num_params)*log(choicetasks),SIG_FIGS2)    ##TODO: what if choice task numbers vary over participants
     )
     
-    class(model) <- c("summary.mixl", class(model))
+    class(ms) <- c("summary.mixl")
     
-    model
+    ms
 }
 
 #' @export
@@ -80,9 +90,9 @@ print.summary.mixl <- function (model_output) {
       cat("Number of observations:", choicetasks,"\n\n")
       cat("Number of draws for random component:", nDraws,"\n\n")
       
-      cat("LL(null): ", sum(zeroLL),"\n")
-      cat("LL(init): ", sum(initLL),"\n")
-      cat("LL(final): ", sum(finalLL),"\n")
+      cat("LL(null): ", metrics$zeroLL,"\n")
+      cat("LL(init): ", metrics$initLL,"\n")
+      cat("LL(final): ", metrics$finalLL,"\n")
       cat("Rho2: ", metrics$rho2zero,"\n")
       
       cat("Estimated parameters: ",num_params,"\n\n")
