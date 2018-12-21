@@ -16,7 +16,7 @@ test_that("The prediction code compiles and runs", {
   "
 #  Sys.setenv("PKG_CPPFLAGS"= sprintf("-I\"%s\"", system.file(package = "mixl", "include")))
   
-  logLik_env <- mixl::compileUtilityFunction(mnl_test, Train, compile=TRUE)
+  logLik_env <- mixl::specify_model(mnl_test, Train, compile=TRUE)
   
   #only take starting values that are needed
   est <- setNames(c(-1.03970347, -0.80712567, -0.95341969, -0.14061543,  0.19796530, -0.01888506), 

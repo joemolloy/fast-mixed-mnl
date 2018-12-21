@@ -46,7 +46,7 @@ To both simplify the transformation of the utility functions into C++ code and a
 * Every line must end with a ; 
 * Intermediate variables that are calculated don’t get prefixed by anything
 * The utility functions are prefixed by U_. “U_bus” or “U_4” are valid, but U_geer.erg is not.
-* Draws are prefixed by “draw”. If you pass Ndraws into the maxLikelihood function, a suitable set of halton draws will be generated automatically. If you pass in a draws matrix, it needs to be large enough. there is a helper function to do this: 
+* Draws are prefixed by “draw”. If you pass nDraws into the estimate function, a suitable set of halton draws will be generated automatically. If you pass in a draws matrix, it needs to be large enough. there is a helper function to do this: 
 ``` mixl::create_halton_draws(Nindividuals, Ndraws, draw_dimensions) ```
 
 * For powers, you need to use pow (x,y) instead of x^y
@@ -78,7 +78,7 @@ As clean as this interface is, there are some limits to what the package can han
 * A utility function must be specified for each alternative. If none is required, ```U_x = 1``` will give a utility of zero.
 * The availabilities need to be a numeric matrix of 1 or 0s, with the number of rows equal to number of data rows, and the number of columns equal to the number of alternatives.
 
-#Simulated maximum likelihood estimation
+#M maximum simulated  likelihood estimation
 A set choice model generated through this package is estimated using the ```maximumLikelihood``` function. It wraps the maxLik procedure from the maxLik package, which then accepts the optimised likelihood function generated from a utility script. The maxLik package is stable and well tested. To improve the covariance estimates, the Hessian function from the numDeriv package, rather than the default from the maxLik package is used. The BFGS (Broyden–Fletcher–Goldfarb–Shanno algorithm) method is used by deafault. This has found to converge faster and more reliably than other methods such as Newton-Rhapson.
 
 Even for simple MNL models, the numerical gradient of the loglikelihood function is used, as it is envisaged that this package will primarily be used for estimating mixed models, where simulation is necessary due to the use of random draws. 

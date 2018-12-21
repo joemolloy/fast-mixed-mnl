@@ -1,7 +1,7 @@
 Package: mixl
 Type: Package
 Title: Simulated Maximum Likelihood Estimation of Mixed Logit Models
-Version: 1.0
+Version: 1.1
 Date: 2018-11-01
 Authors@R: person("Joseph", "Molloy", email = "joseph.molloy@ivt.baug.ethz.ch",
   role = c("aut", "cre"))

@@ -101,3 +101,24 @@ expect_equal(strsplit(cpp_code, "\n")[[1]], strsplit(cpp_expected, "\n")[[1]])
 
 
 })
+
+
+test_that("utilities length - ignore commented lines", {
+
+text3 <- "//regexes:
+B_COST_RND= -exp(@B_COST + draw0 * @SIGMA_SCALE) ;
+
+ASC_C_RNP  =@ASC_C + log(draw9) * @SIGMA_C ;
+ASC_CS_RNP  = @ASC_CS + draw10*@SIGMA_CS ;
+ASC_U_1  = @ASC_CS + draw10*@SIGMA_CS ;
+EU_1  = @ASC_CS + draw10*@SIGMA_CS ;
+
+U_1 =  1 * (ASC_W_RNP + B_COST_RND*B_TT_W_RND * * EU_1 $tt_w_rp/ 60 );
+
+U_bus =  1 * (ASC_B_RNP + B_COST_RNDB_TT_B_RND *$tt_b_rp / 60);
+"
+e3 <- extract_variables(text3)
+
+expect_equal(length(e1$utility_function_names), 2)
+expect_equal(e1$num_utility_functions, 2)
+})

@@ -1,4 +1,4 @@
-context("Test maxlikelihood function")
+context("Test estimate function")
 
 data("Train", package="mlogit")
 head(Train, 3)
@@ -14,14 +14,14 @@ test_that("A basic MNL model converges and creates the output", {
     U_B = @B_price * $price_B / 1000 + @B_timeB * $time_B / 60;
     "
 
-    logLik_env <- compileUtilityFunction(mnl_test, Train, compile=TRUE)
+    logLik_env <- specify_model(mnl_test, Train, compile=TRUE)
 
     #only take starting values that are needed
     est <- setNames(c(1,1,1,1), c("B_price", "B_time", "B_timeB", "B_change"))
 
     availabilities <- mixl::generate_default_availabilities(Train, logLik_env$num_utility_functions)
 
-    model <- mixl::maxLikelihood(logLik_env, est, Train, availabilities = availabilities, control=list(iterlim=4))
+    model <- mixl::estimate(logLik_env, est, Train, availabilities = availabilities, control=list(iterlim=4))
 
     expect_equal(model$code, 1) #iteration limit
     expect_equal(model$maximum, -2046.955200, tolerance=1e-3)
@@ -41,14 +41,14 @@ test_that("A mixed MNL model converges and creates the output", {
     U_B = ASC_B_RND + @B_price * $price_B / 1000 + @B_timeB * $time_B / 60;
   "
   
-  logLik_env <- mixl::compileUtilityFunction(mnl_test, Train, compile=TRUE)
+  logLik_env <- mixl::specify_model(mnl_test, Train, compile=TRUE)
   
   #only take starting values that are needed
   est <- setNames(c(0,0,0,0,0,0), c("B_price", "B_time", "B_timeB", "B_change", "ASC_B","SIGMA_B"))
   
   availabilities <- mixl::generate_default_availabilities(Train, logLik_env$num_utility_functions)
   
-  model <- mixl::maxLikelihood(logLik_env, est, Train, availabilities = availabilities, nDraws = 20)
+  model <- mixl::estimate(logLik_env, est, Train, availabilities = availabilities, nDraws = 20)
   
   expect_equal(model$code, 0)
   expect_length(model$estimate, 6)
@@ -70,19 +70,19 @@ test_that("A mixed MNL model failes : not enough betas", {
     U_B = ASC_B_RND + @B_price * $price_B / 1000 + @B_timeB * $time_B / 60;
   "
   
-  logLik_env <- mixl::compileUtilityFunction(mnl_test, Train, compile=TRUE)
+  logLik_env <- mixl::specify_model(mnl_test, Train, compile=TRUE)
   
   #only take starting values that are needed
   est <- setNames(c(1,1,1,1), c("B_price", "B_time", "B_timeB", "B_change"))
   
   availabilities <- mixl::generate_default_availabilities(Train, logLik_env$num_utility_functions)
   exp_error <- "The following parameters are not named: ASC_A, SIGMA_A1, SIGMA_A2, ASC_B, SIGMA_B"
-  expect_error(model <- mixl::maxLikelihood(logLik_env, est, Train, availabilities = availabilities, nDraws = 5), exp_error)
+  expect_error(model <- mixl::estimate(logLik_env, est, Train, availabilities = availabilities, nDraws = 5), exp_error)
   
   est <- setNames(c(1,1,1,1, 0.1, 0.1, 0.1, 0.1, 0.1, 0), c("B_price", "B_time", "B_timeB", "B_change", "ASC_A", "ASC_B", "SIGMA_A1", "SIGMA_A2", "SIGMA_B", "SIG_EXTRA"))
   
   exp_warning <- "The following parameters are not used in the utility function but will be estimated anyway: SIG_EXTRA"
-  expect_warning(model <- mixl::maxLikelihood(logLik_env, est, Train, availabilities = availabilities, nDraws = 5), exp_warning)
+  expect_warning(model <- mixl::estimate(logLik_env, est, Train, availabilities = availabilities, nDraws = 5), exp_warning)
   
   
 })
@@ -103,7 +103,7 @@ test_that("creating and validating draws", {
   
   
   
-  logLik_env <- mixl::compileUtilityFunction(mnl_test, Train, compile=TRUE)
+  logLik_env <- mixl::specify_model(mnl_test, Train, compile=TRUE)
   
   #only take starting values that are needed
   est <- setNames(c(1,1,1,1, 0.1, 0.1, 0.1, 0.1, 0.1), c("B_price", "B_time", "B_timeB", "B_change", "ASC_A", "ASC_B", "SIGMA_A1", "SIGMA_A2", "SIGMA_B"))
@@ -111,21 +111,21 @@ test_that("creating and validating draws", {
   availabilities <- mixl::generate_default_availabilities(Train, logLik_env$num_utility_functions)
 
   exp_error <- "Either a draw matrix or the desired number of draws needs to be specified"
-  expect_error(model <- mixl::maxLikelihood(logLik_env, est, Train, availabilities = availabilities), exp_error)
+  expect_error(model <- mixl::estimate(logLik_env, est, Train, availabilities = availabilities), exp_error)
   
   draws <- mixl::create_halton_draws(100, 1, logLik_env$draw_dimensions)
   exp_error <- "The draw matrix of dimensions 100 x 3 is not large enough (must be at least 235 x 3)"
-  expect_error(model <- mixl::maxLikelihood(logLik_env, est, Train, availabilities = availabilities, draws = draws), exp_error, fixed=TRUE)
+  expect_error(model <- mixl::estimate(logLik_env, est, Train, availabilities = availabilities, draws = draws), exp_error, fixed=TRUE)
   
   Nindividuals <- length(unique(Train$ID))
   
   draws <- mixl::create_halton_draws(Nindividuals, 1, 1)
   exp_error <- "The draw matrix of dimensions 235 x 1 is not large enough (must be at least 235 x 3)"
-  expect_error(model <- mixl::maxLikelihood(logLik_env, est, Train, availabilities = availabilities, draws = draws), exp_error, fixed=TRUE)
+  expect_error(model <- mixl::estimate(logLik_env, est, Train, availabilities = availabilities, draws = draws), exp_error, fixed=TRUE)
   
   
   exp_message <- "Created a draw matrix of dimensions (5, 3) for 235 Individuals"
-  expect_message(model <- mixl::maxLikelihood(logLik_env, est, Train, availabilities = availabilities, nDraws = 5), exp_message, fixed=TRUE)
+  expect_message(model <- mixl::estimate(logLik_env, est, Train, availabilities = availabilities, nDraws = 5), exp_message, fixed=TRUE)
   
   
   

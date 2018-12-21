@@ -42,11 +42,11 @@ tex.summary.mixl=function(model_summary) {
          "Number of choice observations"= m$choicetasks,
          
          "Number of draws"= m$nDraws,
-         "LL(null)"= m$zeroLL,
-         "LL(final)"= m$finalLL, ###TODO: note that this is the choice LL. Maybe this needs to be changed
-         "LL(choicemodel)"= m$choiceLL,
+         "LL(null)"= sum(m$zeroLL),
+         "LL(final)"= sum(m$finalLL), ###TODO: note that this is the choice LL. Maybe this needs to be changed
+         "LL(choicemodel)"= sum(m$choiceLL),
          
-         "McFadden R2" = (1-m$finalLL/m$zeroLL),
+         "McFadden R2" = (1-m$sum(finalLL)/sum(m$zeroLL)),
          
          "AIC"= m$metrics$AIC,
          "AICc"= m$metrics$AICc,

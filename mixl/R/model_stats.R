@@ -80,9 +80,9 @@ print.summary.mixl <- function (model_output) {
       cat("Number of observations:", choicetasks,"\n\n")
       cat("Number of draws for random component:", nDraws,"\n\n")
       
-      cat("LL(null): ", zeroLL,"\n")
-      cat("LL(init): ", initLL,"\n")
-      cat("LL(final): ", finalLL,"\n")
+      cat("LL(null): ", sum(zeroLL),"\n")
+      cat("LL(init): ", sum(initLL),"\n")
+      cat("LL(final): ", sum(finalLL),"\n")
       cat("Rho2: ", metrics$rho2zero,"\n")
       
       cat("Estimated parameters: ",num_params,"\n\n")

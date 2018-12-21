@@ -1,5 +1,3 @@
-
-
 #' Validate the utility functions against the dataset and generate the optimised logliklihood function
 #' 
 #' This function takes a utility function description, and generates a optimised C++ version 
@@ -17,7 +15,7 @@
 #' @return An \code{object} which contains the loglikelihood function, and information from the compile process
 #' 
 #' @export 
-compileUtilityFunction <- function( utility_script, dataset = NULL , output_file = NULL, compile=TRUE, model_name="mixl_model") {
+specify_model <- function( utility_script, dataset = NULL , output_file = NULL, compile=TRUE, model_name="mixl_model") {
   
 
   #TODO: if data is null, skip all the validaiton
@@ -64,4 +62,10 @@ compileUtilityFunction <- function( utility_script, dataset = NULL , output_file
     return (cpp_container)
   }
   
+}
+
+#' @export
+compileUtilityFunction <- function(...) {
+  .Deprecated("specifyModel")
+  specifyModel(...)
 }

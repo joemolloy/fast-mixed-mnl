@@ -5,9 +5,9 @@
 #' It is a wrapper for the maxLik function in the maxLik package. 
 #' And additional arguments can be passed through to this function if required. 
 #' 
-#' @param logLik_function_env The object that contains the loglikelihood function and other 
+#' @param model_spec The object that contains the loglikelihood function and other 
 #' variables that help return better error messages. This function is best generated using the 
-#' \code{compileUtilityFunction} function.
+#' \code{specify_model} function.
 #' 
 #' @param start_values A named vector of start values for the estimation. 
 #' A warning and error will be given respectively if to many values are included or some are missing.
@@ -35,17 +35,17 @@
 #' @return a mixl object that contains the results of the estimation 
 #' 
 #' @export 
-maxLikelihood <- function (logLik_function_env, start_values, data, availabilities,  
+estimate <- function (model_spec, start_values, data, availabilities,  
                            draws = NULL, nDraws = NULL, fixedparam = c(), num_threads=1, ...) {
   
   
   Nindividuals <- length(unique(data$ID))
 
-  check_inputs(logLik_function_env, start_values, data, availabilities, draws, fixedparam)
+  check_inputs(model_spec, start_values, data, availabilities, draws, fixedparam)
   
-  draw_dimensions <- logLik_function_env$draw_dimensions
-  is_hybrid_choice <- logLik_function_env$is_hybrid_choice
-  is_mixed <- logLik_function_env$is_mixed #TODO: change from is_mnl to a 'is_mixed' boolean
+  draw_dimensions <- model_spec$draw_dimensions
+  is_hybrid_choice <- model_spec$is_hybrid_choice
+  is_mixed <- model_spec$is_mixed #TODO: change from is_mnl to a 'is_mixed' boolean
   
   if (is_mixed) { # we only want to pass the draws through if the loglik function is mixed
     if (missing(draws) & missing (nDraws)) {
@@ -63,12 +63,12 @@ maxLikelihood <- function (logLik_function_env, start_values, data, availabiliti
     
     p <- matrix(0, nrow=Nindividuals, ncol=nDraws)
     
-    ll2 <- function (betas) logLik_function_env$logLik(betas, data, Nindividuals, availabilities, draws, nDraws, p, num_threads, p_indices=is_hybrid_choice)
+    ll2 <- function (betas) model_spec$logLik(betas, data, Nindividuals, availabilities, draws, nDraws, p, num_threads, p_indices=is_hybrid_choice)
     
   } else {
     p <- matrix(0, nrow=Nindividuals, ncol=1);
     
-    ll2 <- function (betas) logLik_function_env$logLik(betas, data, Nindividuals, availabilities, p, num_threads)
+    ll2 <- function (betas) model_spec$logLik(betas, data, Nindividuals, availabilities, p, num_threads)
     
   }
 
@@ -81,13 +81,13 @@ maxLikelihood <- function (logLik_function_env, start_values, data, availabiliti
   mL$Nindividuals <- Nindividuals
   mL$nDraws       <- nDraws
   mL$choicetasks  <- nrow(data)
-  mL$model_name   <- logLik_function_env$model_name
+  mL$model_name   <- model_spec$model_name
   
   est <- mL$estimate
   if (is_hybrid_choice) {
     mL$HybridLL <- ll2(est)
     
-    ll2 <- function (betas) logLik_function_env$logLik(betas, data, Nindividuals, availabilities, draws, nDraws, p, num_threads, p_indices=FALSE)
+    ll2 <- function (betas) model_spec$logLik(betas, data, Nindividuals, availabilities, draws, nDraws, p, num_threads, p_indices=FALSE)
   }
   
   mL$zeroLL <- ll2(0*start_values)
@@ -95,7 +95,7 @@ maxLikelihood <- function (logLik_function_env, start_values, data, availabiliti
   mL$finalLL <- ll2(est)
   mL$probabilities <- p
   mL$draws <- draws
-  mL$rnd_equations <- logLik_function_env$rnd_equations
+  mL$rnd_equations <- model_spec$rnd_equations
   
   
   class(mL) <- c("mixl", class(mL))
@@ -106,7 +106,7 @@ maxLikelihood <- function (logLik_function_env, start_values, data, availabiliti
   
 }
 
-#' Check the inputs to the maxLikelihood function
+#' Check the inputs to the estimate function
 #' 
 #' This function checks the start_vlaues, data, availabilities, draws and fixedparams for validity.
 #' If this function runs without error, then the inputs are valid for the maxLikelihood function. 
@@ -115,18 +115,18 @@ maxLikelihood <- function (logLik_function_env, start_values, data, availabiliti
 #' command line, using Rscript.
 #' 
 #' @export
-check_inputs <- function(logLik_function_env, start_values, data, availabilities, draws, fixedparam) {
+check_inputs <- function(model_spec, start_values, data, availabilities, draws, fixedparam) {
   #TODO: check existence of required data variables and CHOICE and ID
   
   #check betas
   start_value_names <- names(start_values)
-  function_beta_names <- logLik_function_env$beta_names
+  function_beta_names <- model_spec$beta_names
   
   beta_errors <- setdiff(function_beta_names, start_value_names)
   excess_betas <- setdiff(start_value_names, function_beta_names)
   
   Nindividuals <- length(unique(data$ID))
-  k <- logLik_function_env$num_utility_functions
+  k <- model_spec$num_utility_functions
   
   #check data is dataframe (again)
   if (!is.data.frame(data)) {
@@ -157,4 +157,10 @@ check_inputs <- function(logLik_function_env, start_values, data, availabilities
     warning(paste("The following parameters are not used in the utility function but will be estimated anyway:", paste(excess_betas, collapse=",")))
   }
   
+}
+
+#' @export
+maxLikelihood <- function(...) {
+  .Deprecated("estimate")
+  estimate(...)
 }

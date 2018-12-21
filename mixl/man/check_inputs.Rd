@@ -2,10 +2,10 @@
 % Please edit documentation in R/mle.R
 \name{check_inputs}
 \alias{check_inputs}
-\title{Check the inputs to the maxLikelihood function}
+\title{Check the inputs to the estimate function}
 \usage{
-check_inputs(logLik_function_env, start_values, data, availabilities,
-  draws, fixedparam)
+check_inputs(model_spec, start_values, data, availabilities, draws,
+  fixedparam)
 }
 \description{
 This function checks the start_vlaues, data, availabilities, draws and fixedparams for validity.
