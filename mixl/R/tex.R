@@ -25,7 +25,7 @@ tex.summary.mixl=function(model_summary) {
   
   cat("Model diagnosis:",m$message,"\n\n")
   
-  cat("LL: ",m$finalLL,"\n\n")
+  cat("LL: ",m$metrics$finalLL,"\n\n")
   
   cat("Estimates:\n")
   print(output)
@@ -42,11 +42,11 @@ tex.summary.mixl=function(model_summary) {
          "Number of choice observations"= m$choicetasks,
          
          "Number of draws"= m$nDraws,
-         "LL(null)"= sum(m$zeroLL),
-         "LL(final)"= sum(m$finalLL), ###TODO: note that this is the choice LL. Maybe this needs to be changed
-         "LL(choicemodel)"= sum(m$choiceLL),
+         "LL(null)"= sum(m$metrics$zeroLL),
+         "LL(final)"= sum(m$metrics$finalLL), ###TODO: note that this is the choice LL. Maybe this needs to be changed
+         "LL(choicemodel)"= sum(m$metrics$choiceLL),
          
-         "McFadden R2" = (1-m$sum(finalLL)/sum(m$zeroLL)),
+         "McFadden R2" = 1-m$metrics$finalLL/m$metrics$zeroLL,
          
          "AIC"= m$metrics$AIC,
          "AICc"= m$metrics$AICc,
