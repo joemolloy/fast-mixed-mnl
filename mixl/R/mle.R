@@ -82,6 +82,7 @@ estimate <- function (model_spec, start_values, data, availabilities,
   mL$nDraws       <- nDraws
   mL$choicetasks  <- nrow(data)
   mL$model_name   <- model_spec$model_name
+  mL$data         <- data
   
   est <- mL$estimate
   if (is_hybrid_choice) {

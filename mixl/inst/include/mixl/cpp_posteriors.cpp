@@ -6,7 +6,7 @@ using namespace Rcpp;
 
 // [[Rcpp::export]]
 NumericMatrix mixl_posteriors(NumericVector betas, NumericMatrix probabilities,
-                         int Nindividuals,
+                         int Nindividuals,DataFrame data,
                          const NumericMatrix draws, int nDraws) {
   
   int numRndVars = !===num_rnd_vars===!;
@@ -16,6 +16,8 @@ NumericMatrix mixl_posteriors(NumericVector betas, NumericMatrix probabilities,
   int i=0;
   !===col_names===!  
   colnames(posteriors) = colnames1;
+  
+  !===data_declarations===!
   
   for (int i=0; i < Nindividuals; i++) {
     NumericMatrix indiv_B_means(Nindividuals, numRndVars);

@@ -14,7 +14,7 @@ test_that("A basic MNL model converges and creates the output", {
     U_B = @B_price * $price_B / 1000 + @B_timeB * $time_B / 60;
     "
 
-    logLik_env <- specify_model(mnl_test, Train, compile=TRUE)
+    logLik_env <- mixl::specify_model(mnl_test, Train, compile=TRUE)
 
     #only take starting values that are needed
     est <- setNames(c(1,1,1,1), c("B_price", "B_time", "B_timeB", "B_change"))
@@ -26,7 +26,7 @@ test_that("A basic MNL model converges and creates the output", {
     expect_equal(model$code, 1) #iteration limit
     expect_equal(model$maximum, -2046.955200, tolerance=1e-3)
     expect_s3_class(model, "mixl")
-    expect_s3_class(summary(model), "summary.mixl")
+    expect_s3_class(mixl::summary.mixl(model), "summary.mixl")
     prints_text(summary(model)) #TODO::::: nDraws not found when printing mnl model
 })
 
@@ -55,7 +55,7 @@ test_that("A mixed MNL model converges and creates the output", {
   expect_equal(model$maximum, -1842.243, tolerance=1e-3)
   
   expect_s3_class(model, "mixl")
-  expect_s3_class(summary(model), "summary.mixl")
+  expect_s3_class(mixl::summary.mixl(model), "summary.mixl")
   prints_text(summary(model))
 })
 

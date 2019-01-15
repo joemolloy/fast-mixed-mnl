@@ -3,7 +3,7 @@
 summary.mixl <- function (object,...){
     SIG_FIGS4 <- 4
     SIG_FIGS2 <- 2
-    
+    model <- object
   
     finalLL <- sum(model$finalLL)
     zeroLL  <- sum(model$zeroLL)

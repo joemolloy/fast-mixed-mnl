@@ -1,6 +1,7 @@
 utility_prefix = "U_" #TODO: ecclu
 p_indic_prefix = "P_indic_" #TODO: ecclu
 draw_prefix = "draw" #TODO: ecclu
+data_prefix <- "data_"
 
 beta_pattern <- "@(\\w+)\\b"
 data_pattern <- "\\$(\\w+)\\b"
@@ -104,7 +105,6 @@ add_semi_colons <- function(lines) {
 
 convert_to_valid_cpp <- function(cpp_template, e1, hybrid_choice=FALSE) {
 
-  data_prefix <- "data_"
   
   data_subs <- setNames (paste0(data_prefix, e1$data_cols , "[i]"), paste0("\\$", e1$data_cols, "\\b"))
   draw_subs <-  setNames (paste0("draw[", 0:(e1$draw_dimensions-1), "]"), paste0(e1$draws,"\\b"))

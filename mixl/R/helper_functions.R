@@ -18,3 +18,9 @@ av_matrix <- function (data, av_cols) {
 create_halton_draws <- function(Nindividuals, nDraws, draw_dimensions) {
   as.matrix(randtoolbox::halton(Nindividuals*nDraws, draw_dimensions, normal=TRUE))
 }
+
+#' @export
+extract_indiv_data <- function(data1) {
+  first_ids <- match(unique(data1$ID), data1$ID)
+  data1[first_ids, ]
+}

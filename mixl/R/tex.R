@@ -46,7 +46,7 @@ tex.summary.mixl=function(model_summary) {
          "LL(final)"= sum(m$metrics$finalLL), ###TODO: note that this is the choice LL. Maybe this needs to be changed
          "LL(choicemodel)"= sum(m$metrics$choiceLL),
          
-         "McFadden R2" = 1-m$metrics$finalLL/m$metrics$zeroLL,
+         "McFadden R2" = m$metrics$rho2zero,
          
          "AIC"= m$metrics$AIC,
          "AICc"= m$metrics$AICc,
