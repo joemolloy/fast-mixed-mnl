@@ -3,6 +3,8 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
+//posteriors function for mixed models without random draws
+
 
 // [[Rcpp::export]]
 NumericMatrix mixl_posteriors(NumericVector betas, NumericMatrix probabilities,

@@ -137,3 +137,54 @@ test_that("Advanced posterior calcualtion with individual variables", {
   #cbind(cpp_post[,1], r_posteriors[,1])
 })
 
+
+
+test_that("Posteriors without draws calcualtion for simple MNL", {
+  library(Rcpp)
+  library(Matrix)
+  data("Train", package="mlogit")
+  Train$ID <- Train$id
+  Train$CHOICE <- as.numeric(Train$choice)
+  
+  head(Train, 3)
+  
+  
+  mnl_test <- "
+  PRICE_RND 	= @B_price;
+  ASC_A_RND 	= @ASC_A;
+  
+  U_A = ASC_A_RND + PRICE_RND + @B_time * $time_A / 60 + @B_change * $change_A; 
+  U_B = @B_price * $price_B / 1000 + @B_timeB * $time_B / 60;
+  "
+  
+  template_location <- system.file("include", "mixl", "cpp_mnl_posteriors.cpp", package = "mixl")
+  #template_location <- "inst/include/mixl/cpp_posteriors.cpp"
+  
+  #only take starting values that are needed
+  est <- setNames(c(-0.1729610, -0.2057692, -0.1250778, -0.0649737, -0.1804503)
+                  , c("B_price", "B_time", "B_timeB", "B_change", "ASC_A"))
+  
+  availabilities <- mixl::generate_default_availabilities(Train, 2)
+  
+  logLik_env <- mixl::specify_model(mnl_test, Train, compile=TRUE)
+  model <- mixl::estimate(logLik_env, est, Train, availabilities = availabilities, nDraws = 0)
+  
+  cpp_post <- mixl::posteriors(model)
+  cpp_post
+  print("cpp done")
+  
+  draws <- model$draws
+  p <- model$probabilities
+  
+  #calculate in R
+  price_rnd <- rep(est["B_price"], nrow(p))
+  price_rnd_means <- rowMeans(p * price_rnd) / rowMeans(p)
+  
+  asc_a_rnd <- rep(est["ASC_A"], nrow(p))
+  asc_a_rnd_means <- rowMeans(p * asc_a_rnd) / rowMeans(p)
+  
+  r_posteriors <- cbind("PRICE_RND" = price_rnd_means, "ASC_A_RND" = asc_a_rnd_means)
+  
+  expect_equal(cpp_post, r_posteriors, tolerance=1e-4)
+  #cbind(cpp_post[,1], r_posteriors[,1])
+})

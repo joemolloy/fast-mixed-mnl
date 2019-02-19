@@ -122,7 +122,8 @@ convert_to_valid_cpp <- function(cpp_template, e1, hybrid_choice=FALSE) {
   
   #random equations
   if (nrow(e1$rnd_equations) > 0) {
-    equations1 <- stringr::str_replace_all(e1$rnd_equations[,"equation"], draw_subs)
+    equations0 <- e1$rnd_equations[,"equation"]
+    equations1 <- if (!e1$is_mixed) equations0 else stringr::str_replace_all(equations0, draw_subs)
     equations2 <- stringr::str_replace_all(equations1, beta_pattern, "betas[\"\\1\"]")
     e1$rnd_equations[,"equation"] = equations2
   }

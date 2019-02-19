@@ -1,14 +1,24 @@
 
 #' @export 
 posteriors <- function(model) {
-  f <- compile_posterior_function(model$rnd_equations)
-  
+
   indiv_data <- extract_indiv_data(model$data)
   
-  f(model$est, model$probabilities,
-    model$Nindividuals, indiv_data,
-    model$draws, model$nDraws)
+  #handle basic mnl case without and draws
+  if(model$nDraws == 0) {
+    f <- compile_posterior_function(model$rnd_equations, FALSE)
+    
+    f(model$est, model$probabilities, model$Nindividuals, indiv_data)
+
+  } else { 
+    f <- compile_posterior_function(model$rnd_equations, TRUE)
+    
+    f(model$est, model$probabilities,
+      model$Nindividuals, indiv_data,
+      model$draws, model$nDraws)
+  }
 }
+
 
 #' @export 
 parse_equations <- function(utility_script) {
@@ -20,11 +30,18 @@ parse_equations <- function(utility_script) {
 }
 
 
-compile_posterior_function <- function(rnd_equations) {
+compile_posterior_function <- function(rnd_equations, is_mixed) {
   
   #posterior_template <- readr::read_file("inst/include/mixl/cpp_posteriors.cpp")
-  posterior_template <- readr::read_file(system.file("include", "mixl", "cpp_posteriors.cpp", package = "mixl"))
-
+  if (is_mixed) {
+    template_filename <- "cpp_posteriors.cpp"
+  } else {
+    template_filename <- "cpp_mnl_posteriors.cpp"
+  }
+  
+  posterior_template <- readr::read_file(system.file("include", "mixl", template_filename, package = "mixl"))
+  
+  
   #rnd_equations <- model$rnd_equations
   names <- rnd_equations[,"name"]
   equations <- rnd_equations[,'equation']
