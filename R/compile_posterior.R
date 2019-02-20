@@ -1,17 +1,17 @@
 
 #' @export 
-posteriors <- function(model) {
+posteriors <- function(model, code_output_file=NULL) {
 
   indiv_data <- extract_indiv_data(model$data)
   
   #handle basic mnl case without and draws
   if(model$nDraws == 0) {
-    f <- compile_posterior_function(model$rnd_equations, FALSE)
+    f <- compile_posterior_function(model$rnd_equations, names(model$est), FALSE, code_output_file)
     
     f(model$est, model$probabilities, model$Nindividuals, indiv_data)
 
   } else { 
-    f <- compile_posterior_function(model$rnd_equations, TRUE)
+    f <- compile_posterior_function(model$rnd_equations, names(model$est), TRUE, code_output_file)
     
     f(model$est, model$probabilities,
       model$Nindividuals, indiv_data,
@@ -30,7 +30,7 @@ parse_equations <- function(utility_script) {
 }
 
 
-compile_posterior_function <- function(rnd_equations, is_mixed) {
+compile_posterior_function <- function(rnd_equations, betas, is_mixed, output_file=NULL) {
   
   #posterior_template <- readr::read_file("inst/include/mixl/cpp_posteriors.cpp")
   if (is_mixed) {
@@ -45,6 +45,10 @@ compile_posterior_function <- function(rnd_equations, is_mixed) {
   #rnd_equations <- model$rnd_equations
   names <- rnd_equations[,"name"]
   equations <- rnd_equations[,'equation']
+  
+  beta_var_init_text <- 'double {beta_name} = betas["{beta_name}"];'
+  beta_inits_vec <- sapply(betas, function (beta_name) stringr::str_glue(beta_var_init_text)) #vector creation
+  beta_declarations <- paste(beta_inits_vec, collapse="\n")
   
   data_cols <- extract_var(paste(equations, collapse="\n"),data_pattern)
   data_var_init_text <- 'const NumericVector {data_prefix}{col_name} = data["{col_name}"];'
@@ -63,6 +67,9 @@ compile_posterior_function <- function(rnd_equations, is_mixed) {
   
   ccode_w_data  <- stringr::str_replace_all(code, data_subs)
   
+  if (!is.null(output_file)) {
+    readr::write_file(ccode_w_data, output_file)
+  }
   
   f_env <- new.env()
   Rcpp::sourceCpp(code=ccode_w_data, env = f_env)

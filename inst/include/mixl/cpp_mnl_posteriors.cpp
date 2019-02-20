@@ -23,6 +23,9 @@ NumericMatrix mixl_posteriors(NumericVector betas, NumericMatrix probabilities,
   !===col_names===!  
     colnames(posteriors) = colnames1;
   
+  //betas
+  !===beta_declarations===!
+  
   !===data_declarations===!
     
     for (int i=0; i < Nindividuals; i++) {

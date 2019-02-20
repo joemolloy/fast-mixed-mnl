@@ -7,6 +7,7 @@ using Rcpp::NumericMatrix;
 using Rcpp::NumericVector;
 using Rcpp::CharacterVector;
 using Rcpp::_;
+using std::exp;
 
 //posteriors function for mixed models without random draws
 
@@ -23,6 +24,10 @@ NumericMatrix mixl_posteriors(NumericVector betas, NumericMatrix probabilities,
   int i=0;
   !===col_names===!  
   colnames(posteriors) = colnames1;
+  
+  //betas
+  !===beta_declarations===!
+  
   
   !===data_declarations===!
   
