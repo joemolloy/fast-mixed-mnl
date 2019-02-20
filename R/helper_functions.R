@@ -20,7 +20,7 @@ create_halton_draws <- function(Nindividuals, nDraws, draw_dimensions) {
 }
 
 #' @export
-extract_indiv_data <- function(data1) {
-  first_ids <- match(unique(data1$ID), data1$ID)
-  data1[first_ids, ]
+extract_indiv_data <- function(data1, data_cols = NULL) {
+  #aggregate(x=data1, by=list(ID=data1$ID), FUN=mean)
+  aggregate(x=data1[,c("ID", data_cols)], by=list(data1$ID), FUN=mean)
 }

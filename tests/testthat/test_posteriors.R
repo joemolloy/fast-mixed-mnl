@@ -112,7 +112,7 @@ test_that("Advanced posterior calcualtion with individual variables", {
   
   draws <- model$draws
   p <- model$probabilities
-  indiv_data <- mixl::extract_indiv_data(Train)
+  indiv_data <- mixl::extract_indiv_data(Train, data_cols = "price_B")
 
   #calculate in R
   asc_a_rnd <- est["ASC_A"] + draws[,1] * est["SIGMA_A1"] + draws[,2] * est["SIGMA_A2"]
@@ -179,7 +179,7 @@ test_that("Posteriors without draws calcualtion for simple MNL", {
   
   #calculate in R
   est <-model$estimate
-  indiv_data <- mixl::extract_indiv_data(Train)
+  indiv_data <- mixl::extract_indiv_data(Train, data_cols = "price_A")
   indiv_price <- unlist(indiv_data['price_A'], use.names = F) /1000
   
   price_rnd <- -exp(est['B_price'] * indiv_price) * (indiv_price ^ est['LAMDBA_DIST_COST']) ;
