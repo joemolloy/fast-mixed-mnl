@@ -1,7 +1,12 @@
 // [[Rcpp::plugins(cpp11)]]        
 
 #include <Rcpp.h>
-using namespace Rcpp;
+
+using Rcpp::DataFrame;
+using Rcpp::NumericMatrix;
+using Rcpp::NumericVector;
+using Rcpp::CharacterVector;
+using Rcpp::_;
 
 //posteriors function for mixed models without random draws
 

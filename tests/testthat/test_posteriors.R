@@ -150,7 +150,7 @@ test_that("Posteriors without draws calcualtion for simple MNL", {
   
   
   mnl_test <- "
-  PRICE_RND 	= @B_price;
+  PRICE_RND 	= -exp(@B_price * $price_A / 1000) * pow($price_A /1000, @LAMDBA_DIST_COST) ;
   ASC_A_RND 	= @ASC_A;
   
   U_A = ASC_A_RND + PRICE_RND + @B_time * $time_A / 60 + @B_change * $change_A; 
@@ -161,8 +161,8 @@ test_that("Posteriors without draws calcualtion for simple MNL", {
   #template_location <- "inst/include/mixl/cpp_posteriors.cpp"
   
   #only take starting values that are needed
-  est <- setNames(c(-0.1729610, -0.2057692, -0.1250778, -0.0649737, -0.1804503)
-                  , c("B_price", "B_time", "B_timeB", "B_change", "ASC_A"))
+  est <- setNames(c(-0.1729610, -0.2057692, -0.1250778, -0.0649737, -0.1804503, 0.1)
+                  , c("B_price", "B_time", "B_timeB", "B_change", "ASC_A", "LAMDBA_DIST_COST"))
   
   availabilities <- mixl::generate_default_availabilities(Train, 2)
   
@@ -176,8 +176,13 @@ test_that("Posteriors without draws calcualtion for simple MNL", {
   draws <- model$draws
   p <- model$probabilities
   
+  
   #calculate in R
-  price_rnd <- rep(est["B_price"], nrow(p))
+  est <-model$estimate
+  indiv_data <- mixl::extract_indiv_data(Train)
+  indiv_price <- unlist(indiv_data['price_A'], use.names = F) /1000
+  
+  price_rnd <- -exp(est['B_price'] * indiv_price) * (indiv_price ^ est['LAMDBA_DIST_COST']) ;
   price_rnd_means <- rowMeans(p * price_rnd) / rowMeans(p)
   
   asc_a_rnd <- rep(est["ASC_A"], nrow(p))

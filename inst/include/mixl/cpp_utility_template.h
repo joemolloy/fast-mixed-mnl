@@ -4,7 +4,13 @@
 
 #include <Rcpp.h>
 #include "mixl/utility_function.h"
-using namespace Rcpp;
+
+using Rcpp::DataFrame;
+using Rcpp::NumericMatrix;
+using Rcpp::NumericVector;
+using Rcpp::CharacterVector;
+using Rcpp::_;
+using Rcpp::stop;
 
 // [[Rcpp::export]]
 NumericVector logLik(NumericVector betas, DataFrame data,

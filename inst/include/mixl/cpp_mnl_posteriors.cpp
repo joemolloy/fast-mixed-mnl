@@ -1,9 +1,15 @@
 // [[Rcpp::plugins(cpp11)]]        
 
 #include <Rcpp.h>
-using namespace Rcpp;
 
 //posteriors function for mnl models without random draws
+
+using Rcpp::DataFrame;
+using Rcpp::NumericMatrix;
+using Rcpp::NumericVector;
+using Rcpp::CharacterVector;
+using Rcpp::_;
+using Rcpp::stop;
 
 // [[Rcpp::export]]
 NumericMatrix mixl_posteriors(NumericVector betas, NumericMatrix probabilities,

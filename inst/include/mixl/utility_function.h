@@ -10,7 +10,12 @@
 #include <omp.h>
 #endif
 
-using namespace Rcpp;
+
+using Rcpp::DataFrame;
+using Rcpp::NumericMatrix;
+using Rcpp::NumericVector;
+using Rcpp::_;
+using Rcpp::stop;
 
 //utility function arguments for simple MNL models
 struct UF_args {
