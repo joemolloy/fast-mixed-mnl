@@ -4,20 +4,21 @@ posteriors <- function(model, indiv_data=NULL, code_output_file=NULL) {
   
   data_cols <- extract_var(paste(model$rnd_equations[,'equation'], collapse="\n"),data_pattern)
   if (length(data_cols) == 0) data_cols <- NULL
-
+  
   if (missing(indiv_data) | is.null(indiv_data)) {
     indiv_data <- extract_indiv_data(model$data, data_cols)
   }
+  
   #handle basic mnl case without and draws
-  if(model$nDraws == 0) {
-    f <- compile_posterior_function(model$rnd_equations, names(model$est), FALSE, code_output_file)
+  if(!model$is_mixed | model$nDraws == 0) {
+    f <- compile_posterior_function(model$rnd_equations, names(model$estimate), FALSE, code_output_file)
     
-    f(model$est, model$probabilities, model$Nindividuals, indiv_data)
+    f(model$estimate, model$probabilities, model$Nindividuals, indiv_data)
 
   } else { 
-    f <- compile_posterior_function(model$rnd_equations, names(model$est), TRUE, code_output_file)
+    f <- compile_posterior_function(model$rnd_equations, names(model$estimate), TRUE, code_output_file)
     
-    f(model$est, model$probabilities,
+    f(model$estimate, model$probabilities,
       model$Nindividuals, indiv_data,
       model$draws, model$nDraws)
   }

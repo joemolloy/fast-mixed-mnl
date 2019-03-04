@@ -59,7 +59,7 @@ estimate <- function (model_spec, start_values, data, availabilities,
       stop (sprintf("The draw matrix of dimensions %d x %d is not large enough (must be at least %d x %d)", nrow(draws), ncol(draws), Nindividuals, draw_dimensions))
     } 
     
-    if (missing(nDraws)) nDraws = as.integer(nrow(draws) / Nindividuals) #get the maxmimum possible number of draws available
+    if (missing(nDraws)) nDraws <- as.integer(nrow(draws) / Nindividuals) #get the maxmimum possible number of draws available
     
     p <- matrix(0, nrow=Nindividuals, ncol=nDraws)
     
@@ -78,6 +78,7 @@ estimate <- function (model_spec, start_values, data, availabilities,
   mL <- maxLik::maxLik(ll2, start=start_values, fixed=fixedparam, method="BFGS",print.level=4, hess=hessian_function, ... )
   
   ### set up output
+  mL$is_mixed     <- is_mixed
   mL$Nindividuals <- Nindividuals
   mL$nDraws       <- nDraws
   mL$choicetasks  <- nrow(data)
@@ -101,9 +102,7 @@ estimate <- function (model_spec, start_values, data, availabilities,
   
   class(mL) <- c("mixl", class(mL))
   
-  maxLik_result <- mL
-  
-  return (maxLik_result)
+  return (mL)
   
 }
 

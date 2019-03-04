@@ -62,7 +62,8 @@ summary.mixl <- function (object,...){
     ms$est <- model$estimate
     ms$Nindividuals <- model$Nindividuals
     ms$choicetasks <- model$choicetasks
-
+    ms$nDraws <- model$nDraws
+    
     ms$metrics <- list(
       finalLL = finalLL,
       zeroLL  = zeroLL,
