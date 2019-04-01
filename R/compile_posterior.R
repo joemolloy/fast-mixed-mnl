@@ -10,7 +10,7 @@ posteriors <- function(model, indiv_data=NULL, code_output_file=NULL) {
   }
   
   #handle basic mnl case without and draws
-  if(!model$is_mixed | model$nDraws == 0) {
+  if(!model$is_mixed | (!is.null(model$nDraws) & model$nDraws == 0)) {
     f <- compile_posterior_function(model$rnd_equations, names(model$estimate), FALSE, code_output_file)
     
     f(model$estimate, model$probabilities, model$Nindividuals, indiv_data)

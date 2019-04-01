@@ -16,7 +16,6 @@
 #' 
 #' @export 
 specify_model <- function( utility_script, dataset = NULL , output_file = NULL, compile=TRUE, model_name="mixl_model") {
-  
 
   #TODO: if data is null, skip all the validaiton
   #TODO: return an object instead of an environment
@@ -35,9 +34,8 @@ specify_model <- function( utility_script, dataset = NULL , output_file = NULL, 
     
   } else{
     
-    template_type <- if (e1$is_mixed) "cpp_utility_template.h" else "cpp_mnl_template.h"
-    
-    template_location <- system.file("include", "mixl", template_type, package = "mixl")
+    template <- if (e1$is_mixed) "cpp_utility_template.h" else "cpp_mnl_template.h"
+    template_location <- system.file("include", "mixl", template, package = "mixl")
     cpp_template <- readr::read_file(template_location)
     
     e1$cpp_code <- convert_to_valid_cpp(cpp_template, e1=e1)
@@ -69,3 +67,5 @@ compileUtilityFunction <- function(...) {
   .Deprecated("specifyModel")
   specifyModel(...)
 }
+
+
