@@ -63,7 +63,7 @@ U_B = @B_price * $price_B / 1000 + @B_timeB * $time_B / 60;
   expect_equal(dim(model_preds), c(nrow(Train), 4 + logLik_env$num_utility_functions))
   expect_equal(colnames(model_preds), c( "i", "ID", "choice_index", "p_choice", "p_1", "p_2"))
   
-  expect_equal(unname(model_preds[5,]), c(4, 0 ,2 ,0.37571567, 0.6242843, 0.37571567))
+  expect_equal(unname(model_preds[5,]), c(4, 0 ,2 ,0.37571567, 0.6242843, 0.37571567), tolerance=1e-6)
   
 })
 
