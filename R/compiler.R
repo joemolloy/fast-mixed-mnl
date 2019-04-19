@@ -64,8 +64,8 @@ specify_model <- function( utility_script, dataset = NULL , output_file = NULL, 
 
 #' @export
 compileUtilityFunction <- function(...) {
-  .Deprecated("specifyModel")
-  specifyModel(...)
+  .Deprecated("specify_model")
+  specify_model(...)
 }
 
 
