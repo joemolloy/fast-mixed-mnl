@@ -90,12 +90,12 @@ NumericMatrix predict(NumericVector betas, DataFrame data,
       
       double chosen_utility = utilities[choice[i]-1]; //this -1 is needed if the choices start at 1 (as they should)
     
-      double sum_utilities = 0.0;
       NumericMatrix::ConstRow  choices_avail = v.availabilities( i , _ );
       
       for (unsigned k=0; k < utilities.size(); ++k) {
-        sum_utilities += utilities[k] * choices_avail[k];
+        utilities[k] = utilities[k] * choices_avail[k];
       }
+      double sum_utilities = utilities.sum();
       
       double pchoice = chosen_utility / sum_utilities;
       std::valarray<double> probabilities = utilities / sum_utilities;

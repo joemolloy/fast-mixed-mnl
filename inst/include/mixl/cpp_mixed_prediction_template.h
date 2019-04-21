@@ -98,8 +98,9 @@ NumericMatrix predict(NumericVector betas, DataFrame data,
       NumericMatrix::ConstRow  choices_avail = v.availabilities( i , _ );
       
       for (unsigned k=0; k < utilities.size(); ++k) {
-        sum_utilities += utilities[k] * choices_avail[k];
+        utilities[k] = utilities[k] * choices_avail[k];
       }
+      double sum_utilities = utilities.sum();
       
       double pchoice = chosen_utility / sum_utilities;
       std::valarray<double> probabilities = utilities / sum_utilities;
