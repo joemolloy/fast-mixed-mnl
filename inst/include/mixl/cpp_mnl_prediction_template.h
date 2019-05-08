@@ -88,13 +88,12 @@ NumericMatrix predict(NumericVector betas, DataFrame data,
         utilities[k] = exp(utilities[k]); //take the exponential of each utility
       }
       
-      double chosen_utility = utilities[choice[i]-1]; //this -1 is needed if the choices start at 1 (as they should)
-    
       NumericMatrix::ConstRow  choices_avail = v.availabilities( i , _ );
       
       for (unsigned k=0; k < utilities.size(); ++k) {
         utilities[k] = utilities[k] * choices_avail[k];
       }
+      
       double sum_utilities = utilities.sum();
       
       double pchoice = chosen_utility / sum_utilities;
@@ -103,7 +102,7 @@ NumericMatrix predict(NumericVector betas, DataFrame data,
       P(i, 0) = i;
       P(i, 1) = individual_index;
       P(i, 2) = choice[i];
-      P(i, 3) = pchoice;
+      P(i, 3) = probabilities[choice[i]-1];
       for (unsigned k=0; k < utilities.size(); ++k) {
         P(i, PRE_COLS + k) = probabilities[k];
       } 
