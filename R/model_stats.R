@@ -77,13 +77,13 @@ summary.mixl <- function (object,...){
      ,BIC  = round(-2*finalLL+(num_params)*log(choicetasks),SIG_FIGS2)    ##TODO: what if choice task numbers vary over participants
     )
     
-    class(ms) <- c("summary.mixl")
+    class(ms) <- c("summary_mixl")
     
     ms
 }
 
 #' @export
-print.summary.mixl <- function (model_output) {
+print.summary_mixl <- function (model_output) {
     with(model_output, {
       cat("Runtime:", "????? ","\n\n")
       cat("Model diagnosis:", message,"\n\n")

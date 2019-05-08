@@ -8,7 +8,7 @@
 # ------------------------------------------------------------------------------------------------------------#
 
 #' @export
-tex.summary.mixl=function(model_summary) {
+summary_tex=function(model_summary) {
   m <- model_summary
 
   ct <- m$coefTable
