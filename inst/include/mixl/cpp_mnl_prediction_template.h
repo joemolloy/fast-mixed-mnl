@@ -96,7 +96,6 @@ NumericMatrix predict(NumericVector betas, DataFrame data,
       
       double sum_utilities = utilities.sum();
       
-      double pchoice = chosen_utility / sum_utilities;
       std::valarray<double> probabilities = utilities / sum_utilities;
         
       P(i, 0) = i;
