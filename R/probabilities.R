@@ -4,11 +4,11 @@ compile_predictions <- function(model_spec) {
   template_location <- system.file("include", "mixl", prediction_template, package = "mixl")
   cpp_template <- readr::read_file(template_location)
   
-  
   cpp_code <- convert_to_valid_cpp(cpp_template, e1=model_spec)
   
   f_env <- new.env()
   
+  Sys.setenv("PKG_CPPFLAGS"= sprintf("-I\"%s\"", system.file(package = "mixl", "include")))
   Rcpp::sourceCpp(code = cpp_code, env = f_env)
 
   return (f_env$predict)    

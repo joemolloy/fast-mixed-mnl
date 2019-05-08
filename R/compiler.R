@@ -39,7 +39,7 @@ specify_model <- function( utility_script, dataset = NULL , output_file = NULL, 
     cpp_template <- readr::read_file(template_location)
     
     e1$cpp_code <- convert_to_valid_cpp(cpp_template, e1=e1)
-    
+
     if (!is.null(output_file)) {
       readr::write_file(e1$cpp_code, output_file)
     }
