@@ -72,7 +72,7 @@ probabilities <- function(model,
       new_nDraws <- nDraws
     }
     
-    if (ncol(new_draws) > model$model_spec$draw_dimensions) {
+    if (ncol(new_draws) < model$model_spec$draw_dimensions) {
       stop(paste0("Not enough columns in draw matrix. Need ", model$model_spec$draw_dimensions))
     }
     
