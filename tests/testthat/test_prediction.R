@@ -33,7 +33,7 @@ test_that("The prediction code compiles and runs", {
   expect_equal(dim(model_preds), c(nrow(Train), 4 + logLik_env$num_utility_functions))
   expect_equal(colnames(model_preds), c( "i", "ID", "choice_index", "p_choice", "p_1", "p_2"))
 
-  expect_equal(unname(model_preds[5,]), c(4, 0 ,2 ,0.25791587, 0.727768623, 0.27223138))
+  expect_equal(unname(model_preds[5,]), c(4, 0 ,2 ,0.2722314, 0.727768623, 0.2722314), tolerance=1e-6)
 
 })
 
@@ -99,6 +99,6 @@ test_that("Different data can be used in mixed mnl", {
   expect_equal(dim(model_preds), c(nrow(Train), 4 + logLik_env$num_utility_functions))
   expect_equal(colnames(model_preds), c( "i", "ID", "choice_index", "p_choice", "p_1", "p_2"))
   
-  expect_equal(unname(model_preds[5,]), c(4, 0 ,2 ,0.29852397, 0.685947201, 0.31405280))
+  expect_equal(unname(model_preds[5,]), c(4, 0 ,2 , 0.3140528, 0.685947201, 0.3140528), tolerance=1e-6)
   
 })
