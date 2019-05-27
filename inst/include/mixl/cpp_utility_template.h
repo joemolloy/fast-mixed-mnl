@@ -3,6 +3,10 @@
 // [[Rcpp::plugins(cpp11)]]        
 
 #include <Rcpp.h>
+
+#ifdef _OPENMP
+  #include <omp.h>
+#endif
 #include "mixl/utility_function.h"
 
 using Rcpp::DataFrame;
@@ -18,7 +22,9 @@ NumericVector logLik(NumericVector betas, DataFrame data,
                      NumericMatrix draws, int nDraws,
                      NumericMatrix P, int num_threads=1, bool p_indices=false) {
   
-  omp_set_num_threads(num_threads);
+  #ifdef _OPENMP
+    omp_set_num_threads(num_threads);
+  #endif  
   
   UF_args2 v(data, Nindividuals, availabilities, draws, nDraws, P, p_indices);
   

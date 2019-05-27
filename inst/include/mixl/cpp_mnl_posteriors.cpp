@@ -1,7 +1,6 @@
-// [[Rcpp::plugins(cpp11)]]        
+// [[Rcpp::plugins(cpp11)]]
 
 #include <Rcpp.h>
-
 //posteriors function for mnl models without random draws
 
 using Rcpp::DataFrame;

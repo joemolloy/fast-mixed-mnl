@@ -2,6 +2,11 @@
 // [[Rcpp::plugins(cpp11)]]        
 
 #include <Rcpp.h>
+
+#ifdef _OPENMP
+  #include <omp.h>
+#endif
+
 #include "mixl/utility_function.h"
 
 using Rcpp::DataFrame;
@@ -15,9 +20,10 @@ using Rcpp::stop;
 NumericMatrix predict(NumericVector betas, DataFrame data,
                       int Nindividuals, NumericMatrix availabilities,
                       int num_threads=1) {
-  
-  omp_set_num_threads(num_threads);
-  
+  #ifdef _OPENMP
+    omp_set_num_threads(num_threads);
+  #endif
+    
   const int PRE_COLS = 4;
   
   int nCols = PRE_COLS + !===utility_length===!;
