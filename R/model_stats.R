@@ -62,8 +62,10 @@ summary.mixl <- function (object,...){
     ms$est <- model$estimate
     ms$Nindividuals <- model$Nindividuals
     ms$choicetasks <- model$choicetasks
-    ms$nDraws <- model$nDraws
-    
+    ms$is_mixed <- model$is_mixed
+    if (model$is_mixed) {
+      ms$nDraws <- model$nDraws
+    }
     ms$metrics <- list(
       finalLL = finalLL,
       zeroLL  = zeroLL,
@@ -83,30 +85,37 @@ summary.mixl <- function (object,...){
 }
 
 #' @export
+print.summary.mixl <- function (x, ...) {
+  model_output <- x
+  
+  with(model_output, {
+    cat("Runtime:", "????? ","\n\n")
+    cat("Model diagnosis:", message,"\n\n")
+    cat("Number of decision makers:", Nindividuals,"\n")
+    cat("Number of observations:", choicetasks,"\n\n")
+    if (is_mixed) {
+      cat("Number of draws for random component:", nDraws,"\n\n")
+    }
+    cat("LL(null): ", metrics$zeroLL,"\n")
+    cat("LL(init): ", metrics$initLL,"\n")
+    cat("LL(final): ", metrics$finalLL,"\n")
+    cat("Rho2: ", metrics$rho2zero,"\n")
+    
+    cat("Estimated parameters: ",num_params,"\n\n")
+    
+    cat("Estimates:\n")
+    print(coefTable)
+    
+    #   cat("\n\nRobust covariance matrix:\n")
+    #   print(robvarcov)
+    
+  })
+}
+
+#' @export
 print.mixl <- function (x, ...) {
     model_output <- summary(x)
-    
-    with(model_output, {
-      cat("Runtime:", "????? ","\n\n")
-      cat("Model diagnosis:", message,"\n\n")
-      cat("Number of decision makers:", Nindividuals,"\n")
-      cat("Number of observations:", choicetasks,"\n\n")
-      cat("Number of draws for random component:", nDraws,"\n\n")
-      
-      cat("LL(null): ", metrics$zeroLL,"\n")
-      cat("LL(init): ", metrics$initLL,"\n")
-      cat("LL(final): ", metrics$finalLL,"\n")
-      cat("Rho2: ", metrics$rho2zero,"\n")
-      
-      cat("Estimated parameters: ",num_params,"\n\n")
-      
-      cat("Estimates:\n")
-      print(coefTable)
-      
-   #   cat("\n\nRobust covariance matrix:\n")
-   #   print(robvarcov)
-    
-    })
+    print(model_output)
 }
 
 
