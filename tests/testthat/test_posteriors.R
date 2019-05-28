@@ -1,3 +1,4 @@
+library(testthat)
 context("Test posterior function")
 
 test_that("Random equations are parsed", {
@@ -11,15 +12,14 @@ test_that("Random equations are parsed", {
   U_B = ASC_B_RND + @B_price * $price_B / 1000 + @B_timeB * $time_B / 60;
   "
   
-  eqs <- mixl::parse_equations(mnl_test)
+  eqs <- mixl:::parse_equations(mnl_test)
   expect_equal(colnames(eqs), c("name", "equation"))
   expect_equal(dim(eqs), c(2,2))
 })
 
+skip_on_cran()
 test_that("Simple posterior calcualtion", {
   
-  library(Rcpp)
-  library(Matrix)
   data("Train", package="mlogit")
   Train$ID <- Train$id
   Train$CHOICE <- as.numeric(Train$choice)
@@ -38,7 +38,7 @@ test_that("Simple posterior calcualtion", {
   #template_location <- "inst/include/mixl/cpp_posteriors.cpp"
   
   #only take starting values that are needed
-  est <- setNames(c(-1059.69729,  -181.27796,  -251.78909,  -241.18878,   -86.77386,  -173.09451,   291.02618,   142.71793,   332.60909)
+  est <- stats::setNames(c(-1059.69729,  -181.27796,  -251.78909,  -241.18878,   -86.77386,  -173.09451,   291.02618,   142.71793,   332.60909)
                   , c("B_price", "B_time", "B_timeB", "B_change", "ASC_A", "ASC_B", "SIGMA_A1", "SIGMA_A2", "SIGMA_B"))
   
   availabilities <- mixl::generate_default_availabilities(Train, 2)
@@ -68,17 +68,9 @@ test_that("Simple posterior calcualtion", {
   #cbind(cpp_post[,1], r_posteriors[,1])
 })
 
-# 
-# NumericMatrix random_coeffs(v.draws.nrows(), num_rnd_var);
-# for (int i = 0; i<v.draws.nrows(); i++) {
-#   int r_idx = 0;
-#   random_coeffs(i, r_idx++) = 0.0;
-# }
-
+skip_on_cran()
 test_that("Advanced posterior calcualtion with individual variables", {
-  
-  library(Rcpp)
-  library(Matrix)
+
   data("Train", package="mlogit")
   Train$ID <- Train$id
   Train$CHOICE <- as.numeric(Train$choice)
@@ -98,7 +90,7 @@ test_that("Advanced posterior calcualtion with individual variables", {
   #template_location <- "inst/include/mixl/cpp_posteriors.cpp"
   
   #only take starting values that are needed
-  est <- setNames(c(-1059.69729,  -181.27796,  -251.78909,  -241.18878,   -86.77386,  -173.09451,   291.02618,   142.71793,   332.60909, 1)
+  est <- stats::setNames(c(-1059.69729,  -181.27796,  -251.78909,  -241.18878,   -86.77386,  -173.09451,   291.02618,   142.71793,   332.60909, 1)
                   , c("B_price", "B_time", "B_timeB", "B_change", "ASC_A", "ASC_B", "SIGMA_A1", "SIGMA_A2", "SIGMA_B", "SIGMA_PRICE"))
   
   availabilities <- mixl::generate_default_availabilities(Train, 2)
@@ -139,9 +131,9 @@ test_that("Advanced posterior calcualtion with individual variables", {
 
 
 
+skip_on_cran()
 test_that("Posteriors without draws calcualtion for simple MNL", {
-  library(Rcpp)
-  library(Matrix)
+
   data("Train", package="mlogit")
   Train$ID <- Train$id
   Train$CHOICE <- as.numeric(Train$choice)
@@ -161,7 +153,7 @@ test_that("Posteriors without draws calcualtion for simple MNL", {
   #template_location <- "inst/include/mixl/cpp_posteriors.cpp"
   
   #only take starting values that are needed
-  est <- setNames(c(-0.1729610, -0.2057692, -0.1250778, -0.0649737, -0.1804503, 0.1)
+  est <- stats::setNames(c(-0.1729610, -0.2057692, -0.1250778, -0.0649737, -0.1804503, 0.1)
                   , c("B_price", "B_time", "B_timeB", "B_change", "ASC_A", "LAMDBA_DIST_COST"))
   
   availabilities <- mixl::generate_default_availabilities(Train, 2)

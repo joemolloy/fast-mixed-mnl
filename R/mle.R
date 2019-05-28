@@ -24,7 +24,7 @@
 #' @param nDraws The number of draws to use in estimating a mixed model. 
 #' Only needed if \code{draws} is left null. Then a matrix of normal halton draws will be generated.
 #' 
-#' @param fixparam (optional) Coefficients which should be fixed to their starting values during estimation.
+#' @param fixedparam (optional) Coefficients which should be fixed to their starting values during estimation.
 #' 
 #' @param num_threads The maximum number of parallel cores to use in estimation. The default is 1. 
 #' This should only be speficied on machines with an openMP compiler (linux and some OSXs).
@@ -116,7 +116,15 @@ estimate <- function (model_spec, start_values, data, availabilities,
 #' Incidentally, if there is concern of this happening, it is recommended to run the script from the 
 #' command line, using Rscript.
 #' 
-#' @export
+#' @param model_spec The specified Model
+#' @param start_values Named vector of proposed start values for the model
+#' @param data the dataset on which to estimate
+#' @param availabilities The availabilities for the alternatives in the model specification
+#' @param draws The matrix of random draws
+#' @param fixedparam Named vector of parameters to be fixed
+#' @return Nothing
+#' 
+#' 
 check_inputs <- function(model_spec, start_values, data, availabilities, draws, fixedparam) {
   #TODO: check existence of required data variables and CHOICE and ID
   
@@ -159,10 +167,4 @@ check_inputs <- function(model_spec, start_values, data, availabilities, draws, 
     warning(paste("The following parameters are not used in the utility function but will be estimated anyway:", paste(excess_betas, collapse=",")))
   }
   
-}
-
-#' @export
-maxLikelihood <- function(...) {
-  .Deprecated("estimate")
-  estimate(...)
 }

@@ -47,7 +47,7 @@ specify_model <- function( utility_script, dataset = NULL , output_file = NULL, 
     cpp_container <- e1
     cpp_container$logLik <- NULL ## remove old function
     
-    cpp_container$beta_names <- setNames(e1$betas, NULL)
+    cpp_container$beta_names <- stats::setNames(e1$betas, NULL)
     cpp_container$num_coeffs <- length(e1$betas)
     
     #set modelname 
@@ -62,6 +62,10 @@ specify_model <- function( utility_script, dataset = NULL , output_file = NULL, 
   
 }
 
+#' compileUtilityFunction
+#' Depreciated, please see \code{\link{specify_model}}
+#' @param ... Parameters to specify_model
+#'
 #' @export
 compileUtilityFunction <- function(...) {
   .Deprecated("specify_model")

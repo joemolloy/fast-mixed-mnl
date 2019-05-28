@@ -7,6 +7,7 @@ Train$ID <- Train$id
 Train$CHOICE <- as.integer(Train$choice)
 Nindividuals <- length(unique(Train$ID))
 
+skip_on_cran()
 test_that("The prediction code compiles and runs", {
   mnl_test <- "
     ASC_B_RND 	= @ASC_B 	+ draw_2 * @SIGMA_B;
@@ -19,7 +20,7 @@ test_that("The prediction code compiles and runs", {
   logLik_env <- mixl::specify_model(mnl_test, Train, compile=TRUE)
   
   #only take starting values that are needed
-  est <- setNames(c(-1.03970347, -0.80712567, -0.95341969, -0.14061543,  0.19796530, -0.01888506), 
+  est <- stats::setNames(c(-1.03970347, -0.80712567, -0.95341969, -0.14061543,  0.19796530, -0.01888506), 
                   c("B_price", "B_time", "B_timeB", "B_change", "ASC_B","SIGMA_B"))
   
   availabilities <- mixl::generate_default_availabilities(Train, logLik_env$num_utility_functions)
@@ -38,6 +39,7 @@ test_that("The prediction code compiles and runs", {
 })
 
 
+skip_on_cran()
 test_that("mnl prediction", {
   
   
@@ -50,7 +52,7 @@ U_B = @B_price * $price_B / 1000 + @B_timeB * $time_B / 60;
 "
   
   #only take starting values that are needed
-  est <- setNames(c(-0.1729610, -0.2057692, -0.1250778, -0.0649737, -0.1804503, 0.1)
+  est <- stats::setNames(c(-0.1729610, -0.2057692, -0.1250778, -0.0649737, -0.1804503, 0.1)
                   , c("B_price", "B_time", "B_timeB", "B_change", "ASC_A", "LAMDBA_DIST_COST"))
   
   availabilities <- mixl::generate_default_availabilities(Train, 2)
@@ -68,6 +70,7 @@ U_B = @B_price * $price_B / 1000 + @B_timeB * $time_B / 60;
 })
 
 
+skip_on_cran()
 test_that("Different data can be used in mixed mnl", {
   
   Train2 <- data.frame(Train)
@@ -85,7 +88,7 @@ test_that("Different data can be used in mixed mnl", {
   logLik_env <- mixl::specify_model(mnl_test, Train, compile=TRUE)
   
   #only take starting values that are needed
-  est <- setNames(c(-1.03970347, -0.80712567, -0.95341969, -0.14061543,  0.19796530, -0.01888506), 
+  est <- stats::setNames(c(-1.03970347, -0.80712567, -0.95341969, -0.14061543,  0.19796530, -0.01888506), 
                   c("B_price", "B_time", "B_timeB", "B_change", "ASC_B","SIGMA_B"))
   
   availabilities <- mixl::generate_default_availabilities(Train, logLik_env$num_utility_functions)

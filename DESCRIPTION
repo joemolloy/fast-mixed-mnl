@@ -1,21 +1,24 @@
 Package: mixl
 Type: Package
-Title: Simulated Maximum Likelihood Estimation of Mixed Logit Models
+Title: Simulated Maximum Likelihood Estimation of Mixed Logit Models for Large Datasets
 Version: 1.1
-Date: 2018-11-01
+Date: 2019-05-28
 Authors@R: person("Joseph", "Molloy", email = "joseph.molloy@ivt.baug.ethz.ch",
   role = c("aut", "cre"))
-Description: This package allows the specification and estimation of multinomial logit models throgh maximum likelihood estimation 
+Description:  Specification and estimation of multinomial logit models.
+  Large datasets and complex models are supported, with an intuitive syntax. 
+  Multinomial Logit Models, Mixed models, random coefficients and Hybrid Choice are all supported.
 License: GPL (>= 2)
 Encoding: UTF-8
 Imports:
+  stats,
   readr,
   stringr (>= 1.3.1),
   maxLik,
   numDeriv,
   Rcpp (>= 0.12.19),
-  randtoolbox
-LinkingTo: Rcpp
+  randtoolbox,
+  sandwich
 Suggests: 
     testthat,
     knitr,

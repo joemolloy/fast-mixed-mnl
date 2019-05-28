@@ -26,10 +26,6 @@ extract_var <- function(text, pattern) {
   return (sapply(unqiue_els, trim_marker))
 }
 
-replace_orm <- function(text) {
-  dnorm
-}
-
 extract_variables <- function (source_txt) {
   e <- new.env()
   e$source <- source_txt
@@ -106,9 +102,9 @@ add_semi_colons <- function(lines) {
 convert_to_valid_cpp <- function(cpp_template, e1, hybrid_choice=FALSE) {
 
   
-  data_subs <- setNames (paste0(data_prefix, e1$data_cols , "[i]"), paste0("\\$", e1$data_cols, "\\b"))
-  draw_subs <-  setNames (paste0("draw[", 0:(e1$draw_dimensions-1), "]"), paste0(e1$draws,"\\b"))
-  utility_subs <- setNames (paste0("utilities[", 0:(e1$num_utility_functions-1) , "]"), paste0(e1$utility_function_names, "\\b"))
+  data_subs <- stats::setNames (paste0(data_prefix, e1$data_cols , "[i]"), paste0("\\$", e1$data_cols, "\\b"))
+  draw_subs <-  stats::setNames (paste0("draw[", 0:(e1$draw_dimensions-1), "]"), paste0(e1$draws,"\\b"))
+  utility_subs <- stats::setNames (paste0("utilities[", 0:(e1$num_utility_functions-1) , "]"), paste0(e1$utility_function_names, "\\b"))
 
   #build data column vector initialization code
   data_var_init_text <- 'const NumericVector {data_prefix}{col_name} = v.data["{col_name}"];'

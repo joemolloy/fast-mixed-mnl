@@ -27,13 +27,13 @@ If the model specification included mixed effects, either this or \code{nDraws} 
 \item{nDraws}{The number of draws to use in estimating a mixed model. 
 Only needed if \code{draws} is left null. Then a matrix of normal halton draws will be generated.}
 
+\item{fixedparam}{(optional) Coefficients which should be fixed to their starting values during estimation.}
+
 \item{num_threads}{The maximum number of parallel cores to use in estimation. The default is 1. 
 This should only be speficied on machines with an openMP compiler (linux and some OSXs).}
 
 \item{...}{futher arguments. such as control are passed to the maximisaiton routine in maxLik. 
 See \code{?maxLik::maxLik} for more details}
-
-\item{fixparam}{(optional) Coefficients which should be fixed to their starting values during estimation.}
 }
 \value{
 a mixl object that contains the results of the estimation

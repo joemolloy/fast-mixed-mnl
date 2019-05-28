@@ -13,7 +13,7 @@ summary.mixl <- function (object,...){
     Nindividuals <- model$Nindividuals
     choicetasks <- model$choicetasks
     
-    varcov <- vcov(model)
+    varcov <- stats::vcov(model)
     se=sqrt(diag(varcov))
     se[model$fixed] <- NA
     
@@ -33,8 +33,8 @@ summary.mixl <- function (object,...){
     robtrat_1 <- (est-1)/robse
     robcorrmat <- robvarcov/(robse%*%t(robse))
 
-    rob_pval0 <- 2*pnorm(-abs(robtrat_0))
-    rob_pval1 <- 2*pnorm(-abs(robtrat_1))
+    rob_pval0 <- 2*stats::pnorm(-abs(robtrat_0))
+    rob_pval1 <- 2*stats::pnorm(-abs(robtrat_1))
     
     num_params <- length(est)-sum(model$fixed)
     rho2zero <- 1-finalLL/zeroLL
@@ -77,13 +77,15 @@ summary.mixl <- function (object,...){
      ,BIC  = round(-2*finalLL+(num_params)*log(choicetasks),SIG_FIGS2)    ##TODO: what if choice task numbers vary over participants
     )
     
-    class(ms) <- c("summary_mixl")
+    class(ms) <- c("summary.mixl", class(ms))
     
     ms
 }
 
 #' @export
-print.summary_mixl <- function (model_output) {
+print.mixl <- function (x, ...) {
+    model_output <- summary(x)
+    
     with(model_output, {
       cat("Runtime:", "????? ","\n\n")
       cat("Model diagnosis:", message,"\n\n")

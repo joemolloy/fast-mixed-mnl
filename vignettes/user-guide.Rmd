@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 The *mixl* package presents a new approach to estimating complex choice models which is both many times faster than existing approaches, and simplier to use. The interface remains in R, while the loglikelihood function is compiled into to high performance C++ code in the background. Users need no knowledge of C++, and can specify thier utility functions and random variables as they would on paper. Where the appropriate parallel computing resources are available (on linux machines), the loglikelihood estimation can be easily sped up by simply specifying the number of cores available.
 
 ## Motivation
-The development of this package was motivated by the need at the [Institute for Transport Planning and Systems (IVT)](http://http://www.ivt.ethz.ch/) at ETH Zürich to 
+The development of this package was motivated by the need at the [Institute for Transport Planning and Systems (IVT)](http://www.ivt.ethz.ch/) at ETH Zürich to 
 estimate complicated mixed multinomial logit models of time use and travel behaviour. Other approaches, such as [biogeme](http://biogeme.epfl.ch/) and other R implementations were found to be very memory intensive when a large number of random draws were needed. 
 
 Additionally, we found that the learning curve for some implementations was very steep, and changes to model specifications involved understanding of the underlying code base, on top of random utility and choice modeling fundamentals. 

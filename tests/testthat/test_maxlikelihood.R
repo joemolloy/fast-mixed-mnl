@@ -6,7 +6,6 @@ Train$ID <- Train$id
 Train$CHOICE <- as.numeric(Train$choice)
 
 
-skip_on_cran()
 test_that("A basic MNL model converges and creates the output", {
 
     mnl_test <- "
@@ -17,7 +16,7 @@ test_that("A basic MNL model converges and creates the output", {
     logLik_env <- mixl::specify_model(mnl_test, Train, compile=TRUE)
 
     #only take starting values that are needed
-    est <- setNames(c(1,1,1,1), c("B_price", "B_time", "B_timeB", "B_change"))
+    est <- stats::setNames(c(1,1,1,1), c("B_price", "B_time", "B_timeB", "B_change"))
 
     availabilities <- mixl::generate_default_availabilities(Train, logLik_env$num_utility_functions)
 
@@ -26,12 +25,12 @@ test_that("A basic MNL model converges and creates the output", {
     expect_equal(model$code, 1) #iteration limit
     expect_equal(model$maximum, -2046.955200, tolerance=1e-3)
     expect_s3_class(model, "mixl")
-    expect_s3_class(mixl::summary.mixl(model), "summary_mixl")
+    expect_s3_class(summary.mixl(model), "summary.mixl")
     prints_text(summary(model)) #TODO::::: nDraws not found when printing mnl model
 })
 
 
-
+skip_on_cran()
 test_that("A mixed MNL model converges and creates the output", {
   #randomly assign observations to ID's
   mnl_test <- "
@@ -44,7 +43,7 @@ test_that("A mixed MNL model converges and creates the output", {
   model_spec <- mixl::specify_model(mnl_test, Train)
   
   #only take starting values that are needed
-  est <- setNames(c(0,0,0,0,0,0), c("B_price", "B_time", "B_timeB", "B_change", "ASC_B","SIGMA_B"))
+  est <- stats::setNames(c(0,0,0,0,0,0), c("B_price", "B_time", "B_timeB", "B_change", "ASC_B","SIGMA_B"))
   
   availabilities <- mixl::generate_default_availabilities(Train, model_spec$num_utility_functions)
   
@@ -55,11 +54,11 @@ test_that("A mixed MNL model converges and creates the output", {
   expect_equal(model$maximum, -1842.243, tolerance=1e-3)
   
   expect_s3_class(model, "mixl")
-  expect_s3_class(mixl::summary.mixl(model), "summary_mixl")
+  expect_s3_class(summary.mixl(model), "summary.mixl")
   prints_text(summary(model))
 })
 
-
+skip_on_cran()
 test_that("A mixed MNL model failes : not enough betas", {
   #randomly assign observations to ID's
   mnl_test <- "
@@ -73,13 +72,13 @@ test_that("A mixed MNL model failes : not enough betas", {
   logLik_env <- mixl::specify_model(mnl_test, Train, compile=TRUE)
   
   #only take starting values that are needed
-  est <- setNames(c(1,1,1,1), c("B_price", "B_time", "B_timeB", "B_change"))
+  est <- stats::setNames(c(1,1,1,1), c("B_price", "B_time", "B_timeB", "B_change"))
   
   availabilities <- mixl::generate_default_availabilities(Train, logLik_env$num_utility_functions)
   exp_error <- "The following parameters are not named: ASC_A, SIGMA_A1, SIGMA_A2, ASC_B, SIGMA_B"
   expect_error(model <- mixl::estimate(logLik_env, est, Train, availabilities = availabilities, nDraws = 5), exp_error)
   
-  est <- setNames(c(1,1,1,1, 0.1, 0.1, 0.1, 0.1, 0.1, 0), c("B_price", "B_time", "B_timeB", "B_change", "ASC_A", "ASC_B", "SIGMA_A1", "SIGMA_A2", "SIGMA_B", "SIG_EXTRA"))
+  est <- stats::setNames(c(1,1,1,1, 0.1, 0.1, 0.1, 0.1, 0.1, 0), c("B_price", "B_time", "B_timeB", "B_change", "ASC_A", "ASC_B", "SIGMA_A1", "SIGMA_A2", "SIGMA_B", "SIG_EXTRA"))
   
   exp_warning <- "The following parameters are not used in the utility function but will be estimated anyway: SIG_EXTRA"
   expect_warning(model <- mixl::estimate(logLik_env, est, Train, availabilities = availabilities, nDraws = 5), exp_warning)
@@ -89,6 +88,7 @@ test_that("A mixed MNL model failes : not enough betas", {
 
 
 
+skip_on_cran()
 test_that("creating and validating draws", {
   
   
@@ -106,7 +106,7 @@ test_that("creating and validating draws", {
   logLik_env <- mixl::specify_model(mnl_test, Train, compile=TRUE)
   
   #only take starting values that are needed
-  est <- setNames(c(1,1,1,1, 0.1, 0.1, 0.1, 0.1, 0.1), c("B_price", "B_time", "B_timeB", "B_change", "ASC_A", "ASC_B", "SIGMA_A1", "SIGMA_A2", "SIGMA_B"))
+  est <- stats::setNames(c(1,1,1,1, 0.1, 0.1, 0.1, 0.1, 0.1), c("B_price", "B_time", "B_timeB", "B_change", "ASC_A", "ASC_B", "SIGMA_A1", "SIGMA_A2", "SIGMA_B"))
   
   availabilities <- mixl::generate_default_availabilities(Train, logLik_env$num_utility_functions)
 
@@ -131,6 +131,7 @@ test_that("creating and validating draws", {
   
 })
 
+skip_on_cran()
 test_that("hybrid choice", {
   
 })

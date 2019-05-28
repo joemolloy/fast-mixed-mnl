@@ -7,6 +7,22 @@
 check_inputs(model_spec, start_values, data, availabilities, draws,
   fixedparam)
 }
+\arguments{
+\item{model_spec}{The specified Model}
+
+\item{start_values}{Named vector of proposed start values for the model}
+
+\item{data}{the dataset on which to estimate}
+
+\item{availabilities}{The availabilities for the alternatives in the model specification}
+
+\item{draws}{The matrix of random draws}
+
+\item{fixedparam}{Named vector of parameters to be fixed}
+}
+\value{
+Nothing
+}
 \description{
 This function checks the start_vlaues, data, availabilities, draws and fixedparams for validity.
 If this function runs without error, then the inputs are valid for the maxLikelihood function. 

@@ -7,7 +7,13 @@
 #
 # ------------------------------------------------------------------------------------------------------------#
 
-#' @export
+#' Return tex formatted output of a model summary
+#' 
+#' @param model_summary A summary of an estimated Model
+#' 
+#' @return Formatted text output suitable for a research paper.
+#' 
+#' @export 
 summary_tex=function(model_summary) {
   m <- model_summary
 

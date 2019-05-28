@@ -1,4 +1,12 @@
 
+#' Calculate the posteriors for a specified and estimated model
+#' 
+#' @param model The estimated Model
+#' @param indiv_data Alternative individual data to use insteaf of that in the dataset
+#' @param code_output_file An (optional) location where the compiled code should be saved (useful for debugging
+#' 
+#' @return Dataframe of individual-level posteriors
+#' 
 #' @export 
 posteriors <- function(model, indiv_data=NULL, code_output_file=NULL) {
   
@@ -25,7 +33,6 @@ posteriors <- function(model, indiv_data=NULL, code_output_file=NULL) {
 }
 
 
-#' @export 
 parse_equations <- function(utility_script) {
   random_regex <- "\\b(\\w*_RND)\\s*=\\s*([^;]*)"
   a  <- stringr::str_match_all(utility_script, random_regex)
@@ -60,7 +67,7 @@ compile_posterior_function <- function(rnd_equations, betas, is_mixed, output_fi
   data_inits_vec <- sapply(data_cols, function (col_name) stringr::str_glue(data_var_init_text)) #vector creation
   data_declarations <- paste(data_inits_vec, collapse="\n")
   
-  data_subs <- setNames (paste0(data_prefix, data_cols , "[i]"), paste0("\\$", data_cols, "\\b"))
+  data_subs <- stats::setNames (paste0(data_prefix, data_cols , "[i]"), paste0("\\$", data_cols, "\\b"))
 
   num_rnd_vars <- length(names)
   

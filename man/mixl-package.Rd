@@ -43,7 +43,7 @@ Joe Molloy <joseph.molloy@ivt.baug.ethz.ch>.
   model_spec <- mixl::specify_model(mnl_test, Train)
   
   #only take starting values that are needed
-  est <- setNames(c(0,0,0,0,0), c("B_price", "B_time", "B_timeB", "B_change", "ASC_B"))
+  est <- stats::setNames(c(0,0,0,0,0), c("B_price", "B_time", "B_timeB", "B_change", "ASC_B"))
   
   availabilities <- mixl::generate_default_availabilities(Train, model_spec$num_utility_functions)
   
