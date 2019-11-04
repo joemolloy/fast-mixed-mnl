@@ -1,6 +1,17 @@
 
+#' Create a model summary
+#' 
+#' \code{summary} is an S3 method for the class mixl, which adds metrics of goodness of fit
+#' 
+#' @param object The mixl output to summarize.
+#' @param ... Options to pass to summarize (currently).
+#' 
+#' @return A summary object for a mixl model
+#' 
+#' @example R/examples/model_stats.R
+#' 
 #' @export
-summary.mixl <- function (object,...){
+summary.mixl <- function (object, ...){
     SIG_FIGS4 <- 4
     SIG_FIGS2 <- 2
     model <- object
@@ -84,12 +95,21 @@ summary.mixl <- function (object,...){
     ms
 }
 
+#' Print a model summary
+#' 
+#' \code{summary} is an S3 method for the summary.mixl class, the output of a model plus goodness of fit metrics
+#' 
+#' @param x The summary to print.
+#' @param ... Options to pass to print.
+#' 
+#' @example R/examples/model_stats.R
+#' 
 #' @export
 print.summary.mixl <- function (x, ...) {
   model_output <- x
   
   with(model_output, {
-    cat("Runtime:", "????? ","\n\n")
+    #cat("Runtime:", "????? ","\n\n")
     cat("Model diagnosis:", message,"\n\n")
     cat("Number of decision makers:", Nindividuals,"\n")
     cat("Number of observations:", choicetasks,"\n\n")
@@ -100,11 +120,15 @@ print.summary.mixl <- function (x, ...) {
     cat("LL(init): ", metrics$initLL,"\n")
     cat("LL(final): ", metrics$finalLL,"\n")
     cat("Rho2: ", metrics$rho2zero,"\n")
+    cat('\n')
+    cat("AIC: ", metrics$AIC,"\n")
+    cat("AICc: ", metrics$AICc,"\n")
+    cat("BIC: ", metrics$BIC,"\n")
     
     cat("Estimated parameters: ",num_params,"\n\n")
     
     cat("Estimates:\n")
-    print(coefTable)
+    print(coefTable, ...)
     
     #   cat("\n\nRobust covariance matrix:\n")
     #   print(robvarcov)
@@ -112,10 +136,22 @@ print.summary.mixl <- function (x, ...) {
   })
 }
 
+
+#' Prints the output of a model
+#' 
+#' \code{summary} is an S3 method for the smixl class.
+#' It creates a model summary and then prints the result
+#' 
+#' @param x The model to print
+#' @param ... Options to pass to print
+#' 
+#' @example R/examples/model_stats.R
+#' 
+#' @export
 #' @export
 print.mixl <- function (x, ...) {
     model_output <- summary(x)
-    print(model_output)
+    print(model_output, ...)
 }
 
 

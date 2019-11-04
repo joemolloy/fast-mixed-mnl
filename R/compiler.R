@@ -14,6 +14,8 @@
 #' @param model_name A name for the model, which will be used for saving. Defaults to *mixl_model*
 #' @return An \code{object} which contains the loglikelihood function, and information from the compile process
 #' 
+#' @example R/examples/specify_model.R
+#' 
 #' @export 
 specify_model <- function( utility_script, dataset = NULL , output_file = NULL, compile=TRUE, model_name="mixl_model") {
 

@@ -31,9 +31,11 @@ NumericMatrix mixl_posteriors(NumericVector betas, NumericMatrix probabilities,
   
   !===data_declarations===!
   
+  
+  NumericMatrix indiv_B_means(Nindividuals, numRndVars);
+  NumericVector indiv_L_mean(Nindividuals);
+  
   for (int i=0; i < Nindividuals; i++) {
-    NumericMatrix indiv_B_means(Nindividuals, numRndVars);
-    NumericVector indiv_L_mean(Nindividuals);
     for (int d=0; d<nDraws; d++) {
       int draw_index = i * nDraws + d; 
       NumericMatrix::ConstRow draw = draws(draw_index, _);

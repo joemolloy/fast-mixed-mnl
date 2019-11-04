@@ -19,3 +19,8 @@ Matrix of availabilities for alternatives and the number of choice observations
 \description{
 Create a standard set of Halton draws to use in estimation
 }
+\examples{
+create_halton_draws(100, 10, 5)
+create_halton_draws(100, 100, 20)
+
+}

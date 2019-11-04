@@ -24,8 +24,6 @@ test_that("Simple posterior calcualtion", {
   Train$ID <- Train$id
   Train$CHOICE <- as.numeric(Train$choice)
   
-  head(Train, 3)
-  
   mnl_test <- "
       ASC_A_RND 	= @ASC_A 	+ draw_1 * @SIGMA_A1 		+ draw_7 * @SIGMA_A2;
       ASC_B_RND 	= @ASC_B 	+ draw_2 * @SIGMA_B;

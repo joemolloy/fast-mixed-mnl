@@ -27,6 +27,28 @@ of the utility function which can be called from R. If the data_names are provid
 in the function are checked against those provided. If an \code{output_file} is provided, the C++ code is saved there. 
 See the user guide vignette for how to write valid utility scripts. There is some minimal specific syntax required.
 }
+\examples{
+\donttest{
+	data("Train", package="mlogit")
+	Train$ID <- Train$id
+	Train$CHOICE <- as.numeric(Train$choice)
+	    
+	mnl_test <- "
+	U_A = @B_price * $price_A / 1000 + @B_time * $time_A / 60;
+	U_B = @asc + @B_price * $price_B / 1000 + @B_timeB * $time_B / 60;
+	"
+
+	model_spec <- mixl::specify_model(mnl_test, Train)
+
+	#only take starting values that are needed
+	est <- stats::setNames(c(1, 1,1,1), c("asc", "B_price", "B_time", "B_timeB"))
+	availabilities <- mixl::generate_default_availabilities(
+		Train, model_spec$num_utility_functions)
+
+	model <- mixl::estimate(model_spec, est, Train, availabilities = availabilities)
+	print(model)
+}
+}
 \seealso{
 browseVignettes("mixl")
 }

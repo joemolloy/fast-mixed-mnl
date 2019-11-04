@@ -26,7 +26,7 @@ Joe Molloy <joseph.molloy@ivt.baug.ethz.ch>.
   Optional links to other man pages
 }
 \examples{
-  \dontrun{
+  \donttest{
   
   data("Train", package="mlogit")
   head(Train, 3)

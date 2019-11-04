@@ -2,12 +2,13 @@ Package: mixl
 Type: Package
 Title: Simulated Maximum Likelihood Estimation of Mixed Logit Models for Large Datasets
 Version: 1.1
-Date: 2019-05-28
+Date: 2019-11-01
 Authors@R: person("Joseph", "Molloy", email = "joseph.molloy@ivt.baug.ethz.ch",
   role = c("aut", "cre"))
 Description:  Specification and estimation of multinomial logit models.
   Large datasets and complex models are supported, with an intuitive syntax. 
   Multinomial Logit Models, Mixed models, random coefficients and Hybrid Choice are all supported.
+  For more information, see Molloy et al. (2019) <doi:10.3929/ethz-b-000334289>. 
 License: GPL (>= 2)
 Encoding: UTF-8
 Imports:

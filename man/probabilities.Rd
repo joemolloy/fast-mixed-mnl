@@ -11,7 +11,7 @@ probabilities(model, data = NULL, availabilities = NULL,
 \arguments{
 \item{model}{The estimated Model}
 
-\item{data}{(Optional) New data to use insteaf of that in the dataset}
+\item{data}{(Optional) New data to use instead of that in the dataset}
 
 \item{availabilities}{(Optional) New availabilites to use}
 
@@ -27,4 +27,31 @@ Dataframe of individual-level posteriors
 \description{
 Calculate the probabilities for a specified and estimated model. 
 Note that if new data or draws are provided, the model will not be re-estimated
+}
+\examples{
+\donttest{
+	data("Train", package="mlogit")
+	Train$ID <- Train$id
+	Train$CHOICE <- as.numeric(Train$choice)
+	    
+	mnl_test <- "
+	U_A = @B_price * $price_A / 1000 + @B_time * $time_A / 60;
+	U_B = @asc + @B_price * $price_B / 1000 + @B_timeB * $time_B / 60;
+	"
+
+	model_spec <- mixl::specify_model(mnl_test, Train)
+
+	#only take starting values that are needed
+	est <- stats::setNames(c(1, 1,1,1), c("asc", "B_price", "B_time", "B_timeB"))
+	availabilities <- mixl::generate_default_availabilities(
+		Train, model_spec$num_utility_functions
+	)
+
+	model <- mixl::estimate(model_spec, est, Train, availabilities = availabilities)
+	probabilities(model)
+
+	#hypothetical scenario where the travel time of option A doubles
+	Train$time_A = Train$time_A * 2
+	probabilities(model, Train)
+}
 }

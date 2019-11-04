@@ -1,10 +1,10 @@
 ---
 title: "Mixl User Guide"
 author: "Joe Molloy"
-date: "2019-05-28"
+date: "2019-11-01"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{"Mixl User Guide"}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

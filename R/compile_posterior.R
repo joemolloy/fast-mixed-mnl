@@ -7,6 +7,8 @@
 #' 
 #' @return Dataframe of individual-level posteriors
 #' 
+#' @example R/examples/posteriors.R
+#' 
 #' @export 
 posteriors <- function(model, indiv_data=NULL, code_output_file=NULL) {
   

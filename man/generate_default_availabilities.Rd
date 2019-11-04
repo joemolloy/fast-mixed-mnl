@@ -17,3 +17,9 @@ Ones-matrix of availabilities for alternatives and the number of choice observat
 \description{
 Generate a ones-matrix of availabilities
 }
+\examples{
+data("Train", package="mlogit")
+Train$ID <- Train$id
+Train$CHOICE <- as.numeric(Train$choice)
+generate_default_availabilities(Train, 5)
+}

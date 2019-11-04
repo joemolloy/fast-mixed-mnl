@@ -34,6 +34,8 @@
 #' 
 #' @return a mixl object that contains the results of the estimation 
 #' 
+#' @example R/examples/specify_model.R
+#' 
 #' @export 
 estimate <- function (model_spec, start_values, data, availabilities,  
                            draws = NULL, nDraws = NULL, fixedparam = c(), num_threads=1, ...) {

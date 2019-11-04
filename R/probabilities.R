@@ -20,13 +20,15 @@ compile_predictions <- function(model_spec) {
 #' Note that if new data or draws are provided, the model will not be re-estimated
 #' 
 #' @param model The estimated Model
-#' @param data (Optional) New data to use insteaf of that in the dataset
+#' @param data (Optional) New data to use instead of that in the dataset
 #' @param availabilities (Optional) New availabilites to use
 #' @param draws (Optional) Optional new set of random draws to use
 #' @param nDraws (Optional) Optional new number of random draws to use
 #' @param num_threads Enable parallel computing where available using this many cores
 #' 
 #' @return Dataframe of individual-level posteriors
+#' 
+#' @example R/examples/probabilities.R
 #' 
 #' @export 
 probabilities <- function(model, 

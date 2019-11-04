@@ -27,9 +27,11 @@ NumericMatrix mixl_posteriors(NumericVector betas, NumericMatrix probabilities,
   
   !===data_declarations===!
     
+    
+    NumericMatrix indiv_B_means(Nindividuals, numRndVars);
+    NumericVector indiv_L_mean(Nindividuals);
+    
     for (int i=0; i < Nindividuals; i++) {
-      NumericMatrix indiv_B_means(Nindividuals, numRndVars);
-      NumericVector indiv_L_mean(Nindividuals);
 
       int d=0;
       int rnd_idx = 0;
