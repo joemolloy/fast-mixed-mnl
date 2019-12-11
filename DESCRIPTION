@@ -5,7 +5,7 @@ Version: 1.1
 Date: 2019-11-01
 Authors@R: person("Joseph", "Molloy", email = "joseph.molloy@ivt.baug.ethz.ch",
   role = c("aut", "cre"))
-Description:  Specification and estimation of multinomial logit models.
+Description: Specification and estimation of multinomial logit models.
   Large datasets and complex models are supported, with an intuitive syntax. 
   Multinomial Logit Models, Mixed models, random coefficients and Hybrid Choice are all supported.
   For more information, see Molloy et al. (2019) <doi:10.3929/ethz-b-000334289>. 
@@ -28,4 +28,5 @@ Suggests:
     xtable,
     texreg
 VignetteBuilder: knitr
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
+Roxygen: list(markdown = TRUE)

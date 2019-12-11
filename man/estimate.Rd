@@ -4,19 +4,28 @@
 \alias{estimate}
 \title{Runs a maximum likelihood estimation on a mixl choice model}
 \usage{
-estimate(model_spec, start_values, data, availabilities, draws = NULL,
-  nDraws = NULL, fixedparam = c(), num_threads = 1, ...)
+estimate(
+  model_spec,
+  start_values,
+  data,
+  availabilities,
+  draws = NULL,
+  nDraws = NULL,
+  fixedparam = c(),
+  num_threads = 1,
+  ...
+)
 }
 \arguments{
-\item{model_spec}{The object that contains the loglikelihood function and other 
-variables that help return better error messages. This function is best generated using the 
+\item{model_spec}{The object that contains the loglikelihood function and other
+variables that help return better error messages. This function is best generated using the
 \code{specify_model} function.}
 
-\item{start_values}{A named vector of start values for the estimation. 
+\item{start_values}{A named vector of start values for the estimation.
 A warning and error will be given respectively if to many values are included or some are missing.}
 
-\item{data}{A dataframe of the observations. It must include The columns CHOICE and ID, as well as 
-columns for the variables specified in the utility function. The CHOICE variable must be from 1..k, 
+\item{data}{A dataframe of the observations. It must include The columns CHOICE and ID, as well as
+columns for the variables specified in the utility function. The CHOICE variable must be from 1..k,
 where k is the number of  utility functions}
 
 \item{availabilities}{A 1/0 matrix of availabilities. The dimensions must be \code{nrows(data) * k}, where there are k utility functions.}
@@ -24,15 +33,15 @@ where k is the number of  utility functions}
 \item{draws}{A numeric matrix of draws for calculating mixed effects. If there no mixed effects, this should be left null.
 If the model specification included mixed effects, either this or \code{nDraws} need to be specified.}
 
-\item{nDraws}{The number of draws to use in estimating a mixed model. 
+\item{nDraws}{The number of draws to use in estimating a mixed model.
 Only needed if \code{draws} is left null. Then a matrix of normal halton draws will be generated.}
 
 \item{fixedparam}{(optional) Coefficients which should be fixed to their starting values during estimation.}
 
-\item{num_threads}{The maximum number of parallel cores to use in estimation. The default is 1. 
+\item{num_threads}{The maximum number of parallel cores to use in estimation. The default is 1.
 This should only be speficied on machines with an openMP compiler (linux and some OSXs).}
 
-\item{...}{futher arguments. such as control are passed to the maximisaiton routine in maxLik. 
+\item{...}{futher arguments. such as control are passed to the maximisaiton routine in maxLik.
 See \code{?maxLik::maxLik} for more details}
 }
 \value{
@@ -42,7 +51,7 @@ a mixl object that contains the results of the estimation
 This function performs a maximum likelihood estimation for choice models speficied using this package.
 }
 \details{
-It is a wrapper for the maxLik function in the maxLik package. 
+It is a wrapper for the maxLik function in the maxLik package.
 And additional arguments can be passed through to this function if required.
 }
 \examples{

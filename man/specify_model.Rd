@@ -4,8 +4,13 @@
 \alias{specify_model}
 \title{Validate the utility functions against the dataset and generate the optimised logliklihood function}
 \usage{
-specify_model(utility_script, dataset = NULL, output_file = NULL,
-  compile = TRUE, model_name = "mixl_model")
+specify_model(
+  utility_script,
+  dataset = NULL,
+  output_file = NULL,
+  compile = TRUE,
+  model_name = "mixl_model"
+)
 }
 \arguments{
 \item{utility_script}{The utility script to be compiled}
@@ -16,15 +21,15 @@ specify_model(utility_script, dataset = NULL, output_file = NULL,
 
 \item{compile}{If compile is false, then the code will not be compiled, but just validated and saved if an \code{output_file} is specified}
 
-\item{model_name}{A name for the model, which will be used for saving. Defaults to *mixl_model*}
+\item{model_name}{A name for the model, which will be used for saving. Defaults to \emph{mixl_model}}
 }
 \value{
 An \code{object} which contains the loglikelihood function, and information from the compile process
 }
 \description{
-This function takes a utility function description, and generates a optimised C++ version 
+This function takes a utility function description, and generates a optimised C++ version
 of the utility function which can be called from R. If the data_names are provided, then the variables
-in the function are checked against those provided. If an \code{output_file} is provided, the C++ code is saved there. 
+in the function are checked against those provided. If an \code{output_file} is provided, the C++ code is saved there.
 See the user guide vignette for how to write valid utility scripts. There is some minimal specific syntax required.
 }
 \examples{
