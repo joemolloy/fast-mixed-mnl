@@ -7,7 +7,7 @@
 #' 
 #' @param model_spec The object that contains the loglikelihood function and other 
 #' variables that help return better error messages. This function is best generated using the 
-#' `specify_model` function.
+#' [specify_model()] function.
 #' 
 #' @param start_values A named vector of start values for the estimation. 
 #' A warning and error will be given respectively if to many values are included or some are missing.
@@ -30,7 +30,7 @@
 #' This should only be speficied on machines with an openMP compiler (linux and some OSXs).
 #' 
 #' @param ... futher arguments. such as control are passed to the maximisaiton routine in maxLik. 
-#' See `?maxLik::maxLik` for more details
+#' See [maxLik::maxLik()] for more details
 #' 
 #' @return a mixl object that contains the results of the estimation 
 #' 

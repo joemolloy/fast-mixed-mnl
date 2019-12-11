@@ -19,7 +19,7 @@ estimate(
 \arguments{
 \item{model_spec}{The object that contains the loglikelihood function and other
 variables that help return better error messages. This function is best generated using the
-\code{specify_model} function.}
+\code{\link[=specify_model]{specify_model()}} function.}
 
 \item{start_values}{A named vector of start values for the estimation.
 A warning and error will be given respectively if to many values are included or some are missing.}
@@ -42,7 +42,7 @@ Only needed if \code{draws} is left null. Then a matrix of normal halton draws w
 This should only be speficied on machines with an openMP compiler (linux and some OSXs).}
 
 \item{...}{futher arguments. such as control are passed to the maximisaiton routine in maxLik.
-See \code{?maxLik::maxLik} for more details}
+See \code{\link[maxLik:maxLik]{maxLik::maxLik()}} for more details}
 }
 \value{
 a mixl object that contains the results of the estimation

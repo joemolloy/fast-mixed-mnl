@@ -12,7 +12,7 @@
 \item{...}{Options to pass to print}
 }
 \description{
-\code{summary} is an S3 method for the smixl class.
+\code{\link[=print]{print()}} is an S3 method for the mixl class.
 It creates a model summary and then prints the result
 }
 \examples{

@@ -15,7 +15,7 @@
 A summary object for a mixl model
 }
 \description{
-\code{summary} is an S3 method for the class mixl, which adds metrics of goodness of fit
+\code{\link[=summary]{summary()}} is an S3 method for the class mixl, which adds metrics of goodness of fit
 }
 \examples{
 \donttest{
