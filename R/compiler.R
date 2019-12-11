@@ -65,7 +65,7 @@ specify_model <- function( utility_script, dataset = NULL , output_file = NULL, 
 }
 
 #' compileUtilityFunction
-#' Depreciated, please see \code{\link{specify_model}}
+#' Deprecated, please see [specify_model()]
 #' @param ... Parameters to specify_model
 #'
 #' @export

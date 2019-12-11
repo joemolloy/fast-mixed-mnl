@@ -3,7 +3,7 @@
 \name{compileUtilityFunction}
 \alias{compileUtilityFunction}
 \title{compileUtilityFunction
-Depreciated, please see \code{\link{specify_model}}}
+Depreciated, please see \code{\link[=specify_model]{specify_model()}}}
 \usage{
 compileUtilityFunction(...)
 }
@@ -12,5 +12,5 @@ compileUtilityFunction(...)
 }
 \description{
 compileUtilityFunction
-Depreciated, please see \code{\link{specify_model}}
+Depreciated, please see \code{\link[=specify_model]{specify_model()}}
 }
