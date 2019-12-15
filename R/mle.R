@@ -7,7 +7,7 @@
 #' 
 #' @param model_spec The object that contains the loglikelihood function and other 
 #' variables that help return better error messages. This function is best generated using the 
-#' \code{specify_model} function.
+#' [specify_model()] function.
 #' 
 #' @param start_values A named vector of start values for the estimation. 
 #' A warning and error will be given respectively if to many values are included or some are missing.
@@ -16,13 +16,13 @@
 #' columns for the variables specified in the utility function. The CHOICE variable must be from 1..k, 
 #' where k is the number of  utility functions 
 #' 
-#' @param availabilities A 1/0 matrix of availabilities. The dimensions must be \code{nrows(data) * k}, where there are k utility functions. 
+#' @param availabilities A 1/0 matrix of availabilities. The dimensions must be `nrows(data) * k`, where there are k utility functions. 
 #' 
 #' @param draws A numeric matrix of draws for calculating mixed effects. If there no mixed effects, this should be left null.
-#' If the model specification included mixed effects, either this or \code{nDraws} need to be specified.
+#' If the model specification included mixed effects, either this or `nDraws` need to be specified.
 #' 
 #' @param nDraws The number of draws to use in estimating a mixed model. 
-#' Only needed if \code{draws} is left null. Then a matrix of normal halton draws will be generated.
+#' Only needed if `draws` is left null. Then a matrix of normal halton draws will be generated.
 #' 
 #' @param fixedparam (optional) Coefficients which should be fixed to their starting values during estimation.
 #' 
@@ -30,7 +30,7 @@
 #' This should only be speficied on machines with an openMP compiler (linux and some OSXs).
 #' 
 #' @param ... futher arguments. such as control are passed to the maximisaiton routine in maxLik. 
-#' See \code{?maxLik::maxLik} for more details
+#' See [maxLik::maxLik()] for more details
 #' 
 #' @return a mixl object that contains the results of the estimation 
 #' 

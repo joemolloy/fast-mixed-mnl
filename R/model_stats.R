@@ -1,7 +1,7 @@
 
 #' Create a model summary
 #' 
-#' \code{summary} is an S3 method for the class mixl, which adds metrics of goodness of fit
+#' [summary()] is an S3 method for the class mixl, which adds metrics of goodness of fit
 #' 
 #' @param object The mixl output to summarize.
 #' @param ... Options to pass to summarize (currently).
@@ -97,7 +97,7 @@ summary.mixl <- function (object, ...){
 
 #' Print a model summary
 #' 
-#' \code{summary} is an S3 method for the summary.mixl class, the output of a model plus goodness of fit metrics
+#' [print()] is an S3 method for the summary.mixl class, the output of a model plus goodness of fit metrics
 #' 
 #' @param x The summary to print.
 #' @param ... Options to pass to print.
@@ -139,7 +139,7 @@ print.summary.mixl <- function (x, ...) {
 
 #' Prints the output of a model
 #' 
-#' \code{summary} is an S3 method for the smixl class.
+#' [print()] is an S3 method for the mixl class.
 #' It creates a model summary and then prints the result
 #' 
 #' @param x The model to print

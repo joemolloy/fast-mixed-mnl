@@ -12,7 +12,7 @@
 \item{...}{Options to pass to print.}
 }
 \description{
-\code{summary} is an S3 method for the summary.mixl class, the output of a model plus goodness of fit metrics
+\code{\link[=print]{print()}} is an S3 method for the summary.mixl class, the output of a model plus goodness of fit metrics
 }
 \examples{
 \donttest{

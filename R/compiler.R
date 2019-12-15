@@ -2,7 +2,7 @@
 #' 
 #' This function takes a utility function description, and generates a optimised C++ version 
 #' of the utility function which can be called from R. If the data_names are provided, then the variables
-#' in the function are checked against those provided. If an \code{output_file} is provided, the C++ code is saved there. 
+#' in the function are checked against those provided. If an `output_file` is provided, the C++ code is saved there. 
 #' See the user guide vignette for how to write valid utility scripts. There is some minimal specific syntax required.
 #' 
 #' @seealso browseVignettes("mixl")
@@ -10,9 +10,9 @@
 #' @param utility_script The utility script to be compiled
 #' @param dataset An (optional) dataframe to check if the all the variables are present
 #' @param output_file An (optional) location where the compiled code should be saved (useful for debugging
-#' @param compile If compile is false, then the code will not be compiled, but just validated and saved if an \code{output_file} is specified
+#' @param compile If compile is false, then the code will not be compiled, but just validated and saved if an `output_file` is specified
 #' @param model_name A name for the model, which will be used for saving. Defaults to *mixl_model*
-#' @return An \code{object} which contains the loglikelihood function, and information from the compile process
+#' @return An `object` which contains the loglikelihood function, and information from the compile process
 #' 
 #' @example R/examples/specify_model.R
 #' 
@@ -65,7 +65,7 @@ specify_model <- function( utility_script, dataset = NULL , output_file = NULL, 
 }
 
 #' compileUtilityFunction
-#' Depreciated, please see \code{\link{specify_model}}
+#' Deprecated, please see [specify_model()]
 #' @param ... Parameters to specify_model
 #'
 #' @export

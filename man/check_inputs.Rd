@@ -4,8 +4,7 @@
 \alias{check_inputs}
 \title{Check the inputs to the estimate function}
 \usage{
-check_inputs(model_spec, start_values, data, availabilities, draws,
-  fixedparam)
+check_inputs(model_spec, start_values, data, availabilities, draws, fixedparam)
 }
 \arguments{
 \item{model_spec}{The specified Model}
@@ -25,8 +24,8 @@ Nothing
 }
 \description{
 This function checks the start_vlaues, data, availabilities, draws and fixedparams for validity.
-If this function runs without error, then the inputs are valid for the maxLikelihood function. 
+If this function runs without error, then the inputs are valid for the maxLikelihood function.
 These checks are important, because an error in the internal C++ code will cause the Rstudio session to crash.
-Incidentally, if there is concern of this happening, it is recommended to run the script from the 
+Incidentally, if there is concern of this happening, it is recommended to run the script from the
 command line, using Rscript.
 }
