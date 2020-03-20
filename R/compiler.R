@@ -1,3 +1,10 @@
+
+test_for_openmp_osx <- function() {
+  #if ((Sys.info()["sysname"] == 'Darwin')) {
+  #    warning("You are on mac OSX")
+  #}
+}
+
 #' Validate the utility functions against the dataset and generate the optimised logliklihood function
 #' 
 #' This function takes a utility function description, and generates a optimised C++ version 
@@ -12,12 +19,14 @@
 #' @param output_file An (optional) location where the compiled code should be saved (useful for debugging
 #' @param compile If compile is false, then the code will not be compiled, but just validated and saved if an `output_file` is specified
 #' @param model_name A name for the model, which will be used for saving. Defaults to *mixl_model*
+#' @param disable_multicore True to disable openMP parallelism if openMP isn't installed (default on OSX - see the user guide for how to enable it)
 #' @return An `object` which contains the loglikelihood function, and information from the compile process
 #' 
 #' @example R/examples/specify_model.R
 #' 
 #' @export 
-specify_model <- function( utility_script, dataset = NULL , output_file = NULL, compile=TRUE, model_name="mixl_model") {
+specify_model <- function( utility_script, dataset = NULL , output_file = NULL, 
+                           compile=TRUE, model_name="mixl_model", disable_multicore=F) {
 
   #TODO: if data is null, skip all the validaiton
   #TODO: return an object instead of an environment
@@ -56,8 +65,19 @@ specify_model <- function( utility_script, dataset = NULL , output_file = NULL, 
     cpp_container$model_name <- model_name
     
     if (compile) {
-      Sys.setenv("PKG_CPPFLAGS"= sprintf("-I\"%s\"", system.file(package = "mixl", "include")))
-      Rcpp::sourceCpp(code = e1$cpp_code, env = cpp_container)
+      
+      openmp_setting <- ifelse(disable_multicore, "", "-fopenmp")
+      Sys.setenv("PKG_CPPFLAGS"= sprintf("%s -I\"%s\"", openmp_setting, system.file(package = "mixl", "include")))
+      
+      tryCatch({
+        Rcpp::sourceCpp(code = e1$cpp_code, env = cpp_container)
+      }, error = function(e) {
+        if ((Sys.info()["sysname"] == 'Darwin')) {
+          warning("You are on mac OSX")
+        }
+      })
+      
+
     }
     return (cpp_container)
   }

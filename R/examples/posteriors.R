@@ -20,7 +20,7 @@
 
 	availabilities <- generate_default_availabilities(Train, 2)
 
-	model_specification <- specify_model(mnl_test, Train)
+	model_specification <- specify_model(mnl_test, Train, disable_multicore=T)
 	model <- estimate(model_specification, est, Train,
 			availabilities = availabilities, nDraws = 1)
 

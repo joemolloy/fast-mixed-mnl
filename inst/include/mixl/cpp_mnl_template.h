@@ -1,5 +1,4 @@
 
-// [[Rcpp::plugins(openmp)]]
 // [[Rcpp::plugins(cpp11)]]        
 
 #include <Rcpp.h>

@@ -32,7 +32,7 @@ On Mac, things are a little more complicated. OSX has a compiler pre-installed. 
 * In the terminal, run the following commands 
 ``` 
 brew install gcc@9 
-mkdir ~/.R
+mkdir -p ~/.R
 curl -L -o ~/.R/Makevars https://git.io/Je22d
 ```
 * 

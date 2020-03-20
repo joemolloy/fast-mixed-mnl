@@ -41,7 +41,7 @@ test_that("Simple posterior calcualtion", {
   
   availabilities <- mixl::generate_default_availabilities(Train, 2)
   
-  logLik_env <- mixl::specify_model(mnl_test, Train, compile=TRUE)
+  logLik_env <- mixl::specify_model(mnl_test, Train, compile=TRUE, disable_multicore=T)
   model <- mixl::estimate(logLik_env, est, Train, availabilities = availabilities, nDraws = 20)
   
   cpp_post <- mixl::posteriors(model)
@@ -93,7 +93,7 @@ test_that("Advanced posterior calcualtion with individual variables", {
   
   availabilities <- mixl::generate_default_availabilities(Train, 2)
   
-  logLik_env <- mixl::specify_model(mnl_test, Train, compile=TRUE)
+  logLik_env <- mixl::specify_model(mnl_test, Train, compile=TRUE, disable_multicore=T)
   model <- mixl::estimate(logLik_env, est, Train, availabilities = availabilities, nDraws = 20)
   
   cpp_post <- mixl::posteriors(model)
@@ -156,7 +156,7 @@ test_that("Posteriors without draws calcualtion for simple MNL", {
   
   availabilities <- mixl::generate_default_availabilities(Train, 2)
   
-  logLik_env <- mixl::specify_model(mnl_test, Train, compile=TRUE)
+  logLik_env <- mixl::specify_model(mnl_test, Train, compile=TRUE, disable_multicore=T)
   model <- mixl::estimate(logLik_env, est, Train, availabilities = availabilities, nDraws = 0)
   model <- mixl::estimate(logLik_env, est, Train, availabilities = availabilities)
   model <- mixl::estimate(logLik_env, est, Train, availabilities = availabilities, nDraws = 20) #if nDraws parameter is left in

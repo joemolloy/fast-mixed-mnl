@@ -9,7 +9,8 @@ specify_model(
   dataset = NULL,
   output_file = NULL,
   compile = TRUE,
-  model_name = "mixl_model"
+  model_name = "mixl_model",
+  disable_multicore = F
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ specify_model(
 \item{compile}{If compile is false, then the code will not be compiled, but just validated and saved if an \code{output_file} is specified}
 
 \item{model_name}{A name for the model, which will be used for saving. Defaults to \emph{mixl_model}}
+
+\item{disable_multicore}{True to disable openMP parallelism if openMP isn't installed (default on OSX - see the user guide for how to enable it)}
 }
 \value{
 An \code{object} which contains the loglikelihood function, and information from the compile process
@@ -43,7 +46,7 @@ See the user guide vignette for how to write valid utility scripts. There is som
 	U_B = @asc + @B_price * $price_B / 1000 + @B_timeB * $time_B / 60;
 	"
 
-	model_spec <- mixl::specify_model(mnl_test, Train)
+	model_spec <- mixl::specify_model(mnl_test, Train, disable_multicore=T)
 
 	#only take starting values that are needed
 	est <- stats::setNames(c(1, 1,1,1), c("asc", "B_price", "B_time", "B_timeB"))
