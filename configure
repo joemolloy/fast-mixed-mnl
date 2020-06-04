@@ -2874,7 +2874,7 @@ $as_echo "missing" >&6; }
         { $as_echo "$as_me:${as_lineno-$LINENO}: result: found and suitable" >&5
 $as_echo "found and suitable" >&6; }
         mixl_have_openmp="#define MIXL_USE_OPENMP 1"
-        openmp_flag='$(SHLIB_OPENMP_CXXFLAGS)'
+        openmp_flag='-fopenmp'
     fi
 fi
 
