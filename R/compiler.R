@@ -17,16 +17,16 @@ test_for_openmp_osx <- function() {
 #' @param utility_script The utility script to be compiled
 #' @param dataset An (optional) dataframe to check if the all the variables are present
 #' @param output_file An (optional) location where the compiled code should be saved (useful for debugging
-#' @param compile If compile is false, then the code will not be compiled, but just validated and saved if an `output_file` is specified
+#' @param compile If compile is false, then the code will not be compiled, but just validated and saved if an `output_file` is specified. Default is true.
 #' @param model_name A name for the model, which will be used for saving. Defaults to *mixl_model*
-#' @param disable_multicore True to disable openMP parallelism if openMP isn't installed (default on OSX - see the user guide for how to enable it)
+#' @param disable_multicore Depreciated and not used. Mutlicore is now autodetected
 #' @return An `object` which contains the loglikelihood function, and information from the compile process
 #' 
 #' @example R/examples/specify_model.R
 #' 
 #' @export 
 specify_model <- function( utility_script, dataset = NULL , output_file = NULL, 
-                           compile=TRUE, model_name="mixl_model", disable_multicore=F) {
+                           compile=TRUE, model_name="mixl_model", disable_multicore=T) {
 
   #TODO: if data is null, skip all the validaiton
   #TODO: return an object instead of an environment
@@ -65,8 +65,10 @@ specify_model <- function( utility_script, dataset = NULL , output_file = NULL,
     cpp_container$model_name <- model_name
     
     if (compile) {
+
+      openmp_setting_file <- system.file(package = "mixl", "include", 'MIXL_OPENMP_FLAG')
+      openmp_setting <- trimws(readChar(openmp_setting_file, file.info(openmp_setting_file)$size))
       
-      openmp_setting <- ifelse(disable_multicore, "", "-fopenmp")
       Sys.setenv("PKG_CPPFLAGS"= sprintf("%s -I\"%s\"", openmp_setting, system.file(package = "mixl", "include")))
       
       tryCatch({

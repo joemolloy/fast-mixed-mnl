@@ -28,7 +28,7 @@ On windows machines, the easiest way is to install Rtools, an official extension
 ### OSX (Mac)
 On Mac, things are a little more complicated. OSX has a compiler pre-installed. However, the compiler (clang) doesn't come with openMP enabled. Hence, the `specify_model` function will fail. The easist way to install a suitable compiler is as follows. Note, these commands require using the Terminal (command line). This can be accessed from the search functionality in OSX, or directly in R Studio itself.
 
-* Install [https://brew.sh/](homebrew)
+* Install [homebrew](https://brew.sh/)
 * In the terminal, run the following commands 
 ``` 
 brew install gcc@9 

@@ -8,12 +8,15 @@ compile_predictions <- function(model_spec) {
   
   f_env <- new.env()
   
-  Sys.setenv("PKG_CPPFLAGS"= sprintf("-I\"%s\"", system.file(package = "mixl", "include")))
+  openmp_setting_file <- system.file(package = "mixl", "include", 'MIXL_OPENMP_FLAG')
+  openmp_setting <- trimws(readChar(openmp_setting_file, file.info(openmp_setting_file)$size))
+  
+  Sys.setenv("PKG_CPPFLAGS"= sprintf("%s -I\"%s\"", openmp_setting, system.file(package = "mixl", "include")))
+  
   Rcpp::sourceCpp(code = cpp_code, env = f_env)
 
   return (f_env$predict)    
 }
-
 
 
 #' Calculate the probabilities for a specified and estimated model. 

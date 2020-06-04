@@ -57,7 +57,7 @@ U_B = @B_price * $price_B / 1000 + @B_timeB * $time_B / 60;
   
   availabilities <- mixl::generate_default_availabilities(Train, 2)
   
-  logLik_env <- mixl::specify_model(mnl_test, Train, disable_multicore=T)
+  logLik_env <- mixl::specify_model(mnl_test, Train)
   
   model <- mixl::estimate(logLik_env, est, Train, availabilities = availabilities)
   model_preds <- mixl::probabilities(model, num_threads=1)
