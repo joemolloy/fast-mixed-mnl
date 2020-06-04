@@ -185,7 +185,7 @@ if test x"${can_use_openmp}" = x"yes"; then
     else
         AC_MSG_RESULT([found and suitable])
         mixl_have_openmp="#define MIXL_USE_OPENMP 1"
-        openmp_flag='$(SHLIB_OPENMP_CXXFLAGS)'
+        openmp_flag="-fopenmp"
     fi
 fi
 
