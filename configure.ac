@@ -12,7 +12,7 @@
 AC_PREREQ(2.61)
 
 ## Process this file with autoconf to produce a configure script.
-AC_INIT(RcppArmadillo, m4_esyscmd_s([awk -e '/^Version:/ {print $2}' DESCRIPTION]))
+AC_INIT(mixl, m4_esyscmd_s([awk -e '/^Version:/ {print $2}' DESCRIPTION]))
 
 ## Set R_HOME, respecting an environment variable if one is set
 : ${R_HOME=$(R RHOME)}
@@ -164,7 +164,7 @@ else
 fi
 
 ## Default the OpenMP flag to the empty string.
-## If and only if OpenMP is found, expand to $(SHLIB_OPENMP_CXXFLAGS)
+## If and only if OpenMP is found, set to -fopenmp
 openmp_flag=""
 
 ## Set the fallback, by default it is nope
@@ -172,6 +172,7 @@ mixl_have_openmp="#define MIXL_DONT_USE_OPENMP 1"
 
 if test x"${openmp_already_works}" = x"yes"; then
     mixl_have_openmp="#define MIXL_USE_OPENMP 1"
+    openmp_flag="-fopenmp"
 fi
 
 if test x"${can_use_openmp}" = x"yes"; then
