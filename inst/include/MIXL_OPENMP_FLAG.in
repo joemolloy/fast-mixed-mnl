@@ -1,1 +1,1 @@
-@OPENMP_FLAG@
+@openmp_cflags@

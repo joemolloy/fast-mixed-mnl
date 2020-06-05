@@ -10,7 +10,7 @@ specify_model(
   output_file = NULL,
   compile = TRUE,
   model_name = "mixl_model",
-  disable_multicore = F
+  disable_multicore = T
 )
 }
 \arguments{
@@ -20,11 +20,11 @@ specify_model(
 
 \item{output_file}{An (optional) location where the compiled code should be saved (useful for debugging}
 
-\item{compile}{If compile is false, then the code will not be compiled, but just validated and saved if an \code{output_file} is specified}
+\item{compile}{If compile is false, then the code will not be compiled, but just validated and saved if an \code{output_file} is specified. Default is true.}
 
 \item{model_name}{A name for the model, which will be used for saving. Defaults to \emph{mixl_model}}
 
-\item{disable_multicore}{True to disable openMP parallelism if openMP isn't installed (default on OSX - see the user guide for how to enable it)}
+\item{disable_multicore}{Depreciated and not used. Mutlicore is now autodetected}
 }
 \value{
 An \code{object} which contains the loglikelihood function, and information from the compile process
