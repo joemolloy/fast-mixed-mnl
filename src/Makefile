@@ -1,0 +1,16 @@
+R ?= R
+
+# Find R compilers
+CC=`${R_HOME}/bin/R CMD config CC`
+CFLAGS=`${R_HOME}/bin/R CMD config CFLAGS`
+
+.PHONY: check_openmp
+check_openmp:
+	if printf "#include <omp.h>\nint main() { return omp_get_num_threads(); }"  | \
+	    ${CC} ${CFLAGS} $(SHLIB_OPENMP_CFLAGS) -xc - >/dev/null 2>&1; then \
+		echo "OpenMP supported"; \
+		sed -e 's|@openmp_cflags@|$$(SHLIB_OPENMP_CFLAGS)|' ../inst/include/MIXL_OPENMP_FLAG.in > ../inst/include/MIXL_OPENMP_FLAG ; \
+	else \
+		echo "OpenMP not supported"; \
+		sed -e 's|@openmp_cflags@||' ../inst/include/MIXL_OPENMP_FLAG.in > ../inst/include/MIXL_OPENMP_FLAG ; \
+	fi
