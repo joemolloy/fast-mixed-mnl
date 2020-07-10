@@ -1,7 +1,7 @@
 ---
 title: "Mixl User Guide"
 author: "Joe Molloy"
-date: "2019-11-01"
+date: "2020-07-10"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{"Mixl User Guide"}
@@ -13,6 +13,24 @@ vignette: >
 
 # Introduction
 The *mixl* package presents a new approach to estimating complex choice models which is both many times faster than existing approaches, and simplier to use. The interface remains in R, while the loglikelihood function is compiled into to high performance C++ code in the background. Users need no knowledge of C++, and can specify thier utility functions and random variables as they would on paper. Where the appropriate parallel computing resources are available (on linux machines), the loglikelihood estimation can be easily sped up by simply specifying the number of cores available.
+
+##Installation
+Under the hood, the *mixl* package compiles a loglikelihood function based on your model specification. This requires a c++ compiler. Somewhat complicatedly, the correct compiler (for C++ with openMP support) is only available by defauly on linux machines. On windows and OSX machines, *mixl* will installed successfully, but attempts to specify a model will fail unless the following steps are taken.
+
+### Windows
+On windows machines, the easiest way is to install Rtools, an official extension for R. As of writing, the Version 4.0 the most recent. It is available here: [https://cran.r-project.org/bin/windows/Rtools/](https://cran.r-project.org/bin/windows/Rtools/). Download and run the installer. The default location (`C:/Rtools`) is fine.
+
+### OSX (Mac)
+On Mac, things are a little more complicated. OSX has a compiler pre-installed. However, the compiler (clang) doesn't come with openMP enabled. Hence, the `specify_model` function will fail. The easist way to install a suitable compiler is as follows. Note, these commands require using the Terminal (command line). This can be accessed from the search functionality in OSX, or directly in R Studio itself.
+
+* Install [homebrew](https://brew.sh/)
+* In the terminal, run the following commands 
+``` 
+brew install gcc@9 
+mkdir -p ~/.R
+curl -L -o ~/.R/Makevars https://git.io/Je22d
+```
+* 
 
 ## Motivation
 The development of this package was motivated by the need at the [Institute for Transport Planning and Systems (IVT)](http://www.ivt.ethz.ch/) at ETH Zürich to 

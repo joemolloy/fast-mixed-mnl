@@ -24,7 +24,7 @@ summary.mixl <- function (object, ...){
     Nindividuals <- model$Nindividuals
     choicetasks <- model$choicetasks
     
-    varcov <- maxLik:::vcov.maxLik(model)
+    varcov <- vcov.mixl(model)
     se=sqrt(diag(varcov))
     se[model$fixed] <- NA
     
@@ -154,4 +154,27 @@ print.mixl <- function (x, ...) {
     print(model_output, ...)
 }
 
-
+vcov.mixl <- function (object, eigentol = 1e-12, ...) 
+{
+  if (!is.null(object$varcovar)) 
+    return(object$varcovar)
+  activePar <- maxLik::activePar(object)
+  numParams <- length(object$estimate)
+  
+  if (!is.null(hess <- maxLik::hessian(object))) {
+    hess <- maxLik::hessian(object)[activePar, activePar, drop = FALSE]
+    hessev <- abs(eigen(hess, symmetric = TRUE, only.values = TRUE)$values)
+    varcovar <- matrix(0, numParams, numParams)
+    rownames(varcovar) <- colnames(varcovar) <- names(object$estimate)
+    if (min(hessev) > (eigentol * max(hessev))) {
+      varcovar[activePar, activePar] <- solve(-maxLik::hessian(object)[activePar, 
+                                                               activePar])
+      varcovar <- (varcovar + t(varcovar))/2
+    }
+    else {
+      varcovar[activePar, activePar] <- Inf
+    }
+    return(varcovar)
+  }
+  else return(NULL)
+}
