@@ -24,7 +24,7 @@ summary.mixl <- function (object, ...){
     Nindividuals <- model$Nindividuals
     choicetasks <- model$choicetasks
     
-    varcov <- stats::vcov(model)
+    varcov <- maxLik:::vcov.maxLik(model)
     se=sqrt(diag(varcov))
     se[model$fixed] <- NA
     

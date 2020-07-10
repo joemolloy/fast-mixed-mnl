@@ -23,7 +23,7 @@ The *mixl* package presents a new approach to estimating complex choice models w
 Under the hood, the *mixl* package compiles a loglikelihood function based on your model specification. This requires a c++ compiler. Somewhat complicatedly, the correct compiler (for C++ with openMP support) is only available by defauly on linux machines. On windows and OSX machines, *mixl* will installed successfully, but attempts to specify a model will fail unless the following steps are taken.
 
 ### Windows
-On windows machines, the easiest way is to install Rtools, an official extension for R. As of writing, the Version 3.5 the most recent. It is available here: [https://cran.r-project.org/bin/windows/Rtools/](https://cran.r-project.org/bin/windows/Rtools/). Download and run the installer. The default location (`C:/Rtools`) is fine.
+On windows machines, the easiest way is to install Rtools, an official extension for R. As of writing, the Version 4.0 the most recent. It is available here: [https://cran.r-project.org/bin/windows/Rtools/](https://cran.r-project.org/bin/windows/Rtools/). Download and run the installer. The default location (`C:/Rtools`) is fine.
 
 ### OSX (Mac)
 On Mac, things are a little more complicated. OSX has a compiler pre-installed. However, the compiler (clang) doesn't come with openMP enabled. Hence, the `specify_model` function will fail. The easist way to install a suitable compiler is as follows. Note, these commands require using the Terminal (command line). This can be accessed from the search functionality in OSX, or directly in R Studio itself.
