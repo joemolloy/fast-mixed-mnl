@@ -36,3 +36,6 @@ MSL-dev-code
 
 ^bus$
 ^pkgdown$
+
+a.out
+src/a.out
