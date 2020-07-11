@@ -1,5 +1,3 @@
-R ?= R
-
 # Find R compilers
 CC=`${R_HOME}/bin/R CMD config CC`
 CFLAGS=`${R_HOME}/bin/R CMD config CFLAGS`
