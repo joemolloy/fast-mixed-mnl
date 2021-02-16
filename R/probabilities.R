@@ -40,7 +40,7 @@ probabilities <- function(model,
                           num_threads=1) {
   
   #TODO: check draws and data for size
-  if (missing(data) | is.null(data)) {
+  if (missing(data) || is.null(data)) {
     new_data <- model$data
     new_Nindividuals <- model$Nindividuals
   } else {
@@ -48,7 +48,7 @@ probabilities <- function(model,
     new_Nindividuals = length(unique(new_data$ID))
   }
   
-  if (missing(availabilities) | is.null(availabilities)) {
+  if (missing(availabilities) || is.null(availabilities)) {
     new_availabilities <- model$availabilities
   } else {
     new_availabilities <- availabilities
@@ -82,7 +82,7 @@ probabilities <- function(model,
     
   } else { 
 
-    if (missing(draws) | is.null(draws)) {
+    if (missing(draws) || is.null(draws)) {
       new_draws <- model$draws
       new_nDraws <- model$nDraws
     } else {

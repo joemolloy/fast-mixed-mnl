@@ -1,6 +1,4 @@
 
-// [[Rcpp::plugins(cpp11)]]        
-
 #include <Rcpp.h>
 
 #ifdef _OPENMP
@@ -20,13 +18,13 @@ NumericVector logLik(NumericVector betas, //TODO const things!
                      DataFrame data,
                      int Nindividuals,
                      NumericMatrix availabilities,
-                     NumericMatrix P, int num_threads=1) {
+                     NumericMatrix P, NumericVector weights, int num_threads=1) {
   
   #ifdef _OPENMP
     omp_set_num_threads(num_threads);
   #endif  
   
-  UF_args v(data, Nindividuals, availabilities, P);
+  UF_args v(data, Nindividuals, availabilities, weights, P);
   
   NumericVector LL(v.Nindividuals);
   std::fill(v.P.begin(), v.P.end(), 0);
@@ -119,7 +117,7 @@ void utilityFunction(NumericVector betas, UF_args& v)
     double sum_utilities = std::inner_product(utilities.begin(), utilities.end(), choices_avail.begin(), 0.0);
     
     
-    double log_p_choice = log(chosen_utility / sum_utilities);
+    double log_p_choice = log((chosen_utility / sum_utilities))  * v.weights[i];
     
       
     #pragma omp atomic 

@@ -20,13 +20,14 @@ test_for_openmp_osx <- function() {
 #' @param compile If compile is false, then the code will not be compiled, but just validated and saved if an `output_file` is specified. Default is true.
 #' @param model_name A name for the model, which will be used for saving. Defaults to *mixl_model*
 #' @param disable_multicore Depreciated and not used. Mutlicore is now autodetected
+#' @param ... Further parameters to pass to \link[Rcpp]{sourceCpp}
 #' @return An `object` which contains the loglikelihood function, and information from the compile process
 #' 
 #' @example R/examples/specify_model.R
 #' 
 #' @export 
 specify_model <- function( utility_script, dataset = NULL , output_file = NULL, 
-                           compile=TRUE, model_name="mixl_model", disable_multicore=T) {
+                           compile=TRUE, model_name="mixl_model", disable_multicore=T, ...) {
 
   #TODO: if data is null, skip all the validaiton
   #TODO: return an object instead of an environment
@@ -69,17 +70,14 @@ specify_model <- function( utility_script, dataset = NULL , output_file = NULL,
       openmp_setting_file <- system.file(package = "mixl", "include", 'MIXL_OPENMP_FLAG')
       openmp_setting <- trimws(readChar(openmp_setting_file, file.info(openmp_setting_file)$size))
       
-      Sys.setenv("PKG_CPPFLAGS"= sprintf("%s -I\"%s\"", openmp_setting, system.file(package = "mixl", "include")))
+      Sys.setenv("PKG_CPPFLAGS"= sprintf("-I\"%s\"", system.file(package = "mixl", "include")))
+      if (length(openmp_setting) > 0) {
+        Sys.setenv("PKG_CXXFLAGS"= paste(openmp_setting, Sys.getenv("PKG_CXXFLAGS") ))
+        Sys.setenv("PKG_LIBS"= paste(openmp_setting, Sys.getenv("PKG_LIBS") ))
+      }
       
-      tryCatch({
-        Rcpp::sourceCpp(code = e1$cpp_code, env = cpp_container)
-      }, error = function(e) {
-        if ((Sys.info()["sysname"] == 'Darwin')) {
-          warning("You are on mac OSX")
-        }
-      })
-      
-
+      Rcpp::sourceCpp(code = e1$cpp_code, env = cpp_container, ...)
+     
     }
     return (cpp_container)
   }

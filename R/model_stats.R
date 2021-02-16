@@ -65,7 +65,7 @@ summary.mixl <- function (object, ...){
     coefTable <- as.data.frame(t(rbind(est,se,trat_0,trat_1,robse, robtrat_0,robtrat_1, rob_pval0, rob_pval1)))
     
     ms = list()
-    
+    ms$runtime <- model$runtime
     ms$message <- model$message
     ms$coefTable <- coefTable
     ms$robvarcov <- robvarcov
@@ -109,8 +109,8 @@ print.summary.mixl <- function (x, ...) {
   model_output <- x
   
   with(model_output, {
-    #cat("Runtime:", "????? ","\n\n")
-    cat("Model diagnosis:", message,"\n\n")
+    cat("Model diagnosis:", message,"\n")
+    cat("Runtime: ", format(unclass(model$runtime), digits = 3), " ", attr(model$runtime, "units"), "\n\n", sep = "")
     cat("Number of decision makers:", Nindividuals,"\n")
     cat("Number of observations:", choicetasks,"\n\n")
     if (is_mixed) {

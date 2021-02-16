@@ -10,23 +10,24 @@
 #' @example R/examples/posteriors.R
 #' 
 #' @export 
-posteriors <- function(model, indiv_data=NULL, code_output_file=NULL) {
+posteriors <- function(model, indiv_data, code_output_file=NULL) {
   
   data_cols <- extract_var(paste(model$rnd_equations[,'equation'], collapse="\n"),data_pattern)
   if (length(data_cols) == 0) data_cols <- NULL
   
-  if (missing(indiv_data) | is.null(indiv_data)) {
+  if (missing(indiv_data) || is.null(indiv_data)) {
     indiv_data <- extract_indiv_data(model$data, data_cols)
   }
   
   #handle basic mnl case without and draws
-  if(!model$is_mixed | (!is.null(model$nDraws) & model$nDraws == 0)) {
+  if(!model$is_mixed) {
     f <- compile_posterior_function(model$rnd_equations, names(model$estimate), FALSE, code_output_file)
     
     f(model$estimate, model$probabilities, model$Nindividuals, indiv_data)
 
   } else { 
     f <- compile_posterior_function(model$rnd_equations, names(model$estimate), TRUE, code_output_file)
+
     
     f(model$estimate, model$probabilities,
       model$Nindividuals, indiv_data,

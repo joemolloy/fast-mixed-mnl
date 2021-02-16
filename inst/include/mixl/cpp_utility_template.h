@@ -1,5 +1,3 @@
-// [[Rcpp::plugins(cpp11)]]        
-
 #include <Rcpp.h>
 
 #ifdef _OPENMP
@@ -18,13 +16,13 @@ using Rcpp::stop;
 NumericVector logLik(NumericVector betas, DataFrame data,
                      int Nindividuals, NumericMatrix availabilities,
                      NumericMatrix draws, int nDraws,
-                     NumericMatrix P, int num_threads=1, bool p_indices=false) {
+                     NumericMatrix P, NumericVector weights, int num_threads=1, bool p_indices=false) {
   
   #ifdef _OPENMP
     omp_set_num_threads(num_threads);
   #endif  
   
-  UF_args2 v(data, Nindividuals, availabilities, draws, nDraws, P, p_indices);
+  UF_args2 v(data, Nindividuals, availabilities, draws, nDraws, weights, P, p_indices);
   
   NumericVector LL(v.Nindividuals);
   std::fill(v.P.begin(), v.P.end(), 0);
@@ -130,7 +128,7 @@ void utilityFunction(NumericVector betas, UF_args2& v)
         sum_utilities += utilities[k] * choices_avail[k];
       }
       
-      double log_p_choice = log(chosen_utility / sum_utilities);
+      double log_p_choice = log((chosen_utility / sum_utilities))  * v.weights[i];
       
       if (v.include_probability_indices){
         double p_indic_total = 0;

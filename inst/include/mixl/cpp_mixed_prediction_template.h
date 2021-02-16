@@ -1,5 +1,3 @@
-// [[Rcpp::plugins(cpp11)]]        
-
 #include <Rcpp.h>
 #ifdef _OPENMP
   #include <omp.h>
@@ -42,7 +40,7 @@ NumericMatrix predict(NumericVector betas, DataFrame data,
   
   colnames(P) = colnames1;
   
-  UF_args2 v(data, Nindividuals, availabilities, draws, nDraws, P, false);
+  UF_args2 v(data, Nindividuals, availabilities, draws, nDraws, NULL, P, false);
   
   std::fill(v.P.begin(), v.P.end(), 0);
   
@@ -103,7 +101,7 @@ NumericMatrix predict(NumericVector betas, DataFrame data,
       }
       
       double sum_utilities = utilities.sum();
-      std::valarray<double> probabilities = utilities / sum_utilities;
+      std::valarray<double> probabilities = (utilities / sum_utilities);
       
       P(i, 0) = i;
       P(i, 1) = individual_index;

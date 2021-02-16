@@ -10,7 +10,8 @@ specify_model(
   output_file = NULL,
   compile = TRUE,
   model_name = "mixl_model",
-  disable_multicore = T
+  disable_multicore = T,
+  ...
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ specify_model(
 \item{model_name}{A name for the model, which will be used for saving. Defaults to \emph{mixl_model}}
 
 \item{disable_multicore}{Depreciated and not used. Mutlicore is now autodetected}
+
+\item{...}{Further parameters to pass to \link[Rcpp]{sourceCpp}}
 }
 \value{
 An \code{object} which contains the loglikelihood function, and information from the compile process

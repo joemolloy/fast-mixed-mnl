@@ -8,6 +8,7 @@ check_openmp:
 	    ${CC} ${CFLAGS} $(SHLIB_OPENMP_CFLAGS) -xc - >/dev/null 2>&1; then \
 		echo "OpenMP supported"; \
 		sed -e 's|@openmp_cflags@|$$(SHLIB_OPENMP_CFLAGS)|' ../inst/include/MIXL_OPENMP_FLAG.in > ../inst/include/MIXL_OPENMP_FLAG ; \
+		sed -e 's|@openmp_cflags@|$$(SHLIB_OPENMP_CFLAGS)|' ../inst/include/MIXL_OPENMP_FLAG.in > ../inst/include/MIXL_OPENMP_FLAG ; \
 	else \
 		echo "OpenMP not supported"; \
 		sed -e 's|@openmp_cflags@||' ../inst/include/MIXL_OPENMP_FLAG.in > ../inst/include/MIXL_OPENMP_FLAG ; \

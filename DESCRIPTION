@@ -2,8 +2,8 @@ Type: Package
 Package: mixl
 Title: Simulated Maximum Likelihood Estimation of Mixed Logit
     Models for Large Datasets
-Version: 1.2.2
-Date: 2020-07-11
+Version: 1.2.3
+Date: 2020-10-20
 Authors@R: 
     person(given = "Joseph",
            family = "Molloy",

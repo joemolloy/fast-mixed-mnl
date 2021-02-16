@@ -1,5 +1,3 @@
-// [[Rcpp::plugins(cpp11)]]
-
 #include <Rcpp.h>
 //posteriors function for mnl models without random draws
 

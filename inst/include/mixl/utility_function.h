@@ -22,10 +22,11 @@ struct UF_args {
   const DataFrame data;
   const int Nindividuals;
   const NumericMatrix availabilities;
+  const NumericVector weights;
   NumericMatrix P;
 
-  UF_args(DataFrame data, int Nindividuals, NumericMatrix availabilities, NumericMatrix P)
-    : data(data), Nindividuals(Nindividuals), availabilities(availabilities), P(P)
+  UF_args(DataFrame data, int Nindividuals, NumericMatrix availabilities, NumericVector weights, NumericMatrix P)
+    : data(data), Nindividuals(Nindividuals), availabilities(availabilities), weights(weights), P(P)
   { }
   
 };
@@ -37,11 +38,12 @@ struct UF_args2 {
   const NumericMatrix availabilities;
   const NumericMatrix draws;
   const int nDraws;
+  const NumericVector weights;
   NumericMatrix P;
   bool include_probability_indices;
   
-  UF_args2(DataFrame data, int Nindividuals, NumericMatrix availabilities, NumericMatrix draws, int nDraws, NumericMatrix P,bool include_probability_indices)
-    : data(data), Nindividuals(Nindividuals), availabilities(availabilities), draws(draws), nDraws(nDraws), P(P),include_probability_indices(include_probability_indices)
+  UF_args2(DataFrame data, int Nindividuals, NumericMatrix availabilities, NumericMatrix draws, int nDraws, NumericVector weights, NumericMatrix P,bool include_probability_indices)
+    : data(data), Nindividuals(Nindividuals), availabilities(availabilities), draws(draws), nDraws(nDraws), weights(weights), P(P),include_probability_indices(include_probability_indices)
   { }
   
 };
