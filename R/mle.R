@@ -78,8 +78,6 @@ estimate <- function (model_spec, start_values, data, availabilities,
     draws = NULL
   }
   
-  print(paste("Number of rows", nrow(draws)))
-  
   p <- matrix(0, nrow=Nindividuals, ncol=nDraws)
     
   ll2 <- function (betas) model_spec$logLik(betas, data, Nindividuals, availabilities, draws, nDraws, p, weights, num_threads, p_indices=is_hybrid_choice)

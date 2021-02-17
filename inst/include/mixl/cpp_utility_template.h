@@ -18,23 +18,23 @@ using Rcpp::stop;
 // [[Rcpp::export]]
 NumericVector logLik(NumericVector betas, DataFrame data,
                      int Nindividuals, NumericMatrix availabilities,
-                     NumericMatrix draws, int nDraws,
+                     Nullable<NumericMatrix> nullableDraws, int nDraws,
                      NumericMatrix P, NumericVector weights, int num_threads=1, bool p_indices=false) {
   
   #ifdef _OPENMP
     omp_set_num_threads(num_threads);
   #endif  
-  
+    
+  NumericMatrix draws;
+  if (nullableDraws.isNotNull()) {
+    draws = nullableDraws.get();
+  }
     
   UF_args v(data, Nindividuals, availabilities, draws, nDraws, weights, P, p_indices);
-  
-  Rcpp::Rcout << "v matrix size: "<< v.draws.nrow() <<  " x " << v.draws.ncol() << std::endl;
-  
   
   NumericVector LL(v.Nindividuals);
   std::fill(v.P.begin(), v.P.end(), 0);
   
-  Rcpp::Rcout << "running utility function"<<  std::endl;
   //double begin = omp_get_wtime();
   
   utilityFunction(betas, v);
@@ -53,16 +53,6 @@ NumericVector logLik(NumericVector betas, DataFrame data,
     LL[i] = log(s) - lognDraws;
     
   }
-  
-  //double end = omp_get_wtime();
-  //double elapsed_secs = double(end - begin) * 1000;
-  /*  
-  #pragma omp parallel
-  {
-  #pragma omp single
-    Rcpp::Rcout << std::setprecision(3) << elapsed_secs << " ms on " << omp_get_num_threads() << " threads" << std::endl;
-  }
-  */
 
 return LL;
 }
@@ -109,19 +99,13 @@ void utilityFunction(NumericVector betas, UF_args& v)
     int individual_index = row_ids[i]-1; //indexes should be for c, ie. start at 0
     //Rcpp::Rcout << "indv: " << individual_index << std::endl;
     for (int d=0; d<v.nDraws; d++) {
-      
-      Rcpp::Rcout << "selecting draw row: "<< (individual_index * v.nDraws + d) <<  std::endl;
-      Rcpp::Rcout << "matrix size: "<< v.draws.nrow() <<  " x " << v.draws.ncol() << std::endl;
-      
+
       #ifdef _MIXED_MNL
         int draw_index = individual_index * v.nDraws + d; //drawsrep give the index of the draw, based on id, which we dont want to carry in here.
         NumericMatrix::ConstRow draw = v.draws(draw_index, _);
       #endif
         
       std::fill(std::begin(utilities), std::end(utilities), 0.0);
-      
-      Rcpp::Rcout << "utilities" <<  std::endl;
-      
       
       /////////////////////////
       

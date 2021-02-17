@@ -32,9 +32,6 @@ test_that("Simple posterior calcualtion", {
       U_B = ASC_B_RND + @B_price * $price_B / 1000 + @B_timeB * $time_B / 60;
     "
   
-  template_location <- system.file("include", "mixl", "cpp_posteriors.cpp", package = "mixl")
-  #template_location <- "inst/include/mixl/cpp_posteriors.cpp"
-  
   #only take starting values that are needed
   est <- stats::setNames(c(-1059.69729,  -181.27796,  -251.78909,  -241.18878,   -86.77386,  -173.09451,   291.02618,   142.71793,   332.60909)
                   , c("B_price", "B_time", "B_timeB", "B_change", "ASC_A", "ASC_B", "SIGMA_A1", "SIGMA_A2", "SIGMA_B"))

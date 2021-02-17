@@ -1,4 +1,7 @@
 #include <Rcpp.h>
+
+!===MIXED_MNL===!
+
 #ifdef _OPENMP
   #include <omp.h>
 #endif
@@ -14,7 +17,7 @@ using Rcpp::stop;
 // [[Rcpp::export]]
 NumericMatrix predict(NumericVector betas, DataFrame data,
                       int Nindividuals, NumericMatrix availabilities,
-                      NumericMatrix draws, int nDraws, int num_threads=1) {
+                      Nullable<NumericMatrix> nullableDraws, int nDraws, int num_threads=1) {
   
 #ifdef _OPENMP
   omp_set_num_threads(num_threads);
@@ -40,7 +43,12 @@ NumericMatrix predict(NumericVector betas, DataFrame data,
   
   colnames(P) = colnames1;
   
-  UF_args2 v(data, Nindividuals, availabilities, draws, nDraws, NULL, P, false);
+  NumericMatrix draws;
+  if (nullableDraws.isNotNull()) {
+    draws = nullableDraws.get();
+  }
+  
+  UF_args v(data, Nindividuals, availabilities, draws, nDraws, NULL, P, false);
   
   std::fill(v.P.begin(), v.P.end(), 0);
   
@@ -77,8 +85,10 @@ NumericMatrix predict(NumericVector betas, DataFrame data,
     //Rcpp::Rcout << "indv: " << individual_index << std::endl;
     for (int d=0; d<v.nDraws; d++) {
       
-      int draw_index = individual_index * v.nDraws + d; //drawsrep give the index of the draw, based on id, which we dont want to carry in here.
-      NumericMatrix::ConstRow draw = v.draws(draw_index, _);
+      #ifdef _MIXED_MNL
+        int draw_index = individual_index * v.nDraws + d; //drawsrep give the index of the draw, based on id, which we dont want to carry in here.
+        NumericMatrix::ConstRow draw = v.draws(draw_index, _);
+      #endif
       
       std::fill(std::begin(utilities), std::end(utilities), 0.0);
       

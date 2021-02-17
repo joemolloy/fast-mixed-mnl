@@ -1,5 +1,5 @@
 compile_predictions <- function(model_spec) {
-  prediction_template <- if (model_spec$is_mixed) "cpp_mixed_prediction_template.h" else "cpp_mnl_prediction_template.h"
+  prediction_template <- "cpp_mixed_prediction_template.h"
   
   template_location <- system.file("include", "mixl", prediction_template, package = "mixl")
   cpp_template <- readr::read_file(template_location)
@@ -74,18 +74,14 @@ probabilities <- function(model,
   #################################
   
   f <- compile_predictions(model$model_spec)
+  
+  new_draws <- model$draws
+  new_nDraws <- ifelse(is.null(model$nDraws), 1, model$nDraws)
 
   #handle basic mnl case without and draws
-  if(!model$is_mixed) {
+  if(model$is_mixed) { 
 
-    f(model$estimate, new_data, new_Nindividuals, new_availabilities, num_threads)
-    
-  } else { 
-
-    if (missing(draws) || is.null(draws)) {
-      new_draws <- model$draws
-      new_nDraws <- model$nDraws
-    } else {
+    if (!missing(draws) && !is.null(draws)) {
       new_draws <- draws
       new_nDraws <- nDraws
     }
@@ -96,10 +92,11 @@ probabilities <- function(model,
     
     if (nrow(new_draws) < new_Nindividuals * new_nDraws) {
       stop(paste0("Not enough rows in draw matrix. Need ", model$model_spec$draw_dimensions))
-    }   
-    
-    f(model$estimate, new_data,
-      new_Nindividuals, new_availabilities, new_draws, new_nDraws, num_threads)
+    }  
   }
+    
+  f(model$estimate, new_data,
+    new_Nindividuals, new_availabilities, new_draws, new_nDraws, num_threads)
+  
 }
 

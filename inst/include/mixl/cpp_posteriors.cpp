@@ -1,8 +1,11 @@
 #include <Rcpp.h>
 
+!===MIXED_MNL===!
+
 using Rcpp::DataFrame;
 using Rcpp::NumericMatrix;
 using Rcpp::NumericVector;
+using Rcpp::Nullable;
 using Rcpp::CharacterVector;
 using Rcpp::_;
 using std::exp;
@@ -13,10 +16,16 @@ using std::exp;
 // [[Rcpp::export]]
 NumericMatrix mixl_posteriors(NumericVector betas, NumericMatrix probabilities,
                          int Nindividuals,DataFrame data,
-                         const NumericMatrix draws, int nDraws) {
+                         Nullable<NumericMatrix> nullableDraws, int nDraws) {
   
   int numRndVars = !===num_rnd_vars===!;
   NumericMatrix posteriors(Nindividuals, numRndVars);
+  
+  NumericMatrix draws;
+  
+  if (nullableDraws.isNotNull()) {
+    draws = nullableDraws.get();
+  }
   
   CharacterVector colnames1(numRndVars);
   int i=0;
@@ -35,9 +44,12 @@ NumericMatrix mixl_posteriors(NumericVector betas, NumericMatrix probabilities,
   
   for (int i=0; i < Nindividuals; i++) {
     for (int d=0; d<nDraws; d++) {
-      int draw_index = i * nDraws + d; 
-      NumericMatrix::ConstRow draw = draws(draw_index, _);
       
+      #ifdef _MIXED_MNL
+            int draw_index = i * nDraws + d; //drawsrep give the index of the draw, based on id, which we dont want to carry in here.
+            NumericMatrix::Row draw = draws(draw_index, _);
+      #endif
+          
       int rnd_idx = 0;
 
       !===random_paramters===!
