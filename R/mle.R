@@ -73,20 +73,17 @@ estimate <- function (model_spec, start_values, data, availabilities,
     if (ncol(draws) < draw_dimensions || nrow(draws) < Nindividuals) {
       stop (sprintf("The draw matrix of dimensions %d x %d is not large enough (must be at least %d x %d)", nrow(draws), ncol(draws), Nindividuals, draw_dimensions))
     } 
-    
-    p <- matrix(0, nrow=Nindividuals, ncol=nDraws)
-    
-    ll2 <- function (betas) model_spec$logLik(betas, data, Nindividuals, availabilities, draws, nDraws, p, weights, num_threads, p_indices=is_hybrid_choice)
-    
   } else {
-    p <- matrix(0, nrow=Nindividuals, ncol=1);
-    
-    ll2 <- function (betas) model_spec$logLik(betas, data, Nindividuals, availabilities, p, weights, num_threads)
-    
+    nDraws = 1
+    draws = NULL
   }
   
-
-
+  print(paste("Number of rows", nrow(draws)))
+  
+  p <- matrix(0, nrow=Nindividuals, ncol=nDraws)
+    
+  ll2 <- function (betas) model_spec$logLik(betas, data, Nindividuals, availabilities, draws, nDraws, p, weights, num_threads, p_indices=is_hybrid_choice)
+    
   llsum <- function (betas) sum(ll2(betas))
   hessian_function <- function (betas) numDeriv::hessian(llsum, betas)
   

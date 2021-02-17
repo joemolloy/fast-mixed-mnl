@@ -46,7 +46,7 @@ specify_model <- function( utility_script, dataset = NULL , output_file = NULL,
     
   } else{
     
-    template <- if (e1$is_mixed) "cpp_utility_template.h" else "cpp_mnl_template.h"
+    template <- "cpp_utility_template.h"
     template_location <- system.file("include", "mixl", template, package = "mixl")
     cpp_template <- readr::read_file(template_location)
     

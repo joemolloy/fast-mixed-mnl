@@ -1,10 +1,13 @@
 #include <Rcpp.h>
 
+!===MIXED_MNL===!
+
 #ifdef _OPENMP
   #include <omp.h>
 #endif
 #include "mixl/utility_function.h"
 
+using Rcpp::RObject;
 using Rcpp::DataFrame;
 using Rcpp::NumericMatrix;
 using Rcpp::NumericVector;
@@ -22,12 +25,16 @@ NumericVector logLik(NumericVector betas, DataFrame data,
     omp_set_num_threads(num_threads);
   #endif  
   
-  UF_args2 v(data, Nindividuals, availabilities, draws, nDraws, weights, P, p_indices);
+    
+  UF_args v(data, Nindividuals, availabilities, draws, nDraws, weights, P, p_indices);
+  
+  Rcpp::Rcout << "v matrix size: "<< v.draws.nrow() <<  " x " << v.draws.ncol() << std::endl;
+  
   
   NumericVector LL(v.Nindividuals);
   std::fill(v.P.begin(), v.P.end(), 0);
   
-  //Rcpp::Rcout << "running utility function"<<  std::endl;
+  Rcpp::Rcout << "running utility function"<<  std::endl;
   //double begin = omp_get_wtime();
   
   utilityFunction(betas, v);
@@ -64,7 +71,7 @@ return LL;
 //or - through r, check the names in the utility function, that they are in the data, and return error if not. Then desugarise and compile
 //need to distinquish between betas, random-coeefs and parameters
 
-void utilityFunction(NumericVector betas, UF_args2& v)
+void utilityFunction(NumericVector betas, UF_args& v)
 {
   
   if (!(v.data.containsElementNamed("ID") && v.data.containsElementNamed("CHOICE"))) {
@@ -103,10 +110,18 @@ void utilityFunction(NumericVector betas, UF_args2& v)
     //Rcpp::Rcout << "indv: " << individual_index << std::endl;
     for (int d=0; d<v.nDraws; d++) {
       
-      int draw_index = individual_index * v.nDraws + d; //drawsrep give the index of the draw, based on id, which we dont want to carry in here.
-      NumericMatrix::ConstRow draw = v.draws(draw_index, _);
+      Rcpp::Rcout << "selecting draw row: "<< (individual_index * v.nDraws + d) <<  std::endl;
+      Rcpp::Rcout << "matrix size: "<< v.draws.nrow() <<  " x " << v.draws.ncol() << std::endl;
       
+      #ifdef _MIXED_MNL
+        int draw_index = individual_index * v.nDraws + d; //drawsrep give the index of the draw, based on id, which we dont want to carry in here.
+        NumericMatrix::ConstRow draw = v.draws(draw_index, _);
+      #endif
+        
       std::fill(std::begin(utilities), std::end(utilities), 0.0);
+      
+      Rcpp::Rcout << "utilities" <<  std::endl;
+      
       
       /////////////////////////
       

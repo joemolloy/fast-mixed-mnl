@@ -19,7 +19,7 @@ test_that("A basic MNL model converges and creates the output", {
 
     availabilities <- mixl::generate_default_availabilities(Train, logLik_env$num_utility_functions)
 
-    model <- mixl::estimate(logLik_env, est, Train, availabilities = availabilities, num_threads = 4, control=list(iterlim=4))
+    model <- mixl::estimate(logLik_env, est, Train, availabilities = availabilities, num_threads = 1, control=list(iterlim=4))
 
     expect_equal(model$code, 1) #iteration limit
     expect_equal(model$maximum, -2046.955200, tolerance=1e-3)

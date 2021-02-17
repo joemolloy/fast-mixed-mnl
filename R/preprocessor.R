@@ -143,6 +143,8 @@ convert_to_valid_cpp <- function(cpp_template, e1, hybrid_choice=FALSE) {
   
   #summing p_indics for hybrid choice
   prob_indicator_sum <- if (e1$is_hybrid_choice) create_p_indic_sum(e1$p_indics) else "//note: not a hybrid choice model"
+  
+  MIXED_MNL = ifelse(e1$is_mixed, '#define _MIXED_MNL 1', '')
 
   #fill in template
   cpp_code <- stringr::str_glue(cpp_template, .open="!===", .close="===!")
