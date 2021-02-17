@@ -46,7 +46,7 @@ specify_model <- function( utility_script, dataset = NULL , output_file = NULL,
     
   } else{
     
-    template <- "cpp_utility_template.h"
+    template <- "loglik.cpp"
     template_location <- system.file("include", "mixl", template, package = "mixl")
     cpp_template <- readr::read_file(template_location)
     

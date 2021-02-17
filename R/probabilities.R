@@ -1,5 +1,5 @@
 compile_predictions <- function(model_spec) {
-  prediction_template <- "cpp_mixed_prediction_template.h"
+  prediction_template <- "predict.cpp"
   
   template_location <- system.file("include", "mixl", prediction_template, package = "mixl")
   cpp_template <- readr::read_file(template_location)

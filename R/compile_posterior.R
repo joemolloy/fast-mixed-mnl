@@ -41,7 +41,7 @@ parse_equations <- function(utility_script) {
 compile_posterior_function <- function(rnd_equations, betas, is_mixed, output_file=NULL) {
   
   #posterior_template <- readr::read_file("inst/include/mixl/cpp_posteriors.cpp")
-  template_filename <- "cpp_posteriors.cpp"
+  template_filename <- "posteriors.cpp"
   
   posterior_template <- readr::read_file(system.file("include", "mixl", template_filename, package = "mixl"))
   
