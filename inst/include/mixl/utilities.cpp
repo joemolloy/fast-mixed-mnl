@@ -90,7 +90,10 @@ NumericMatrix utilities(NumericVector betas,
           allUtilities(id, 1) = d;
         }
         
+        NumericMatrix::ConstRow  choices_avail = v.availabilities( i , _ );
+        
         for (unsigned k=0; k < utilities.size(); ++k) {
+          utilities[k] = utilities[k] * choices_avail[k];
           utilities[k] = std::min(700.0, std::max(-700.0, utilities[k])); //trip utilities to +- 700 for compuational reasons
           allUtilities(id, pre_cols + k) += utilities[k];
         } 
