@@ -9,10 +9,11 @@ estimate(
   start_values,
   data,
   availabilities,
-  draws = NULL,
-  nDraws = NULL,
+  draws,
+  nDraws,
   fixedparam = c(),
   num_threads = 1,
+  weights = NULL,
   ...
 )
 }
@@ -40,6 +41,8 @@ Only needed if \code{draws} is left null. Then a matrix of normal halton draws w
 
 \item{num_threads}{The maximum number of parallel cores to use in estimation. The default is 1.
 This should only be speficied on machines with an openMP compiler (linux and some OSXs).}
+
+\item{weights}{(optional) A vector of weights (vector length must equal the number of observations).}
 
 \item{...}{futher arguments. such as control are passed to the maximisaiton routine in maxLik.
 See \code{\link[maxLik:maxLik]{maxLik::maxLik()}} for more details}

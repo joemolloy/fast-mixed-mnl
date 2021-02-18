@@ -4,7 +4,7 @@
 \alias{posteriors}
 \title{Calculate the posteriors for a specified and estimated model}
 \usage{
-posteriors(model, indiv_data = NULL, code_output_file = NULL)
+posteriors(model, indiv_data, code_output_file = NULL)
 }
 \arguments{
 \item{model}{The estimated Model}
