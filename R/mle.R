@@ -111,7 +111,7 @@ estimate <- function (model_spec, start_values, data, availabilities,
   if (is_hybrid_choice) {
     mL$HybridLL <- ll2(est)
     
-    ll2 <- function (betas) model_spec$logLik(betas, data, Nindividuals, availabilities, draws, nDraws, weights, p, num_threads, p_indices=FALSE)
+    ll2 <- function (betas) model_spec$logLik(betas, data, Nindividuals, availabilities, draws, nDraws, p, weights, num_threads, p_indices=FALSE)
   }
   
   mL$zeroLL <- ll2(0*start_values)
