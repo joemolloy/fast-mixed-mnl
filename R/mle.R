@@ -69,7 +69,7 @@ estimate <- function (model_spec, start_values, data, availabilities,
   if (is_hybrid_choice) {
     num_weights = unlist(lapply(split(data, data$ID), function(x) { length(unique(weights[as.integer(rownames(x))])) } ))
     if (any(num_weights > 1)) {
-      stop(paste(
+      warning(paste(
         'Only individual level weights are supported for hybrid choice models',
         'Please ensure that the there is only one unique weight per individual'))
     }

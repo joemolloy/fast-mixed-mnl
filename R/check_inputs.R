@@ -63,12 +63,12 @@ check_inputs <- function(model_spec, start_values, data, availabilities, draws, 
     warning(paste("The following parameters are not used in the utility function but will be estimated anyway:", paste(excess_betas, collapse=",")))
   }
   
-  if (!missing(weights) && !is.null(weights) && length(weights) != nrow(data)) {
-    stop(sprintf("The length of the weights vector is not the same as the number of observations (%d vs %d(", length(weights), nrow(data)))
+  if (!missing(weights) && !is.null(weights) && !all.equal(length(weights), nrow(data))) {
+    warning(sprintf("The length of the weights vector is not the same as the number of observations (%d vs %d(", length(weights), nrow(data)))
   }
   
-  if (!missing(weights) && !is.null(weights) && sum(weights) != nrow(data)) {
-    warning(sprintf("The sum of the weights vector should equal the number of observations (%d vs %d)", sum(weights), nrow(data)))
+  if (!missing(weights) && !is.null(weights) && !all.equal(sum(weights), nrow(data))) {
+    warning(sprintf("The sum of the weights vector should equal the number of observations (%0.2f vs %d)", sum(weights), nrow(data)))
   }
   
   

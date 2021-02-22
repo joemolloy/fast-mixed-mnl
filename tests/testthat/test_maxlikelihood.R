@@ -32,6 +32,11 @@ test_that("A basic MNL model converges and creates the output", {
 skip_on_cran()
 test_that("A mixed MNL model converges and creates the output", {
   #randomly assign observations to ID's
+  
+  data("Train", package="mlogit")
+  Train$ID <- Train$id
+  Train$CHOICE <- as.numeric(Train$choice)
+  
   mnl_test <- "
     ASC_B_RND 	= @ASC_B 	+ draw_2 * @SIGMA_B;
 
@@ -45,6 +50,9 @@ test_that("A mixed MNL model converges and creates the output", {
   est <- stats::setNames(c(0,0,0,0,0,0), c("B_price", "B_time", "B_timeB", "B_change", "ASC_B","SIGMA_B"))
   
   availabilities <- mixl::generate_default_availabilities(Train, model_spec$num_utility_functions)
+  
+  #weights <- runif(nrow(Train))+1
+  #weights <- weights * (nrow(Train) / sum(weights))
   
   system.time(model <- mixl::estimate(model_spec, est, Train, availabilities = availabilities, nDraws = 100, num_threads=1))
   
