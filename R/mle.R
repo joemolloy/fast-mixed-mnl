@@ -108,16 +108,15 @@ estimate <- function (model_spec, start_values, data, availabilities,
     mL$draws <- draws
   }
   
-  if (is_hybrid_choice) {
-    mL$HybridLL <- ll2(est)
-    
-    ll2 <- function (betas) model_spec$logLik(betas, data, Nindividuals, availabilities, draws, nDraws, p, weights, num_threads, p_indices=FALSE)
-  }
-  
   mL$zeroLL <- ll2(0*start_values)
   mL$initLL <- ll2(start_values)
   mL$finalLL <- ll2(est)
+  mL$choiceLL <- mL$finalLL
   
+  if (is_hybrid_choice) {
+    ll2 <- function (betas) model_spec$logLik(betas, data, Nindividuals, availabilities, draws, nDraws, p, weights, num_threads, p_indices=FALSE)
+    mL$choiceLL <- ll2(est)
+  }
   
   class(mL) <- c("mixl", class(mL))
   

@@ -16,6 +16,7 @@ summary.mixl <- function (object, ...){
     SIG_FIGS2 <- 2
     model <- object
   
+    choiceLL <- sum(model$choiceLL)
     finalLL <- sum(model$finalLL)
     zeroLL  <- sum(model$zeroLL)
     initLL  <- sum(model$initLL)
@@ -74,10 +75,13 @@ summary.mixl <- function (object, ...){
     ms$Nindividuals <- model$Nindividuals
     ms$choicetasks <- model$choicetasks
     ms$is_mixed <- model$is_mixed
+    
     if (model$is_mixed) {
       ms$nDraws <- model$nDraws
     }
+    
     ms$metrics <- list(
+      choiceLL = choiceLL,
       finalLL = finalLL,
       zeroLL  = zeroLL,
       initLL  = initLL,

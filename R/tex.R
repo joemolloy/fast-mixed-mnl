@@ -7,49 +7,44 @@
 #
 # ------------------------------------------------------------------------------------------------------------#
 
-#' Return tex formatted output of a model summary
+#' Return tex formatted output of a model summary. If an output_file parameter is provided, save the object to that location
 #' 
 #' @param model_summary A summary of an estimated Model
+#' @param output_file Where to save the tex representation
 #' 
-#' @return Formatted text output suitable for a research paper.
+#' @return Formatted texreg object containing the latex table suitable for a research paper. See \link[texreg]{createTexreg}
 #' 
 #' @export 
-summary_tex=function(model_summary) {
-  m <- model_summary
-
+summary_tex=function(model_summary, output_file) {
+  if (is(model_summary, 'mixl')) {
+    m <- summary(model_summary)
+  } else if (!is(model_summary, "summary.mixl")) {
+    stop('Please provide model_summary as either a mixl model output or mixl model sumamry')
+  } else {
+    m <- model_summary
+  }
+  
   ct <- m$coefTable
   
   # customize coefficient estimates output
   
-  take_robpval1 <- grepl(pattern = "SCALE", row.names(ct), fixed=T)
-  
+  take_robpval1 <- grepl(pattern = "^S_", row.names(ct), fixed=T)
+
   robpval_print <- ifelse(take_robpval1, ct$rob_pval1, ct$rob_pval0 )
   
   output <- cbind(ct[, c("est", "robse")], robpval_print)
-  
-  # print and save output tables
-  
-  cat("Model diagnosis:",m$message,"\n\n")
-  
-  cat("LL: ",m$metrics$finalLL,"\n\n")
-  
-  cat("Estimates:\n")
-  print(output)
-  
-  xtable::xtable(output)
   
   # make custom GOFs
   
   N <- m$Nindividuals
   
-  gofs=c("# estimated parameters"= m$num_params,
-         
-         "Number of respondents"= N,
+  gofs = c("Number of parameters" = m$num_params, 
+           "Number of respondents" = N,
          "Number of choice observations"= m$choicetasks,
          
          "Number of draws"= m$nDraws,
          "LL(null)"= sum(m$metrics$zeroLL),
-         "LL(final)"= sum(m$metrics$finalLL), ###TODO: note that this is the choice LL. Maybe this needs to be changed
+         "LL(final)"= sum(m$metrics$finalLL), 
          "LL(choicemodel)"= sum(m$metrics$choiceLL),
          
          "McFadden R2" = m$metrics$rho2zero,
@@ -79,16 +74,15 @@ summary_tex=function(model_summary) {
                          
   )
   
+  if (!missing(output_file)) {
+    save(texmod, file=output_file)
+  }
   
-  runlabel <- paste0(m$model_name,"_", format(Sys.time(), "%Y%m%d_%H%M%S_"))
-  
-  save(texmod, file=paste0(runlabel, "texmod.RData"))
+  return(texmod)
   
   
-  tab1 <- texreg::texreg(texmod, stars = c(0.01,0.05,0.1),
-                 caption = m$model_name, fontsize = "footnotesize",
-                 booktabs = T)
-  print(tab1)
+  
+
   
 }
 
