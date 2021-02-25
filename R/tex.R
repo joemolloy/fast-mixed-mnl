@@ -44,6 +44,7 @@ summary_tex=function(model_summary, output_file) {
          
          "Number of draws"= m$nDraws,
          "LL(null)"= sum(m$metrics$zeroLL),
+         "LL(init)"= sum(m$metrics$initLL),
          "LL(final)"= sum(m$metrics$finalLL), 
          "LL(choicemodel)"= sum(m$metrics$choiceLL),
          
