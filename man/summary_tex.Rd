@@ -2,16 +2,18 @@
 % Please edit documentation in R/tex.R
 \name{summary_tex}
 \alias{summary_tex}
-\title{Return tex formatted output of a model summary}
+\title{Return tex formatted output of a model summary. If an output_file parameter is provided, save the object to that location}
 \usage{
-summary_tex(model_summary)
+summary_tex(model_summary, output_file)
 }
 \arguments{
 \item{model_summary}{A summary of an estimated Model}
+
+\item{output_file}{Where to save the tex representation}
 }
 \value{
-Formatted text output suitable for a research paper.
+Formatted texreg object containing the latex table suitable for a research paper. See \link[texreg]{createTexreg}
 }
 \description{
-Return tex formatted output of a model summary
+Return tex formatted output of a model summary. If an output_file parameter is provided, save the object to that location
 }
