@@ -33,7 +33,7 @@ On Mac, things are a little more complicated. OSX has a compiler pre-installed. 
 ``` 
 brew install gcc@9 
 mkdir -p ~/.R
-curl -L -o ~/.R/Makevars https://git.io/JTRql
+curl -L -o ~/.R/Makevars https://git.io/JtbVr
 ```
 * 
 

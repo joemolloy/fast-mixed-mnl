@@ -123,6 +123,7 @@ print.summary.mixl <- function (x, ...) {
     cat("LL(null): ", metrics$zeroLL,"\n")
     cat("LL(init): ", metrics$initLL,"\n")
     cat("LL(final): ", metrics$finalLL,"\n")
+    cat("LL(choice): ", metrics$choiceLL,"\n")
     cat("Rho2: ", metrics$rho2zero,"\n")
     cat('\n')
     cat("AIC: ", metrics$AIC,"\n")
