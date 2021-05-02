@@ -15,6 +15,8 @@ Description: Specification and estimation of multinomial logit
     coefficients and Hybrid Choice are all supported.  For more
     information, see Molloy et al. (2019) <doi:10.3929/ethz-b-000334289>.
 License: GPL (>= 2)
+URL: https://github.com/joemolloy/fast-mixed-mnl
+BugReports: https://github.com/joemolloy/fast-mixed-mnl/issues
 Imports:
     maxLik,
     numDeriv,
