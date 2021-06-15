@@ -16,9 +16,9 @@
 #' 
 #' @export 
 summary_tex=function(model_summary, output_file) {
-  if (is(model_summary, 'mixl')) {
+  if ('mixl' %in% class(model_summary)) {
     m <- summary(model_summary)
-  } else if (!is(model_summary, "summary.mixl")) {
+  } else if (!"summary.mixl" %in% (model_summary)) {
     stop('Please provide model_summary as either a mixl model output or mixl model sumamry')
   } else {
     m <- model_summary
