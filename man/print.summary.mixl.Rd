@@ -33,7 +33,7 @@
 		Train, model_spec$num_utility_functions
 	)
 
-	model <- mixl::estimate(model_spec, est, Train, availabilities = availabilities)
-	summary(model)
+	model2 <- mixl::estimate(model_spec, est, Train, availabilities = availabilities)
+	print(model2)
 }
 }

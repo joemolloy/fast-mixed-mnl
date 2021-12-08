@@ -76,7 +76,7 @@ NumericMatrix predict(NumericVector betas, DataFrame data,
     
 #pragma omp parallel
 {
-  std::valarray<double> utilities(!===utility_length===!);  //specify here the number of alternatives
+  std::vector<double> utilities(!===utility_length===!);  //specify here the number of alternatives
   
 #pragma omp for
   for (int i=0; i < v.data.nrows(); i++) {
@@ -110,15 +110,18 @@ NumericMatrix predict(NumericVector betas, DataFrame data,
         utilities[k] = utilities[k] * choices_avail[k];
       }
       
-      double sum_utilities = utilities.sum();
-      std::valarray<double> probabilities = (utilities / sum_utilities);
+      double sum_utilities = 0;
+      
+      for (unsigned k=0; k < utilities.size(); ++k) {
+        sum_utilities += utilities[k];
+      }
       
       P(i, 0) = i;
       P(i, 1) = individual_index;
       P(i, 2) = choice[i];
-      P(i, 3) += probabilities[choice[i]-1];
+      P(i, 3) += utilities[choice[i]-1] / sum_utilities;
       for (unsigned k=0; k < utilities.size(); ++k) {
-        P(i, PRE_COLS + k) += probabilities[k];
+        P(i, PRE_COLS + k) += utilities[k] / sum_utilities;
       } 
       
     }

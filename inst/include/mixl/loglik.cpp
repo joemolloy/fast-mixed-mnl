@@ -39,7 +39,7 @@ NumericVector logLik(NumericVector betas, DataFrame data,
   
   utilityFunction(betas, v);
   
-  const double lognDraws = log(v.nDraws);
+  const double lognDraws = std::log(v.nDraws);
   
   //TODO: parallelise this as well
   //pragma omp parallel for
@@ -50,7 +50,7 @@ NumericVector logLik(NumericVector betas, DataFrame data,
       s += v.P(i,draw);
     }
     
-    LL[i] = log(s) - lognDraws;
+    LL[i] = std::log(s) - lognDraws;
     
   }
 
@@ -91,7 +91,7 @@ void utilityFunction(NumericVector betas, UF_args& v)
   
 #pragma omp parallel
 {
-  std::valarray<double> utilities(!===utility_length===!);  //specify here the number of alternatives
+  std::vector<double> utilities(!===utility_length===!);  //specify here the number of alternatives
   
 #pragma omp for
   for (int i=0; i < v.data.nrows(); i++) {
@@ -127,13 +127,13 @@ void utilityFunction(NumericVector betas, UF_args& v)
         sum_utilities += utilities[k] * choices_avail[k];
       }
       
-      double log_p_choice = log((chosen_utility / sum_utilities))  * v.weights[i];
+      double log_p_choice = std::log((chosen_utility / sum_utilities))  * v.weights[i];
       
       if (v.include_probability_indices){
         
         double p_indic_total = 0;
         !===prob_indicator_sum===!
-        log_p_choice += (1/count[i]) * log(p_indic_total) * v.weights[i];
+        log_p_choice += (1/count[i]) * std::log(p_indic_total) * v.weights[i];
       }
       
       #pragma omp atomic 

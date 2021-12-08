@@ -1,7 +1,6 @@
 #ifndef UF_ARGS_H
 #define UF_ARGS_H
 
-#include <valarray>
 #include <iterator>
 #include <numeric> 
 

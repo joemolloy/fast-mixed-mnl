@@ -34,16 +34,17 @@ Joe Molloy <joseph.molloy@ivt.baug.ethz.ch>.
   Train$CHOICE <- as.numeric(Train$choice)
 
   mnl_test <- "
-  //  ASC_B_RND 	= @ASC_B 	+ draw_2 * @SIGMA_B;
+    ASC_B_RND 	= @ASC_B 	+ draw_2 * @SIGMA_B;
 
     U_A =             @B_price * $price_A / 1000 + @B_time * $time_A / 60 + @B_change * $change_A; 
-    U_B = @ASC_B + @B_price * $price_B / 1000 + @B_timeB * $time_B / 60;
+    U_B = ASC_B_RND + @B_price * $price_B / 1000 + @B_timeB * $time_B / 60;
   "
   
   model_spec <- mixl::specify_model(mnl_test, Train)
   
   #only take starting values that are needed
-  est <- stats::setNames(c(0,0,0,0,0), c("B_price", "B_time", "B_timeB", "B_change", "ASC_B"))
+  est <- stats::setNames(c(0,0,0,0,0,0), c("B_price", "B_time", "B_timeB", 
+  "B_change", "ASC_B", "SIGMA_B"))
   
   availabilities <- mixl::generate_default_availabilities(Train, model_spec$num_utility_functions)
   

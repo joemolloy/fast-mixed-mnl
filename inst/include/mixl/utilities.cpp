@@ -63,7 +63,7 @@ NumericMatrix utilities(NumericVector betas,
     
   #pragma omp parallel
   {
-    std::valarray<double> utilities(!===utility_length===!);  //specify here the number of alternatives
+    std::vector<double> utilities(!===utility_length===!);  //specify here the number of alternatives
     
   #pragma omp for
     for (int i=0; i < v.data.nrows(); i++) {
