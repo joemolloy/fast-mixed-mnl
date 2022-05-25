@@ -114,7 +114,7 @@ print.summary.mixl <- function (x, ...) {
   
   with(model_output, {
     cat("Model diagnosis:", message,"\n")
-    cat("Runtime: ", format(unclass(model$runtime), digits = 3), " ", attr(model$runtime, "units"), "\n\n", sep = "")
+    cat("Runtime: ", format(unclass(runtime), digits = 3), " ", attr(runtime, "units"), "\n\n", sep = "")
     cat("Number of decision makers:", Nindividuals,"\n")
     cat("Number of observations:", choicetasks,"\n\n")
     if (is_mixed) {
