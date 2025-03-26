@@ -9,10 +9,14 @@
 
 #' Return tex formatted output of a model summary. If an output_file parameter is provided, save the object to that location
 #' 
+#' The returned object can be passed to `texreg`'s formatting functions (see 'Examples').
+#' 
 #' @param model_summary A summary of an estimated Model
 #' @param output_file Where to save the tex representation
 #' 
 #' @return Formatted texreg object containing the latex table suitable for a research paper. See \link[texreg]{createTexreg}
+#' 
+#' @example R/examples/tex.R
 #' 
 #' @export 
 summary_tex=function(model_summary, output_file) {
