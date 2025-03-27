@@ -12,8 +12,6 @@
 #' 
 #' @export
 summary.mixl <- function (object, ...){
-    SIG_FIGS4 <- 4
-    SIG_FIGS2 <- 2
     model <- object
   
     choiceLL <- sum(model$choiceLL)
@@ -51,18 +49,7 @@ summary.mixl <- function (object, ...){
     num_params <- length(est)-sum(model$fixed)
     rho2zero <- 1-finalLL/zeroLL
     adjrho2zero <- 1-(finalLL-num_params)/zeroLL
-    
-    est <- round(est, SIG_FIGS4)
-    se <- round(se, SIG_FIGS4)
-    trat_0 <- round(trat_0, SIG_FIGS2)
-    trat_1 <- round(trat_1, SIG_FIGS2)
-    robse <- round(robse, SIG_FIGS4)
-    robtrat_0 <- round(robtrat_0, SIG_FIGS2)
-    robtrat_1 <- round(robtrat_1, SIG_FIGS2)
-    rob_pval0 <- round(rob_pval0, SIG_FIGS2)
-    rob_pval1 <- round(rob_pval1, SIG_FIGS2)
-    
-    
+  
     coefTable <- as.data.frame(t(rbind(est,se,trat_0,trat_1,robse, robtrat_0,robtrat_1, rob_pval0, rob_pval1)))
     
     ms = list()
@@ -89,9 +76,9 @@ summary.mixl <- function (object, ...){
       rho2zero    = 1-finalLL/zeroLL,
       adjrho2zero = 1-(finalLL-num_params)/zeroLL,
       
-      AIC  = round(-2*finalLL+2*(num_params),SIG_FIGS2),
-      AICc = round(-2*finalLL+2*(num_params)*Nindividuals/(Nindividuals-(num_params)-1),SIG_FIGS2)
-     ,BIC  = round(-2*finalLL+(num_params)*log(choicetasks),SIG_FIGS2)    ##TODO: what if choice task numbers vary over participants
+      AIC  = -2*finalLL+2*(num_params),
+      AICc = -2*finalLL+2*(num_params)*Nindividuals/(Nindividuals-(num_params)-1),
+      BIC  = -2*finalLL+(num_params)*log(choicetasks)    ##TODO: what if choice task numbers vary over participants
     )
     
     class(ms) <- c("summary.mixl", class(ms))
@@ -104,17 +91,19 @@ summary.mixl <- function (object, ...){
 #' [print()] is an S3 method for the summary.mixl class, the output of a model plus goodness of fit metrics
 #' 
 #' @param x The summary to print.
+#' @param digits minimum number of significant digits to be used for most numbers.
 #' @param ... Options to pass to print.
 #' 
 #' @example R/examples/model_stats.R
 #' 
 #' @export
-print.summary.mixl <- function (x, ...) {
+print.summary.mixl <- function (x, digits = max(3L, getOption("digits") - 3L), ...) {
   model_output <- x
+  model_output$metrics <- lapply(model_output$metrics, function(x) round(x, digits = digits))
   
   with(model_output, {
     cat("Model diagnosis:", message,"\n")
-    cat("Runtime: ", format(unclass(runtime), digits = 3), " ", attr(runtime, "units"), "\n\n", sep = "")
+    cat("Runtime: ", format(unclass(runtime), digits = digits), " ", attr(runtime, "units"), "\n\n", sep = "")
     cat("Number of decision makers:", Nindividuals,"\n")
     cat("Number of observations:", choicetasks,"\n\n")
     if (is_mixed) {
@@ -133,12 +122,13 @@ print.summary.mixl <- function (x, ...) {
     cat("Estimated parameters: ",num_params,"\n\n")
     
     cat("Estimates:\n")
-    print(coefTable, ...)
+    print(round(coefTable, digits = digits), ...)
     
     #   cat("\n\nRobust covariance matrix:\n")
     #   print(robvarcov)
     
   })
+  invisible(x)
 }
 
 
