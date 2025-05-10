@@ -149,6 +149,17 @@ print.mixl <- function (x, ...) {
     print(model_output, ...)
 }
 
+#' Calculates the Variance-Covariance Matrix of the mixl summary 
+#' 
+#' [vcov()] is an S3 method for the summary.mixl class, giving the Variance-Covariance Matrix 
+#' 
+#' @param object The summary to print.
+#' @param eigentol The tolerance value.
+#' @param ... Options to pass to print.
+#' 
+#' @example R/examples/model_stats.R
+#' 
+#' @export
 vcov.mixl <- function (object, eigentol = 1e-12, ...) 
 {
   if (!is.null(object$varcovar)) 

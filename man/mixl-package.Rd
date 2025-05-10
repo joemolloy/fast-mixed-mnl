@@ -18,13 +18,9 @@
 Joe Molloy <joseph.molloy@ivt.baug.ethz.ch>.
 }
 \references{
-  This optional section can contain literature or other references for
-  background information.
+  Molloy, J., Becker, F., Schmid, B., & Axhausen, K. W. (2021). mixl: An open-source R package for estimating complex choice models on large datasets. Journal of choice modelling, 39, 100284.
 }
-\keyword{ package }
-\seealso{
-  Optional links to other man pages
-}
+\keyword{ Multinomial logit MNL GPU }
 \examples{
   \donttest{
   

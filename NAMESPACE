@@ -3,6 +3,7 @@
 S3method(print,mixl)
 S3method(print,summary.mixl)
 S3method(summary,mixl)
+S3method(vcov,mixl)
 export(av_matrix)
 export(compileUtilityFunction)
 export(create_halton_draws)

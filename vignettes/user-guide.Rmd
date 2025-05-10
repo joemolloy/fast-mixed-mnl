@@ -4,7 +4,7 @@ author: "Joe Molloy"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{"Mixl User Guide"}
+  %\VignetteIndexEntry{Mixl User Guide}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -39,7 +39,7 @@ curl -L -o ~/.R/Makevars https://git.io/JtbVr
 
 ## Motivation
 The development of this package was motivated by the need at the [Institute for Transport Planning and Systems (IVT)](https://www.ivt.ethz.ch/) at ETH Zürich to 
-estimate complicated mixed multinomial logit models of time use and travel behaviour. Other approaches, such as [biogeme](https://biogeme.epfl.ch/) and other R implementations were found to be very memory intensive when a large number of random draws were needed. 
+estimate complicated mixed multinomial logit models of time use and travel behaviour. Other approaches, such as [biogeme](https://github.com/michelbierlaire/biogeme) and other R implementations were found to be very memory intensive when a large number of random draws were needed. 
 
 Additionally, we found that the learning curve for some implementations was very steep, and changes to model specifications involved understanding of the underlying code base, on top of random utility and choice modeling fundamentals. 
 
