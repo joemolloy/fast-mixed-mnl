@@ -3,10 +3,10 @@ Package: mixl
 Title: Simulated Maximum Likelihood Estimation of Mixed Logit
     Models for Large Datasets
 Version: 1.3.5
-Authors@R: c(person("Daniel", "Heimgartner", email = "d.heimgartners@gmail.com", role = c("ctb", "cre"),
-       comment = c(ORCID = "0000-0002-0643-8690")),
-       person("Joseph", "Molloy", email = "joe.m34@gmail.com", role = c("aut", "cre"),
-       comment = c(ORCID = "0000-0001-9723-8266")))
+Authors@R: c(person("Joseph", "Molloy", email = "joe.m34@gmail.com", role = c("aut"),
+       comment = c(ORCID = "0000-0001-9723-8266")),
+       person("Daniel", "Heimgartner", email = "d.heimgartners@gmail.com", role = c("ctb", "cre"),
+       comment = c(ORCID = "0000-0002-0643-8690")))
 Description: Specification and estimation of multinomial logit
     models.  Large datasets and complex models are supported, with an
     intuitive syntax.  Multinomial Logit Models, Mixed models, random
