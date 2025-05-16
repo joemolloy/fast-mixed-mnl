@@ -41,3 +41,4 @@ a.out
 src/a.out
 ^CRAN-RELEASE$
 ^cran-comments\.md$
+^CRAN-SUBMISSION$
