@@ -4,10 +4,12 @@
 \alias{print.summary.mixl}
 \title{Print a model summary}
 \usage{
-\method{print}{summary.mixl}(x, ...)
+\method{print}{summary.mixl}(x, digits = max(3L, getOption("digits") - 3L), ...)
 }
 \arguments{
 \item{x}{The summary to print.}
+
+\item{digits}{minimum number of significant digits to be used for most numbers.}
 
 \item{...}{Options to pass to print.}
 }
