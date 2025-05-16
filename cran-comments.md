@@ -5,7 +5,14 @@
 
 ## R CMD check results
 
+❯ checking compiled code ... OK
+   WARNING
+  ‘qpdf’ is needed for checks on size reduction of PDFs
 
+❯ checking for future file timestamps ... NOTE
+  unable to verify current time
+
+0 errors, 1 warning, 1 note
 
 ## Revdeps
 
