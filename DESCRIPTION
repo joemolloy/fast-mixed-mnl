@@ -2,7 +2,7 @@ Type: Package
 Package: mixl
 Title: Simulated Maximum Likelihood Estimation of Mixed Logit
     Models for Large Datasets
-Version: 1.3.5
+Version: 1.3.5.9000
 Authors@R: c(person("Joseph", "Molloy", email = "joe.m34@gmail.com", role = c("aut"),
        comment = c(ORCID = "0000-0001-9723-8266")),
        person("Daniel", "Heimgartner", email = "d.heimgartners@gmail.com", role = c("ctb", "cre"),
