@@ -10,7 +10,7 @@ specify_model(
   output_file = NULL,
   compile = TRUE,
   model_name = "mixl_model",
-  disable_multicore = T,
+  disable_multicore = lifecycle::deprecated(),
   ...
 )
 }
@@ -25,7 +25,7 @@ specify_model(
 
 \item{model_name}{A name for the model, which will be used for saving. Defaults to \emph{mixl_model}}
 
-\item{disable_multicore}{Depreciated and not used. Mutlicore is now autodetected}
+\item{disable_multicore}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Multithreading is now specificed at runtime}
 
 \item{...}{Further parameters to pass to \link[Rcpp]{sourceCpp}}
 }
@@ -49,7 +49,7 @@ See the user guide vignette for how to write valid utility scripts. There is som
 	U_B = @asc + @B_price * $price_B / 1000 + @B_timeB * $time_B / 60;
 	"
 
-	model_spec <- mixl::specify_model(mnl_test, Train, disable_multicore=T)
+	model_spec <- mixl::specify_model(mnl_test, Train)
 
 	#only take starting values that are needed
 	est <- stats::setNames(c(1, 1,1,1), c("asc", "B_price", "B_time", "B_timeB"))

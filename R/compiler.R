@@ -19,7 +19,7 @@ test_for_openmp_osx <- function() {
 #' @param output_file An (optional) location where the compiled code should be saved (useful for debugging
 #' @param compile If compile is false, then the code will not be compiled, but just validated and saved if an `output_file` is specified. Default is true.
 #' @param model_name A name for the model, which will be used for saving. Defaults to *mixl_model*
-#' @param disable_multicore Depreciated and not used. Mutlicore is now autodetected
+#' @param disable_multicore `r lifecycle::badge("deprecated")` Multithreading is now specificed at runtime
 #' @param ... Further parameters to pass to \link[Rcpp]{sourceCpp}
 #' @return An `object` which contains the loglikelihood function, and information from the compile process
 #' 
@@ -27,8 +27,12 @@ test_for_openmp_osx <- function() {
 #' 
 #' @export 
 specify_model <- function( utility_script, dataset = NULL , output_file = NULL, 
-                           compile=TRUE, model_name="mixl_model", disable_multicore=T, ...) {
-
+                           compile=TRUE, model_name="mixl_model", disable_multicore=lifecycle::deprecated(), ...) {
+  if (lifecycle::is_present(disable_multicore)) {
+    lifecycle::deprecate_warn("1.3.6", "mixl::specify_model(disable_multicore = )",
+                   details="Mutlithreading is now automatically detected")
+  }
+  
   #TODO: if data is null, skip all the validaiton
   #TODO: return an object instead of an environment
   data_names <- names(dataset)
@@ -66,18 +70,7 @@ specify_model <- function( utility_script, dataset = NULL , output_file = NULL,
     cpp_container$model_name <- model_name
     
     if (compile) {
-
-      openmp_setting_file <- system.file(package = "mixl", "include", 'MIXL_OPENMP_FLAG')
-      openmp_setting <- trimws(readChar(openmp_setting_file, file.info(openmp_setting_file)$size))
-      
-      Sys.setenv("PKG_CPPFLAGS"= sprintf("-I\"%s\"", system.file(package = "mixl", "include")))
-      if (length(openmp_setting) > 0) {
-        Sys.setenv("PKG_CXXFLAGS"= paste(openmp_setting, Sys.getenv("PKG_CXXFLAGS") ))
-        Sys.setenv("PKG_LIBS"= paste(openmp_setting, Sys.getenv("PKG_LIBS") ))
-      }
-      
       Rcpp::sourceCpp(code = e1$cpp_code, env = cpp_container, ...)
-     
     }
     return (cpp_container)
   }
