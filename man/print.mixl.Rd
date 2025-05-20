@@ -26,7 +26,7 @@ It creates a model summary and then prints the result
 	U_B = @asc + @B_price * $price_B / 1000 + @B_timeB * $time_B / 60;
 	"
 
-	model_spec <- mixl::specify_model(mnl_test, Train, disable_multicore=T)
+	model_spec <- mixl::specify_model(mnl_test, Train)
 
 	#only take starting values that are needed
 	est <- stats::setNames(c(1, 1,1,1), c("asc", "B_price", "B_time", "B_timeB"))

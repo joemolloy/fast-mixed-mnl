@@ -76,7 +76,7 @@ test_that("A mixed MNL model failes : not enough betas", {
     U_B = ASC_B_RND + @B_price * $price_B / 1000 + @B_timeB * $time_B / 60;
   "
   
-  logLik_env <- mixl::specify_model(mnl_test, Train, compile=TRUE, disable_multicore=T)
+  logLik_env <- mixl::specify_model(mnl_test, Train, compile=TRUE)
   
   #only take starting values that are needed
   est <- stats::setNames(c(1,1,1,1), c("B_price", "B_time", "B_timeB", "B_change"))
@@ -110,7 +110,7 @@ test_that("creating and validating draws", {
   
   
   
-  logLik_env <- mixl::specify_model(mnl_test, Train, compile=TRUE, disable_multicore=T)
+  logLik_env <- mixl::specify_model(mnl_test, Train, compile=TRUE)
   
   #only take starting values that are needed
   est <- stats::setNames(c(1,1,1,1, 0.1, 0.1, 0.1, 0.1, 0.1), c("B_price", "B_time", "B_timeB", "B_change", "ASC_A", "ASC_B", "SIGMA_A1", "SIGMA_A2", "SIGMA_B"))
